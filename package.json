@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "lint": "tslint --format stylish --project tsconfig.json"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.2.1"
+  }
+}

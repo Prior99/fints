@@ -1,0 +1,24 @@
+{
+  "name": "fints-cli",
+  "version": "0.0.0",
+  "description": "FinTS command line interface.",
+  "keywords": [
+    "fints",
+    "hbci",
+    "banking",
+    "api",
+    "cli"
+  ],
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "repository": "https://github.com/Prior99/fints",
+  "author": "Frederick Gnodtke",
+  "license": "MIT",
+  "dependencies": {
+    "clime": "^0.5.9",
+    "fints": "^0.0.0"
+  }
+}

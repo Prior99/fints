@@ -1,0 +1,38 @@
+{
+  "name": "fints",
+  "version": "0.0.0",
+  "description": "FinTS client library.",
+  "keywords": [
+    "fints",
+    "hbci",
+    "banking",
+    "api"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "docs": "typedoc --mode file --out docs/ src/"
+  },
+  "main": "src/index.ts",
+  "repository": "https://github.com/Prior99/fints",
+  "typings": "dist/index.d.ts",
+  "author": "Frederick Gnodtke",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/iconv-lite": "^0.0.1",
+    "@types/invariant": "^2.2.29",
+    "@types/isomorphic-fetch": "^0.0.34",
+    "@types/node": "^10.9.4",
+    "tslint": "^5.11.0",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "bind-decorator": "^1.0.11",
+    "date-fns": "^1.29.0",
+    "iconv-lite": "^0.4.24",
+    "invariant": "^2.2.4",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
