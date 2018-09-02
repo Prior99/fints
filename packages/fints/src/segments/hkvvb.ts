@@ -15,7 +15,7 @@ export class HKVVB extends Segment {
     public static productVersion = "0.1";
 
     public type = "HKVVB";
-    public version = 2;
+    public version = 3;
 
     constructor({ segNo, lang }: HKVVBConfiguration) {
         super(segNo, [

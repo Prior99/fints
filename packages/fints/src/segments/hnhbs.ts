@@ -10,7 +10,7 @@ export interface HNHBSConfiguration {
 
 export class HNHBS extends Segment {
     public type = "HNHBS";
-    public version = 2;
+    public version = 1;
 
     constructor({ segNo, msgNo }: HNHBSConfiguration) {
         super(segNo, [ `${msgNo}` ]);
