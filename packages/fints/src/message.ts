@@ -1,5 +1,5 @@
 import { Segment, HNSHK, HNVSK, HNVSD, HNSHA, HNHBS, HNHBK } from "./segments";
-import { TANMethodArgument, TANMethod } from "./models";
+import { TANMethod } from "./tan";
 
 export class FinTSMessageConfiguration {
     public blz: string;
@@ -7,7 +7,7 @@ export class FinTSMessageConfiguration {
     public pin: string;
     public tan: string;
     public systemId: number;
-    public dialogId: string;
+    public dialogId: number;
     public msgNo: number;
     public tanMethods: TANMethod[] = [];
     public encryptedSegments: Segment[] = [];
@@ -23,7 +23,9 @@ export class FinTSMessage extends FinTSMessageConfiguration {
     constructor(config: Partial<FinTSMessageConfiguration>) {
         super();
         Object.assign(this, config);
-        if (!this.tanMethods.find(method => method.securityFunction === "999")) {
+        const hasProfile2 =
+            this.tanMethods.length > 0 && !this.tanMethods.some(method => method.securityFunction === "999");
+        if (hasProfile2) {
             this.profileVersion = 2;
             this.securityFunction = this.tanMethods[0].securityFunction;
         } else {

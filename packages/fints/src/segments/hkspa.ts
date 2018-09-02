@@ -2,9 +2,9 @@ import { Segment } from "./segment";
 import { leftPad } from "../left-pad";
 
 export interface HKSPAConfiguration {
-    blz: string;
-    subAccFeature: string;
-    accNo: number;
+    blz?: string;
+    subAccFeature?: string;
+    accNo?: number;
     segNo: number;
 }
 

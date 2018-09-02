@@ -2,16 +2,18 @@ import { escapeFinTS } from "../escape";
 import { Segment } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKENDConfiguration {
+export interface HKSALConfiguration {
     segNo: number;
-    dialogId: number;
+    version: number;
+    account: string;
 }
 
-export class HKEND extends Segment {
-    public type = "HKEND";
+export class HKSAL extends Segment {
+    public type = "HKSAL";
     public version = 1;
 
-    constructor({ segNo, dialogId }: HKENDConfiguration) {
-        super(segNo, [ dialogId ]);
+    constructor({ segNo, version, account }: HKSALConfiguration) {
+        super(segNo, [ account, "N" ]);
+        this.version = version;
     }
 }

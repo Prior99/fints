@@ -5,8 +5,8 @@ import { leftPad } from "../left-pad";
 export interface HKIDNConfiguration {
     blz: string;
     name: string;
-    systemId: number;
-    customerId: number;
+    systemId?: number;
+    customerId?: number;
     segNo: number;
 }
 
@@ -18,8 +18,8 @@ export class HKIDN extends Segment {
         super(segNo, [
             `${HKIDN.countryCode}:${blz}`,
             escapeFinTS(name),
-            systemId,
-            customerId,
+            systemId || 0,
+            customerId || 1,
         ]);
     }
 }

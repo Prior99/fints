@@ -1,5 +1,3 @@
-import { TANMethodArgument } from "./tan-method-argument";
-
 export const tanMethodArgumentMap = new Map<number, string[]>();
 
 tanMethodArgumentMap.set(1, [

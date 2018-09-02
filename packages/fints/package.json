@@ -13,7 +13,7 @@
     "clean": "rm -rf dist",
     "docs": "typedoc --mode file --out docs/ src/"
   },
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "repository": "https://github.com/Prior99/fints",
   "typings": "dist/index.d.ts",
   "author": "Frederick Gnodtke",

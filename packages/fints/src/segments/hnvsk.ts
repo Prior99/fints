@@ -23,7 +23,7 @@ export class HNVSK extends Segment {
             998,
             HNVSK.securitySupplierRole,
             `${1}::${systemId}`,
-            `1:${format("YYYYMMDD")}:${format("HHMMss")}`,
+            `1:${format(new Date(),"YYYYMMDD")}:${format(new Date(), "HHMMss")}`,
             `2:2:13:@8@00000000:5:1`,
             `${HNVSK.countryCode}:${blz}:${name}:S:0:0`,
             HNVSK.compressionNone,

@@ -1,5 +1,9 @@
 import "isomorphic-fetch";
 import { encodeBase64, decodeBase64 } from "./base64";
+import { FinTSDialog } from "./dialog";
+import { Segment, HKSPA } from "./segments";
+import { FinTSMessage } from "./message";
+import { SEPAAccount } from "./sepa-account";
 
 export interface FinTSClientConfiguration {
     blz: string;
@@ -16,16 +20,25 @@ export abstract class FinTSClient {
     }
 
     protected abstract createDialog(): FinTSDialog;
+    protected abstract createMessage(dialog: FinTSDialog, segments: Segment[], tan?: string): FinTSMessage;
 
-    protected async send(message: FinTSMessage) {
-        const { url } = this.config;
-        const request = await fetch(url, {
-            method: "POST",
-            body: encodeBase64(String(message)),
+    public async getSEPAAccounts(): Promise<SEPAAccount[]> {
+        const dialog = this.createDialog();
+        await dialog.sync();
+        await dialog.init();
+        const response = await dialog.send(this.createMessage(dialog, [new HKSPA({ segNo: 3 })]));
+        await dialog.end();
+        const accounts = response.findSegment("HISPA");
+        const accountList = accounts.split("+").slice(1);
+        return accountList.map(account => {
+            const arr = account.split(":");
+            return {
+                iban: arr[1],
+                bic: arr[2],
+                accountNumber: arr[3],
+                subAccount: arr[4],
+                blz: arr[6],
+            };
         });
-        if (!request.ok) { throw new Error(`Received bad status code ${request.status} from FinTS endpoint.`); }
-        const response = decodeBase64(await request.text());
-        // console.log(response);
-        return response;
     }
 }

@@ -14,6 +14,7 @@ export class HNVSD extends Segment {
 
     constructor({ segNo, encodedData }: HNVSDConfiguration) {
         super(segNo, HNVSD.formatData(encodedData));
+        this.encodedData = encodedData;
     }
 
     public setData(encodedData: string) {
@@ -21,6 +22,7 @@ export class HNVSD extends Segment {
     }
 
     public addData(encodedData: Segment) {
+        console.log("ADD", encodedData)
         this.setData(`${this.encodedData}${encodedData}`);
     }
 

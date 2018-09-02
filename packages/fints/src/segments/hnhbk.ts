@@ -3,7 +3,7 @@ import { leftPad } from "../left-pad";
 
 export interface HNHBKConfiguration {
     msgLength: number;
-    dialogId: string;
+    dialogId: number;
     msgNo: number;
 }
 
@@ -22,7 +22,7 @@ export class HNHBK extends Segment {
         ]);
     }
 
-    private static getMsgLength(msgLength: number, dialogId: string, msgNo: number): string {
+    private static getMsgLength(msgLength: number, dialogId: number, msgNo: number): string {
         if (String(msgLength).length !== 12) {
             const length = msgLength + HNHBK.headerLength + String(dialogId).length + String(msgNo).length;
             return leftPad(String(length), 12);

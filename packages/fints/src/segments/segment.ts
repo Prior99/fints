@@ -12,8 +12,9 @@ export abstract class Segment {
     }
 
     public toString() {
-        return this.data.reduce((result, data) => {
+        const body = this.data.reduce((result, data) => {
             return `${result}+${data}`;
-        }, `${this.type}:${this.segmentNo}:${this.version}`) + "'";
+        }, `${this.type}:${this.segmentNo}:${this.version}`);
+        return `${body}'`;
     }
 }

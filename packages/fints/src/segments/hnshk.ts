@@ -29,7 +29,7 @@ export class HNSHK extends Segment {
             HNSHK.securitySupplierRole,
             `1::${systemId}`,
             1,
-            `1:${format("YYYYMMDD")}:${format("HHMMss")}`,
+            `1:${format(new Date(),"YYYYMMDD")}:${format(new Date(), "HHMMss")}`,
             "1:999:1",
             "6:10:16",
             `${HNSHK.countryCode}:${blz}:${name}:S:0:0`,

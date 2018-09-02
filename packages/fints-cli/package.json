@@ -9,7 +9,7 @@
     "api",
     "cli"
   ],
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist"

@@ -1,7 +1,7 @@
 import { Segment } from "./segments";
 import { FinTSMessage } from "./message";
 import { splitForDataGroups, splitForDataElements } from "./split";
-import { TANMethod, tanMethodArgumentMap } from "./models";
+import { TANMethod, tanMethodArgumentMap } from "./tan";
 import { unescapeFinTS } from "./escape";
 
 export class FinTSResponse {
@@ -38,7 +38,7 @@ export class FinTSResponse {
         if (!segment) {
             throw new Error("Invalid response. Missing \"HNHBK\" segment.");
         }
-        return this.segmentIndex(4, segment);
+        return Number(this.segmentIndex(4, segment));
     }
 
     public get bankName() {
@@ -57,7 +57,7 @@ export class FinTSResponse {
         if (!result) {
             throw new Error("Invalid response. Could not find system id.");
         }
-        return result[1];
+        return Number(result[1]);
     }
 
     public summaryBySegment(segment: "HIRMG" | "HIRMS", name?: string): Map<string, string> {
@@ -85,6 +85,10 @@ export class FinTSResponse {
 
     public get hksalMaxVersion() {
         return this.segmentMaxVersion("HISALS");
+    }
+
+    public get hktanMaxVersion() {
+        return this.segmentMaxVersion("HKTAN");
     }
 
     public get supportedTanMethods() {
@@ -165,7 +169,7 @@ export class FinTSResponse {
         return version;
     }
 
-    private findSegment(name: string) {
+    public findSegment(name: string) {
         return this.findSegments(name)[0];
     }
 
