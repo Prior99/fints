@@ -1,4 +1,5 @@
 import { Constructable } from "../types";
+import { splitSegment } from "../utils";
 
 export interface SegmentProps {
     segNo: number;
@@ -11,17 +12,20 @@ export abstract class Segment<TProps extends SegmentProps> {
 
     constructor(arg: string | TProps) {
         if (typeof arg === "string") {
-            this.deserialize(arg);
+            this.deserialize(splitSegment(arg));
         } else {
             Object.assign(this, arg);
         }
     }
 
-    protected abstract serialize(): string[];
-    protected abstract deserialize(input: string): void;
+    protected abstract serialize(): (string | string[])[];
+    protected abstract deserialize(input: string[][]): void;
 
     public toString() {
         const body = this.serialize().reduce((result, data) => {
+            if (Array.isArray(data)) {
+                return `${result}+${data.join(":")}`;
+            }
             return `${result}+${data}`;
         }, `${this.type}:${this.segNo}:${this.version}`);
         return `${body}'`;

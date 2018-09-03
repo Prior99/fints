@@ -1,5 +1,6 @@
 import { Format } from "../format";
 import { SegmentClass } from "./segment";
+import { COUNTRY_CODE } from "../constants";
 
 export class HKIDNProps {
     public blz: string;
@@ -22,10 +23,10 @@ export class HKIDN extends SegmentClass(HKIDNProps) {
     protected serialize() {
         const { segNo, blz, name, systemId, customerId } = this;
         return [
-            Format.blz(blz),
+            [Format.num(COUNTRY_CODE), blz],
             Format.stringEscaped(name),
-            Format.number(systemId),
-            Format.number(customerId),
+            Format.num(systemId),
+            Format.num(customerId),
         ];
     }
 

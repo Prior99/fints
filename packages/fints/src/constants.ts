@@ -18,3 +18,5 @@ export const SECURITY_BOUNDARY = 1;
 export const SECURITY_SUPPLIER_ROLE = 1;
 
 export const COMPRESSION_NONE = 0;
+
+export const HBCI_VERSION = 300;

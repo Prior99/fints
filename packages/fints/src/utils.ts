@@ -6,6 +6,11 @@ export function splitForDataElements(segment: string) {
     return segment.split(/:(?<!\?:)/);
 }
 
+export function splitSegment(segment: string): string[][] {
+    const dataGroups = splitForDataGroups(segment);
+    return dataGroups.map(dataGroup => splitForDataElements(dataGroup));
+}
+
 export function leftPad(str: string, count: number, character = "0"): string {
     while (str.length < count) { str = `${character}${str}`; }
     return str;

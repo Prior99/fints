@@ -22,8 +22,8 @@ export class HKDME extends SegmentClass(HKDMEProps) {
     protected serialize() {
         const { segNo, account, painMsg, controlSum, currency, bookAsSingle } = this;
         return [
-            Format.account(account),
-            Format.controlSum(controlSum, currency),
+            [account.iban, account.bic],
+            [Format.num(controlSum), currency],
             Format.bool(bookAsSingle),
             Format.sepaDescriptor(),
             Format.stringWithLength(painMsg),

@@ -18,8 +18,7 @@ export class HKSYN extends SegmentClass(HKSYNProps) {
     public mode = SYNC_MODE_NEW_CUSTOMER_ID;
 
     protected serialize() {
-        console.log("SYN", this.mode, this);
-        return [ Format.number(this.mode) ];
+        return [ Format.num(this.mode) ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

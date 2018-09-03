@@ -19,9 +19,9 @@ export class HKVVB extends SegmentClass(HKVVBProps) {
     protected serialize() {
         const { segNo, lang } = this;
         return [
-            Format.number(0),
-            Format.number(0),
-            Format.number(lang),
+            Format.num(0),
+            Format.num(0),
+            Format.num(lang),
             Format.stringEscaped(PRODUCT_NAME),
             Format.stringEscaped(PRODUCT_VERSION),
         ];

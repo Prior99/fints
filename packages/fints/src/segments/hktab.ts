@@ -1,4 +1,5 @@
 import { SegmentClass } from "./segment";
+import { Format } from "../format";
 
 export class HKTABProps {
     public segNo: number;
@@ -13,7 +14,7 @@ export class HKTAB extends SegmentClass(HKTABProps) {
     public version = 5;
 
     protected serialize() {
-        return [ "0", "A" ];
+        return [ Format.num(0), "A" ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

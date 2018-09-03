@@ -12,7 +12,7 @@ export class HKEND extends SegmentClass(HKENDProps) {
     public version = 1;
 
     protected serialize() {
-        return [ Format.number(this.dialogId) ];
+        return [ Format.num(this.dialogId) ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

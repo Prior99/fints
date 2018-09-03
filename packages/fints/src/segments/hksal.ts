@@ -1,5 +1,6 @@
 import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
+import { Format } from "../format";
 
 export class HKSALProps {
     public segNo: number;
@@ -16,7 +17,7 @@ export class HKSAL extends SegmentClass(HKSALProps) {
     public version = 1;
 
     protected serialize() {
-        return [ this.account, "N" ];
+        return [ this.account, Format.jn(false) ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

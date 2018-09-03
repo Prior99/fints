@@ -19,7 +19,7 @@ export class HKDSE extends SegmentClass(HKDSEProps) {
     protected serialize() {
         const { segNo, account, painMsg } = this;
         return [
-            Format.account(account),
+            [account.iban, account.bic],
             Format.sepaDescriptor(),
             Format.stringWithLength(painMsg),
         ];

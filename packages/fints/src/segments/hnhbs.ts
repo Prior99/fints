@@ -15,7 +15,7 @@ export class HNHBS extends SegmentClass(HNHBSProps) {
     public version = 1;
 
     protected serialize() {
-        return [ Format.number(this.msgNo) ];
+        return [ Format.num(this.msgNo) ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

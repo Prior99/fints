@@ -23,10 +23,10 @@ export class HKKAZ extends SegmentClass(HKKAZProps) {
         const { segNo, version, account, dateEnd, dateStart, touchdown } = this;
         return [
             account,
-            "N",
+            Format.jn(false),
             Format.date(dateStart),
             Format.date(dateEnd),
-            "",
+            Format.empty(),
             Format.stringEscaped(touchdown),
         ];
     }

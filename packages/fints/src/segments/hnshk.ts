@@ -24,17 +24,17 @@ export class HNSHK extends SegmentClass(HNSHKProps) {
     protected serialize() {
         const { segNo, secRef, blz, name, systemId, profileVersion, securityFunction } = this;
         return [
-            `PIN:${profileVersion}`,
+            ["PIN", Format.num(profileVersion)],
             securityFunction,
-            Format.number(secRef),
-            Format.number(SECURITY_BOUNDARY),
-            Format.number(SECURITY_SUPPLIER_ROLE),
-            `1::${systemId}`,
-            Format.number(1),
-            `1:${Format.dateTime(new Date())}`,
-            "1:999:1",
-            "6:10:16",
-            `${COUNTRY_CODE}:${blz}:${name}:S:0:0`,
+            Format.num(secRef),
+            Format.num(SECURITY_BOUNDARY),
+            Format.num(SECURITY_SUPPLIER_ROLE),
+            [Format.num(1), Format.empty(), Format.num(systemId)],
+            Format.num(1),
+            [Format.num(1), Format.date(), Format.time()],
+            [Format.num(1), Format.num(999), Format.num(1)],
+            [Format.num(5), Format.num(10), Format.num(16)],
+            [Format.num(COUNTRY_CODE), blz, name, "S", Format.num(0), Format.num(0)],
         ];
     }
 
