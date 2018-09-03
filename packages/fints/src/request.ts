@@ -6,11 +6,11 @@ export class FinTSRequestConfiguration {
     public name: string;
     public pin: string;
     public tan: string;
-    public systemId: number;
+    public systemId: string;
     public dialogId: number;
     public msgNo: number;
-    public tanMethods: TANMethod[] = [];
-    public encryptedSegments: Segment<any>[] = [];
+    public tanMeods: TANMethod[] = [];
+    public segments: Segment<any>[] = [];
 }
 
 export class FinTSRequest extends FinTSRequestConfiguration {
@@ -40,32 +40,40 @@ export class FinTSRequest extends FinTSRequestConfiguration {
         // - Not zero-based (0)
         // - HNHBK (1)
         // - HNSHK (2)
-        return this.encryptedSegments.length + 3;
+        return this.segments.length + 3;
     }
 
-    public get segments(): Segment<any>[] {
-        const { secRef, blz, name, systemId, profileVersion, segmentCount, msgNo, pin, tan, securityFunction } = this;
-        return [
+    public toString() {
+        const {
+            dialogId,
+            secRef,
+            blz,
+            name,
+            systemId,
+            profileVersion,
+            segmentCount,
+            msgNo,
+            pin,
+            tan,
+            securityFunction,
+        } = this;
+        const segmentsWithoutHeader = [
             new HNVSK({ segNo: 998, blz, name, systemId, profileVersion }),
             new HNVSD({
                 segNo: 999,
                 segments: [
                     new HNSHK({ segNo: 2, secRef, blz, name, systemId, profileVersion, securityFunction }),
-                    ...this.encryptedSegments,
+                    ...this.segments,
                     new HNSHA({ segNo: segmentCount, secRef, pin, tan }),
                 ],
             }),
             // Add `1` to the index because of HNSHA.
             new HNHBS({ segNo: segmentCount + 1, msgNo }),
         ];
-    }
-
-    public toString() {
-        let length = this.segments.reduce((result, segment) => result + String(segment).length, 0);
-        const { dialogId, msgNo } = this;
+        let length = segmentsWithoutHeader.reduce((result, segment) => result + String(segment).length, 0);
         const segments = [
             new HNHBK({ segNo: 1, msgLength: length, dialogId, msgNo }),
-            ...this.segments,
+            ...segmentsWithoutHeader,
         ];
         return segments
             .map(segment => String(segment))

@@ -16,7 +16,7 @@ export class FinTSPinTanClient extends FinTSClient {
     public createDialog() {
         const { blz, name, pin } = this.config;
         const { connection } = this;
-        return new FinTSDialog({ blz, name, pin, systemId: 0, connection });
+        return new FinTSDialog({ blz, name, pin, systemId: "0", connection });
     }
 
     public createMessage(dialog: FinTSDialog, encryptedSegments: Segment<any>[], tan?: string) {

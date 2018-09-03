@@ -1,20 +1,18 @@
 import { FinTSConnection } from "./connection";
 import { HKIDN, HKVVB, HKSYN, HKEND } from "./segments";
 import { FinTSRequest } from "./request";
-import { TANMethod } from "./tan";
 
 export class FinTSDialogConfiguration {
     public blz: string;
     public name: string;
     public pin: string;
-    public systemId: number;
+    public systemId: string;
     public connection: FinTSConnection;
 }
 
 export class FinTSDialog extends FinTSDialogConfiguration {
     public msgNo = 1;
     public dialogId = 0;
-    public tanMethods: TANMethod[] = [];
     public bankName: string;
 
     private hksalVersion = 6;
@@ -28,29 +26,29 @@ export class FinTSDialog extends FinTSDialogConfiguration {
 
     private get msgSync() {
         const { blz, name, pin, systemId, dialogId, msgNo } = this;
-        const encryptedSegments = [
-            new HKIDN({ segNo: 3, blz, name, systemId: 0 }),
+        const segments = [
+            new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
             new HKVVB({ segNo: 4 }),
             new HKSYN({ segNo: 5 }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments });
     }
 
     public get msgInit() {
-        const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
-        const encryptedSegments = [
+        const { blz, name, pin, systemId, dialogId, msgNo } = this;
+        const segments = [
             new HKIDN({ segNo: 3, blz, name, systemId }),
             new HKVVB({ segNo: 4 }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments, tanMethods });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments });
     }
 
     public get msgEnd() {
-        const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
-        const encryptedSegments = [
+        const { blz, name, pin, systemId, dialogId, msgNo } = this;
+        const segments = [
             new HKEND({ segNo: 3, dialogId }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments });
     }
 
     public async sync() {
@@ -60,8 +58,6 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         this.bankName = response.bankName;
         this.hksalVersion = response.hksalMaxVersion;
         this.hkkazVersion = response.hkkazMaxVersion;
-        this.hktanVersion = response.hktanMaxVersion;
-        this.tanMethods = response.supportedTanMethods;
         await this.end();
     }
 

@@ -7,7 +7,7 @@ export class HNVSKProps {
     public segNo: number;
     public blz: string;
     public name: string;
-    public systemId: number;
+    public systemId: string;
     public profileVersion: number;
 }
 

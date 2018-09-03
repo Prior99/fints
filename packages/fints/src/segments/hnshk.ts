@@ -7,7 +7,7 @@ export class HNSHKProps {
     public secRef: number;
     public blz: string;
     public name: string;
-    public systemId: number;
+    public systemId: string;
     public profileVersion: number;
     public securityFunction?: string;
 }

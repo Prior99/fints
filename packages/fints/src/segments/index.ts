@@ -1,3 +1,7 @@
+export * from "./hibpa";
+export * from "./hirms";
+export * from "./hisyn";
+export * from "./hitans";
 export * from "./hkccm";
 export * from "./hkccs";
 export * from "./hkdme";
