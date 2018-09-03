@@ -1,25 +1,25 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { SegmentClass } from "./segment";
 
-export interface HKTANConfiguration {
-    segNo: number;
-    process: string;
-    version: number;
-    aref: string;
-    medium: boolean;
+export class HKTANProps {
+    public segNo: number;
+    public process: string;
+    public version: number;
+    public aref: string;
+    public medium: boolean;
 }
 
-export class HKTAN extends Segment {
+/**
+ * HKTAN (TAN-Verfahren festlegen)
+ * Section B.5.1
+ */
+export class HKTAN extends SegmentClass(HKTANProps) {
     public type = "HKTAN";
     public version: number;
 
-    constructor(config: HKTANConfiguration) {
-        super(config.segNo, [ HKTAN.buildData(config) ]);
-        this.version = config.version;
-    }
+    protected deserialize() { throw new Error("Not implemented."); }
 
-    private static buildData({ segNo, process, aref, medium, version }: HKTANConfiguration) {
+    protected serialize() {
+        const { segNo, process, aref, medium, version } = this;
         if (!["2", "4"].includes(process)) {
             throw new Error(`HKTAN process ${process} not implemented.`);
         }

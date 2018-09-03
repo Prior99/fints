@@ -1,24 +1,26 @@
-import { format } from "date-fns";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { Format } from "../format";
+import { Segment, SegmentClass } from "./segment";
 
-export interface HNVSDConfiguration {
-    segNo: number;
-    segments: Segment[];
+export class HNVSDProps {
+    public segNo: number;
+    public segments: Segment<any>[];
 }
 
-export class HNVSD extends Segment {
+/**
+ * HNVSD (Verschlüsselte Daten)
+ * Section B.5.4
+ */
+export class HNVSD extends SegmentClass(HNVSDProps) {
     public type = "HNVSD";
     public version = 1;
 
-    constructor({ segNo, segments }: HNVSDConfiguration) {
-        super(segNo, [HNVSD.formatSegments(segments)]);
-    }
-
-    private static formatSegments(segments: Segment[]) {
-        const str = segments
-            .map(segment => String(segment))
-            .join("");
-        return `@${str.length}@${str}`;
+    protected serialize() {
+        return [
+            Format.stringWithLength(
+                this.segments
+                    .map(segment => String(segment))
+                    .join(""),
+            ),
+        ];
     }
 }

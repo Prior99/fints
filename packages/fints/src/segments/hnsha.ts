@@ -1,24 +1,29 @@
-import { format } from "date-fns";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
-import { escapeFinTS } from "../escape";
+import { SegmentClass } from "./segment";
+import { Format } from "../format";
 
-export interface HNSHAConfiguration {
-    segNo: number;
-    secRef: number;
-    pin: string;
-    tan: string;
+export class HNSHAProps {
+    public segNo: number;
+    public secRef: number;
+    public pin: string;
+    public tan: string;
 }
 
-export class HNSHA extends Segment {
+/**
+ * HNSHA (Signaturabschluss)
+ * Section B.5.2
+ */
+export class HNSHA extends SegmentClass(HNSHAProps) {
     public type = "HNSHA";
     public version = 2;
 
-    constructor({ segNo, secRef, pin, tan }: HNSHAConfiguration) {
-        super(segNo, [
-            secRef,
+    protected serialize() {
+        const { segNo, secRef, pin, tan } = this;
+        return [
+            Format.number(secRef),
             "",
-            `${escapeFinTS(pin)}:${escapeFinTS(tan)}`,
-        ]);
+            Format.pinTan(pin, tan),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

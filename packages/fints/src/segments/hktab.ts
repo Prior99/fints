@@ -1,16 +1,20 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { SegmentClass } from "./segment";
 
-export interface HKTABConfiguration {
-    segNo: number;
+export class HKTABProps {
+    public segNo: number;
 }
 
-export class HKTAB extends Segment {
+/**
+ * HKTAB (Verfügbarre TAN-Medien ermitteln)
+ * Section C.2.1.2
+ */
+export class HKTAB extends SegmentClass(HKTABProps) {
     public type = "HKTAB";
     public version = 5;
 
-    constructor({ segNo }: HKTABConfiguration) {
-        super(segNo, [ "0", "A" ]);
+    protected serialize() {
+        return [ "0", "A" ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

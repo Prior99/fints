@@ -1,18 +1,20 @@
-import { format } from "date-fns";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
-import { escapeFinTS } from "../escape";
+import { SegmentClass } from "./segment";
+import { Format } from "../format";
 
-export interface HNHBSConfiguration {
-    segNo: number;
-    msgNo: number;
+export class HNHBSProps {
+    public segNo: number;
+    public msgNo: number;
 }
 
-export class HNHBS extends Segment {
+/**
+ * HNHBS (Nachrichtenabschluss)
+ * Section B.5.3
+ */
+export class HNHBS extends SegmentClass(HNHBSProps) {
     public type = "HNHBS";
     public version = 1;
 
-    constructor({ segNo, msgNo }: HNHBSConfiguration) {
-        super(segNo, [ `${msgNo}` ]);
+    protected deserialize() {
+        return [ Format.number(this.msgNo) ];
     }
 }

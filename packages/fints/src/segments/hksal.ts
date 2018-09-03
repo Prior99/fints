@@ -1,19 +1,23 @@
-import { escapeFinTS } from "../escape";
 import { Segment } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKSALConfiguration {
-    segNo: number;
-    version: number;
-    account: string;
+export class HKSALProps {
+    public segNo: number;
+    public version: number;
+    public account: string;
 }
 
-export class HKSAL extends Segment {
+/**
+ * HKSAL (Konto Saldo anfordern)
+ * Section C.2.1.2
+ */
+export class HKSAL extends SegmentClass(HKSALProps) {
     public type = "HKSAL";
     public version = 1;
 
-    constructor({ segNo, version, account }: HKSALConfiguration) {
-        super(segNo, [ account, "N" ]);
-        this.version = version;
+    protected serialize() {
+        return [ this.account, "N" ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

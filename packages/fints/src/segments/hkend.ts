@@ -1,17 +1,19 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKENDConfiguration {
-    segNo: number;
-    dialogId: number;
+export class HKENDProps {
+    public segNo: number;
+    public dialogId: number;
 }
 
-export class HKEND extends Segment {
+export class HKEND extends SegmentClass(HKENDProps) {
     public type = "HKEND";
     public version = 1;
 
-    constructor({ segNo, dialogId }: HKENDConfiguration) {
-        super(segNo, [ dialogId ]);
+    protected serialize() {
+        return [ Format.number(this.dialogId) ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

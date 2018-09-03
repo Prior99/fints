@@ -1,28 +1,34 @@
-import { format } from "date-fns";
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
+import { SegmentClass } from "./segment";
+import { Format } from "../format";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKCCMConfiguration {
-    segNo: number;
-    painMsg: string;
-    account: SEPAAccount;
-    controlSum: number;
-    currency: string;
-    bookAsSingle: boolean;
+export class HKCCMProps {
+    public segNo: number;
+    public painMsg: string;
+    public account: SEPAAccount;
+    public controlSum: number;
+    public currency: string;
+    public bookAsSingle: boolean;
 }
 
-export class HKCCM extends Segment {
+/**
+ * HKCCM (SEPA-Sammelüberweisung einreichen)
+ * Section C.10.3.1.1
+ */
+export class HKCCM extends SegmentClass(HKCCMProps) {
     public type = "HKCCM";
     public version = 1;
 
-    constructor({ segNo, account, painMsg, controlSum, currency, bookAsSingle }: HKCCMConfiguration) {
-        super(segNo, [
-            `${account.iban}:${account.bic}`,
-            `${String(controlSum).replace(/\./, ",")}:${currency}`,
-            bookAsSingle ? "J" : "",
-            "urn?:iso?:std?:iso?:20022?:tech?:xsd?:pain.001.001.03",
-            `@${painMsg.length}@${painMsg}`,
-        ]);
+    protected serialize() {
+        const { account, painMsg, controlSum, currency, bookAsSingle } = this;
+        return [
+            Format.account(account),
+            Format.controlSum(controlSum, currency),
+            Format.bool(bookAsSingle),
+            Format.sepaDescriptor(),
+            Format.stringWithLength(painMsg),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

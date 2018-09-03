@@ -1,30 +1,35 @@
-import { format } from "date-fns";
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKKAZConfiguration {
-    segNo: number;
-    version: number;
-    account: string;
-    dateStart: Date;
-    dateEnd: Date;
-    touchdown: string;
+export class HKKAZProps {
+    public segNo: number;
+    public version: number;
+    public account: string;
+    public dateStart: Date;
+    public dateEnd: Date;
+    public touchdown: string;
 }
 
-export class HKKAZ extends Segment {
+/**
+ * HKKAZ (Kontoumsätze
+ * Section C.2.1.1.1.2
+ */
+export class HKKAZ extends SegmentClass(HKKAZProps) {
     public type = "HKKAZ";
     public version: number;
 
-    constructor({ segNo, version, account, dateEnd, dateStart, touchdown }: HKKAZConfiguration) {
-        super(segNo, [
+    protected serialize() {
+        const { segNo, version, account, dateEnd, dateStart, touchdown } = this;
+        return [
             account,
             "N",
-            format(dateStart, "YYYYMMDD"),
-            format(dateEnd, "YYYYMMDD"),
+            Format.date(dateStart),
+            Format.date(dateEnd),
             "",
-            touchdown ? escapeFinTS(touchdown) : "",
-        ]);
-        this.version = version;
+            Format.stringEscaped(touchdown),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

@@ -1,27 +1,34 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKDMEConfiguration {
-    account: SEPAAccount;
-    painMsg: string;
-    segNo: number;
-    controlSum: number;
-    currency: string;
-    bookAsSingle: boolean;
+export class HKDMEProps {
+    public account: SEPAAccount;
+    public painMsg: string;
+    public segNo: number;
+    public controlSum: number;
+    public currency: string;
+    public bookAsSingle: boolean;
 }
 
-export class HKDME extends Segment {
+/**
+ * HKDME (Einreichung terminierter SEPA-Sammellastschrift)
+ * Section C.10.3.2.2.1
+ */
+export class HKDME extends SegmentClass(HKDMEProps) {
     public type = "HKDME";
     public version = 1;
 
-    constructor({ segNo, account, painMsg, controlSum, currency, bookAsSingle }: HKDMEConfiguration) {
-        super(segNo, [
-            `${account.iban}:${account.bic}`,
-            `${String(controlSum).replace(/\./, ",")}:${currency}`,
-            bookAsSingle ? "J" : "",
-            "urn?:iso?:std?:iso?:20022?:tech?:xsd?:pain.008.003.02",
-            `@${painMsg.length}@${painMsg}`,
-        ]);
+    protected serialize() {
+        const { segNo, account, painMsg, controlSum, currency, bookAsSingle } = this;
+        return [
+            Format.account(account),
+            Format.controlSum(controlSum, currency),
+            Format.bool(bookAsSingle),
+            Format.sepaDescriptor(),
+            Format.stringWithLength(painMsg),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

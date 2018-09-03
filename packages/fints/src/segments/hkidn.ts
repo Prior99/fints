@@ -1,25 +1,31 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 
-export interface HKIDNConfiguration {
-    blz: string;
-    name: string;
-    systemId?: number;
-    customerId?: number;
-    segNo: number;
+export class HKIDNProps {
+    public blz: string;
+    public name: string;
+    public systemId = 0;
+    public customerId = 1;
+    public segNo: number;
 }
 
-export class HKIDN extends Segment {
+/**
+ * HKIDN (Identifikation)
+ * Section C.3.1.2
+ */
+export class HKIDN extends SegmentClass(HKIDNProps) {
     public type = "HKIDN";
     public version = 2;
 
-    constructor({ segNo, blz, name, systemId, customerId }: HKIDNConfiguration) {
-        super(segNo, [
-            `${HKIDN.countryCode}:${blz}`,
-            escapeFinTS(name),
-            systemId || 0,
-            customerId || 1,
-        ]);
+    protected serialize() {
+        const { segNo, blz, name, systemId, customerId } = this;
+        return [
+            Format.blz(blz),
+            Format.stringEscaped(name),
+            Format.number(systemId),
+            Format.number(customerId),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

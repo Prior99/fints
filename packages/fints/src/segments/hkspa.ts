@@ -1,31 +1,28 @@
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { Format } from "../format";
+import { SegmentClass, Segment } from "./segment";
 
-export interface HKSPAConfiguration {
-    blz?: string;
-    subAccFeature?: string;
-    accNo?: number;
-    segNo: number;
+export class HKSPAProps {
+    public blz?: string;
+    public subAccFeature?: string;
+    public accNo?: number;
+    public segNo: number;
 }
-
-export class HKSPA extends Segment {
+/**
+ * HKSPA (SEPA-Kontoverbindung anfordern)
+ * Section C.10.1.3
+ */
+export class HKSPA extends SegmentClass(HKSPAProps) {
     public static headerLength = 29;
 
     public type = "HKSPA";
     public version = 1;
 
-    constructor({ segNo, accNo, subAccFeature, blz }: HKSPAConfiguration) {
-        super(segNo, [
-            typeof accNo !== "undefined" ?
-                `${accNo}:${subAccFeature}:${HKSPA.countryCode}:${blz}` : "",
-        ]);
+    protected serialize() {
+        const { segNo, accNo, subAccFeature, blz } = this;
+        return [
+            Format.accountFull(blz, accNo, subAccFeature),
+        ];
     }
 
-    private static getMsgLength(msgLength: number, dialogId: string, msgNo: number): string {
-        if (String(msgLength).length !== 12) {
-            const length = msgLength + HKSPA.headerLength + String(dialogId).length + String(msgNo).length;
-            return leftPad(String(length), 12);
-        }
-        return String(msgLength);
-    }
+    protected deserialize() { throw new Error("Not implemented."); }
 }

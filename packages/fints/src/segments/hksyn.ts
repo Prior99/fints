@@ -1,21 +1,24 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { SYNC_MODE_NEW_CUSTOMER_ID } from "../constants";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 
-export interface HKSYNConfiguration {
-    segNo: number;
-    mode?: number;
+export class HKSYNProps {
+    public segNo: number;
+    public mode = SYNC_MODE_NEW_CUSTOMER_ID;
 }
 
-export class HKSYN extends Segment {
-    public static syncModeNewCustomerId = 0;
-    public static syncModeLastMsgNumber = 1;
-    public static syncModeSignatureId = 2;
+/**
+ * HKSYN (Synchronisation)
+ * Section C.8.1.2
+ */
+export class HKSYN extends SegmentClass(HKSYNProps) {
 
     public type = "HKSYN";
     public version = 3;
 
-    constructor({ segNo, mode }: HKSYNConfiguration) {
-        super(segNo, [ mode || HKSYN.syncModeNewCustomerId ]);
+    protected serialize() {
+        return [ Format.number(this.mode) ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

@@ -1,23 +1,29 @@
-import { format } from "date-fns";
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKCCSConfiguration {
-    segNo: number;
-    painMsg: string;
-    account: SEPAAccount;
+export class HKCCSProps {
+    public segNo: number;
+    public painMsg: string;
+    public account: SEPAAccount;
 }
 
-export class HKCCS extends Segment {
+/**
+ * HKCCS (SEPA Überweisung übertragen)
+ * Section C.2.1.2
+ */
+export class HKCCS extends SegmentClass(HKCCSProps) {
     public type = "HKCCS";
     public version = 1;
 
-    constructor({ segNo, account, painMsg }: HKCCSConfiguration) {
-        super(segNo, [
-            `${account.iban}:${account.bic}`,
-            "urn?:iso?:std?:iso?:20022?:tech?:xsd?:pain.001.001.03",
-            `@${painMsg.length}@${painMsg}`,
-        ]);
+    protected serialize() {
+        const { segNo, account, painMsg } = this;
+        return [
+            Format.account(account),
+            Format.sepaDescriptor(),
+            Format.stringWithLength(painMsg),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

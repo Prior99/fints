@@ -1,22 +1,29 @@
-import { escapeFinTS } from "../escape";
-import { Segment } from "./segment";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
-export interface HKDSEConfiguration {
-    account: SEPAAccount;
-    painMsg: string;
-    segNo: number;
+export class HKDSEProps {
+    public account: SEPAAccount;
+    public painMsg: string;
+    public segNo: number;
 }
 
-export class HKDSE extends Segment {
+/**
+ * HKDSE (Einreichung terminierter SEPA-Einzellastschrift)
+ * Section C.10.2.5.4.1
+ */
+export class HKDSE extends SegmentClass(HKDSEProps) {
     public type = "HKDSE";
     public version = 1;
 
-    constructor({ segNo, account, painMsg }: HKDSEConfiguration) {
-        super(segNo, [
-            `${account.iban}:${account.bic}`,
-            "urn?:iso?:std?:iso?:20022?:tech?:xsd?:pain.008.003.02",
-            `@${painMsg.length}@${painMsg}`,
-        ]);
+    protected serialize() {
+        const { segNo, account, painMsg } = this;
+        return [
+            Format.account(account),
+            Format.sepaDescriptor(),
+            Format.stringWithLength(painMsg),
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }

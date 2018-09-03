@@ -1,32 +1,32 @@
-import { format } from "date-fns";
-import { Segment } from "./segment";
-import { leftPad } from "../left-pad";
+import { Format } from "../format";
+import { SegmentClass } from "./segment";
+import { SECURITY_SUPPLIER_ROLE, COUNTRY_CODE, COMPRESSION_NONE } from "../constants";
 
-export interface HNVSKConfiguration {
-    segNo: number;
-    blz: string;
-    name: string;
-    systemId: number;
-    profileVersion: number;
+export class HNVSKProps {
+    public segNo: number;
+    public blz: string;
+    public name: string;
+    public systemId: number;
+    public profileVersion: number;
 }
 
-export class HNVSK extends Segment {
-    public static compressionNone = 0;
-    public static securitySupplierRole = 1;
-
+export class HNVSK extends SegmentClass(HNVSKProps) {
     public type = "HNVSK";
     public version = 3;
 
-    constructor({ segNo, blz, name, systemId, profileVersion }: HNVSKConfiguration) {
-        super(segNo, [
+    protected serialize() {
+        const { segNo, blz, name, systemId, profileVersion } = this;
+        return [
             `PIN:${profileVersion}`,
-            998,
-            HNVSK.securitySupplierRole,
+            Format.number(998),
+            SECURITY_SUPPLIER_ROLE,
             `${1}::${systemId}`,
-            `1:${format(new Date(),"YYYYMMDD")}:${format(new Date(), "HHMMss")}`,
+            `1:${Format.dateTime()}`,
             `2:2:13:@8@00000000:5:1`,
-            `${HNVSK.countryCode}:${blz}:${name}:S:0:0`,
-            HNVSK.compressionNone,
-        ]);
+            `${COUNTRY_CODE}:${blz}:${name}:S:0:0`,
+            COMPRESSION_NONE,
+        ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }
