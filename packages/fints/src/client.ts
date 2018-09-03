@@ -20,7 +20,7 @@ export abstract class FinTSClient {
     }
 
     protected abstract createDialog(): FinTSDialog;
-    protected abstract createMessage(dialog: FinTSDialog, segments: Segment[], tan?: string): FinTSMessage;
+    protected abstract createMessage(dialog: FinTSDialog, segments: Segment<any>[], tan?: string): FinTSMessage;
 
     public async getSEPAAccounts(): Promise<SEPAAccount[]> {
         const dialog = this.createDialog();

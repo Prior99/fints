@@ -1,5 +1,4 @@
-import { Segment } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SegmentClass } from "./segment";
 
 export class HKWPDProps {
     public segNo: number;

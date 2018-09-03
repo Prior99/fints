@@ -4,7 +4,7 @@ import { LANG_DE, PRODUCT_NAME, PRODUCT_VERSION } from "../constants";
 
 export class HKVVBProps {
     public segNo: number;
-    public lang = LANG_DE;
+    public lang?: number;
 }
 
 /**
@@ -14,13 +14,14 @@ export class HKVVBProps {
 export class HKVVB extends SegmentClass(HKVVBProps) {
     public type = "HKVVB";
     public version = 3;
+    public lang = LANG_DE;
 
     protected serialize() {
         const { segNo, lang } = this;
         return [
             Format.number(0),
             Format.number(0),
-            lang,
+            Format.number(lang),
             Format.stringEscaped(PRODUCT_NAME),
             Format.stringEscaped(PRODUCT_VERSION),
         ];

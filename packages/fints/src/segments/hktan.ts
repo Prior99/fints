@@ -5,7 +5,7 @@ export class HKTANProps {
     public process: string;
     public version: number;
     public aref: string;
-    public medium: boolean;
+    public medium: string;
 }
 
 /**

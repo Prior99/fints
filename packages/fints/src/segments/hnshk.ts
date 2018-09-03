@@ -9,7 +9,7 @@ export class HNSHKProps {
     public name: string;
     public systemId: number;
     public profileVersion: number;
-    public securityFunction = SECURITY_FUNCTION;
+    public securityFunction?: string;
 }
 
 /**
@@ -19,6 +19,7 @@ export class HNSHKProps {
 export class HNSHK extends SegmentClass(HNSHKProps) {
     public type = "HNSHK";
     public version = 4;
+    public securityFunction = SECURITY_FUNCTION;
 
     protected serialize() {
         const { segNo, secRef, blz, name, systemId, profileVersion, securityFunction } = this;

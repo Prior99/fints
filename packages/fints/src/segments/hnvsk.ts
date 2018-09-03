@@ -19,12 +19,12 @@ export class HNVSK extends SegmentClass(HNVSKProps) {
         return [
             `PIN:${profileVersion}`,
             Format.number(998),
-            SECURITY_SUPPLIER_ROLE,
+            Format.number(SECURITY_SUPPLIER_ROLE),
             `${1}::${systemId}`,
             `1:${Format.dateTime()}`,
             `2:2:13:@8@00000000:5:1`,
             `${COUNTRY_CODE}:${blz}:${name}:S:0:0`,
-            COMPRESSION_NONE,
+            Format.number(COMPRESSION_NONE),
         ];
     }
 

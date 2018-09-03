@@ -1,4 +1,4 @@
-import { Segment } from "./segment";
+import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../sepa-account";
 
 export class HKSALProps {

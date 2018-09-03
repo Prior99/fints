@@ -1,9 +1,13 @@
 import { Constructable } from "../types";
 
-export abstract class Segment<TProps> {
+export interface SegmentProps {
+    segNo: number;
+}
+
+export abstract class Segment<TProps extends SegmentProps> {
     public abstract type: string;
     public abstract version: number;
-    public segmentNo: number;
+    public segNo: number;
 
     constructor(arg: string | TProps) {
         if (typeof arg === "string") {
@@ -19,12 +23,14 @@ export abstract class Segment<TProps> {
     public toString() {
         const body = this.serialize().reduce((result, data) => {
             return `${result}+${data}`;
-        }, `${this.type}:${this.segmentNo}:${this.version}`);
+        }, `${this.type}:${this.segNo}:${this.version}`);
         return `${body}'`;
     }
 }
 
-export function SegmentClass<TProps>(propsClass: Constructable<TProps>): Constructable<TProps & Segment<TProps>> {
+export function SegmentClass<TProps extends SegmentProps>(
+    propsClass: Constructable<TProps>,
+): Constructable<TProps & Segment<TProps>> {
     abstract class TempSegment extends Segment<TProps> {}
     const mutableClass: any = TempSegment;
 

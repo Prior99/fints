@@ -1,8 +1,7 @@
 import { Segment } from "./segments";
 import { FinTSMessage } from "./message";
-import { splitForDataGroups, splitForDataElements } from "./split";
+import { splitForDataGroups, splitForDataElements, unescapeFinTS } from "./utils";
 import { TANMethod, tanMethodArgumentMap } from "./tan";
-import { unescapeFinTS } from "./escape";
 
 export class FinTSResponse {
     private static regexUnwrap = /HNVSD:\d+:\d+\+@\d+@(.+)\'\'/;
@@ -129,11 +128,11 @@ export class FinTSResponse {
         return methods;
     }
 
-    private findSegmentForReference(name: string, reference: Segment): string {
+    private findSegmentForReference(name: string, reference: Segment<any>): string {
         const segments = this.findSegments(name);
         return segments.find(segment => {
             const dataElements = splitForDataElements(splitForDataGroups(segment)[0]);
-            if (dataElements[3] === String(reference.segmentNo)) {
+            if (dataElements[3] === String(reference.segNo)) {
                 return true;
             }
         });

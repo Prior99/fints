@@ -10,7 +10,7 @@ export class FinTSMessageConfiguration {
     public dialogId: number;
     public msgNo: number;
     public tanMethods: TANMethod[] = [];
-    public encryptedSegments: Segment[] = [];
+    public encryptedSegments: Segment<any>[] = [];
 }
 
 export class FinTSMessage extends FinTSMessageConfiguration {
@@ -44,7 +44,7 @@ export class FinTSMessage extends FinTSMessageConfiguration {
     private get header() {
         let length = this.segments.reduce((result, segment) => result + String(segment).length, 0);
         const { dialogId, msgNo } = this;
-        return new HNHBK({ msgLength: length, dialogId, msgNo });
+        return new HNHBK({ segNo: 1, msgLength: length, dialogId, msgNo });
     }
 
     private get signatureHead() {
@@ -77,7 +77,7 @@ export class FinTSMessage extends FinTSMessageConfiguration {
         return this.encryptedSegments.length + 4;
     }
 
-    public get segments(): Segment[] {
+    public get segments(): Segment<any>[] {
         return [
             this.encryptionHead,
             this.encryptionEnvelop,

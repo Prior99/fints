@@ -4,7 +4,7 @@ import { SegmentClass } from "./segment";
 
 export class HKSYNProps {
     public segNo: number;
-    public mode = SYNC_MODE_NEW_CUSTOMER_ID;
+    public mode?: number;
 }
 
 /**
@@ -12,11 +12,13 @@ export class HKSYNProps {
  * Section C.8.1.2
  */
 export class HKSYN extends SegmentClass(HKSYNProps) {
-
     public type = "HKSYN";
     public version = 3;
 
+    public mode = SYNC_MODE_NEW_CUSTOMER_ID;
+
     protected serialize() {
+        console.log("SYN", this.mode, this);
         return [ Format.number(this.mode) ];
     }
 

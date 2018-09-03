@@ -5,6 +5,7 @@ export class HNHBKProps {
     public msgLength: number;
     public dialogId: number;
     public msgNo: number;
+    public segNo: number;
 }
 
 /**

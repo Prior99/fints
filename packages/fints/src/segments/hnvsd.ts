@@ -23,4 +23,6 @@ export class HNVSD extends SegmentClass(HNVSDProps) {
             ),
         ];
     }
+
+    protected deserialize() { throw new Error("Not implemented."); }
 }
