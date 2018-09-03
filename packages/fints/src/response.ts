@@ -1,5 +1,5 @@
 import { Segment } from "./segments";
-import { FinTSMessage } from "./message";
+import { FinTSRequest } from "./request";
 import { splitForDataGroups, splitForDataElements, unescapeFinTS } from "./utils";
 import { TANMethod, tanMethodArgumentMap } from "./tan";
 
@@ -138,7 +138,7 @@ export class FinTSResponse {
         });
     }
 
-    private getTouchdowns(msg: FinTSMessage) {
+    private getTouchdowns(msg: FinTSRequest) {
         const touchdown = new Map<string, string>();
         msg.encryptedSegments.forEach(messageSegment => {
             const segment = this.findSegmentForReference("HIRMS", messageSegment);

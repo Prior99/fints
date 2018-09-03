@@ -4,8 +4,8 @@ import { SegmentClass } from "./segment";
 export class HKIDNProps {
     public blz: string;
     public name: string;
-    public systemId = 0;
-    public customerId = 1;
+    public systemId?: number;
+    public customerId?: number;
     public segNo: number;
 }
 
@@ -16,6 +16,8 @@ export class HKIDNProps {
 export class HKIDN extends SegmentClass(HKIDNProps) {
     public type = "HKIDN";
     public version = 2;
+    public systemId = 0;
+    public customerId = 1;
 
     protected serialize() {
         const { segNo, blz, name, systemId, customerId } = this;

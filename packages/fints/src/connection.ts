@@ -1,6 +1,6 @@
 import "isomorphic-fetch";
 import { encodeBase64, decodeBase64 } from "./base64";
-import { FinTSMessage } from "./message";
+import { FinTSRequest } from "./request";
 import { FinTSResponse } from "./response";
 
 export class FinTSConnectionConfiguration {
@@ -13,7 +13,7 @@ export class FinTSConnection extends FinTSConnectionConfiguration {
         Object.assign(this, config);
     }
 
-    public async send(message: FinTSMessage): Promise<FinTSResponse> {
+    public async send(message: FinTSRequest): Promise<FinTSResponse> {
         const { url } = this;
         console.log("REQ", String(message));
         const request = await fetch(url, {

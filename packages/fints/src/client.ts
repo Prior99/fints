@@ -2,7 +2,7 @@ import "isomorphic-fetch";
 import { encodeBase64, decodeBase64 } from "./base64";
 import { FinTSDialog } from "./dialog";
 import { Segment, HKSPA } from "./segments";
-import { FinTSMessage } from "./message";
+import { FinTSRequest } from "./request";
 import { SEPAAccount } from "./sepa-account";
 
 export interface FinTSClientConfiguration {
@@ -20,7 +20,7 @@ export abstract class FinTSClient {
     }
 
     protected abstract createDialog(): FinTSDialog;
-    protected abstract createMessage(dialog: FinTSDialog, segments: Segment<any>[], tan?: string): FinTSMessage;
+    protected abstract createMessage(dialog: FinTSDialog, segments: Segment<any>[], tan?: string): FinTSRequest;
 
     public async getSEPAAccounts(): Promise<SEPAAccount[]> {
         const dialog = this.createDialog();

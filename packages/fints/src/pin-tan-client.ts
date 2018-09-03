@@ -1,6 +1,6 @@
 import { FinTSClient, FinTSClientConfiguration } from "./client";
 import { FinTSDialog } from "./dialog";
-import { FinTSMessage } from "./message";
+import { FinTSRequest } from "./request";
 import { FinTSConnection } from "./connection";
 import { Segment } from "./segments";
 
@@ -22,6 +22,7 @@ export class FinTSPinTanClient extends FinTSClient {
     public createMessage(dialog: FinTSDialog, encryptedSegments: Segment<any>[], tan?: string) {
         const { blz, name, pin } = this.config;
         const { systemId, dialogId, msgNo, tanMethods } = dialog;
-        return new FinTSMessage({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments, tanMethods, tan });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments, tanMethods, tan });
     }
 }
+

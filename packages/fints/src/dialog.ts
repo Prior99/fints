@@ -1,6 +1,6 @@
 import { FinTSConnection } from "./connection";
 import { HKIDN, HKVVB, HKSYN, HKEND } from "./segments";
-import { FinTSMessage } from "./message";
+import { FinTSRequest } from "./request";
 import { TANMethod } from "./tan";
 
 export class FinTSDialogConfiguration {
@@ -33,7 +33,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
             new HKVVB({ segNo: 4 }),
             new HKSYN({ segNo: 5 }),
         ];
-        return new FinTSMessage({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments });
     }
 
     public get msgInit() {
@@ -42,7 +42,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
             new HKIDN({ segNo: 3, blz, name, systemId }),
             new HKVVB({ segNo: 4 }),
         ];
-        return new FinTSMessage({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments, tanMethods });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments, tanMethods });
     }
 
     public get msgEnd() {
@@ -50,7 +50,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         const encryptedSegments = [
             new HKEND({ segNo: 3, dialogId }),
         ];
-        return new FinTSMessage({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, encryptedSegments });
     }
 
     public async sync() {
@@ -76,7 +76,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         this.msgNo = 1;
     }
 
-    public async send(message: FinTSMessage) {
+    public async send(message: FinTSRequest) {
         message.msgNo = this.msgNo;
         message.dialogId = this.dialogId;
 
