@@ -33,7 +33,7 @@ export class HNSHK extends SegmentClass(HNSHKProps) {
             Format.num(1),
             [Format.num(1), Format.date(), Format.time()],
             [Format.num(1), Format.num(999), Format.num(1)],
-            [Format.num(5), Format.num(10), Format.num(16)],
+            [Format.num(6), Format.num(10), Format.num(16)],
             [Format.num(COUNTRY_CODE), blz, name, "S", Format.num(0), Format.num(0)],
         ];
     }

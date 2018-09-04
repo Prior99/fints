@@ -21,7 +21,7 @@ export class HNSHA extends SegmentClass(HNSHAProps) {
         return [
             Format.num(secRef),
             Format.empty(),
-            [pin, tan],
+            tan ? [pin, tan] : pin,
         ];
     }
 
