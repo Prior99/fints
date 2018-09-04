@@ -5,7 +5,7 @@ import { HEADER_LENGTH, HBCI_VERSION } from "../constants";
 
 export class HNHBKProps {
     public msgLength: number;
-    public dialogId: number;
+    public dialogId: string;
     public msgNo: number;
     public segNo: number;
     public refMsgNo?: number;
@@ -22,9 +22,9 @@ export class HNHBK extends SegmentClass(HNHBKProps) {
     protected serialize() {
         const { msgLength, dialogId, msgNo } = this;
         return [
-            Format.dig(msgLength + HEADER_LENGTH + String(dialogId).length + String(msgNo).length),
+            Format.dig(msgLength + HEADER_LENGTH + dialogId.length + String(msgNo).length),
             Format.num(HBCI_VERSION),
-            Format.num(dialogId),
+            dialogId,
             Format.num(msgNo),
         ];
     }
@@ -35,7 +35,7 @@ export class HNHBK extends SegmentClass(HNHBKProps) {
             throw new Error(`Version mismatch. Server is using HBCI version ${hbciVersion}.`);
         }
         this.msgLength = Parse.dig(msgLength);
-        this.dialogId = Parse.num(dialogId);
+        this.dialogId = dialogId;
         this.msgNo = Parse.dig(msgNo);
         this.refMsgNo = Parse.dig(refMsgNo);
     }

@@ -7,7 +7,7 @@ export class FinTSRequestConfiguration {
     public pin: string;
     public tan: string;
     public systemId: string;
-    public dialogId: number;
+    public dialogId: string;
     public msgNo: number;
     public tanMethods: TANMethod[] = [];
     public segments: Segment<any>[] = [];

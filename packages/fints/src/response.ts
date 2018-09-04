@@ -75,8 +75,8 @@ export class FinTSResponse {
     }
 
     public get supportedTanMethods(): TANMethod[] {
-        const hirms = this.findSegments(HIRMS).find(segment => segment.returnValues.has(3920));
-        const securityFunctions = hirms.returnValues.get(3920).parameters;
+        const hirms = this.findSegments(HIRMS).find(segment => segment.returnValues.has("3920"));
+        const securityFunctions = hirms.returnValues.get("3920").parameters;
         const tanSegments = this.findSegments(HITANS);
         return tanSegments.reduce((result, segment) => {
             segment.tanMethods.forEach(tanMethod => {
@@ -96,8 +96,8 @@ export class FinTSResponse {
         return msg.segments.reduce((result, messageSegment) => {
             const segment = this.findSegmentForReference(HIRMS, messageSegment);
             if (segment) {
-                segment.returnValues.get(3040);
-                result.set(messageSegment.type, segment.returnValues.get(3040).parameters[0]);
+                segment.returnValues.get("3040");
+                result.set(messageSegment.type, segment.returnValues.get("3040").parameters[0]);
             }
             return result;
         }, new Map());

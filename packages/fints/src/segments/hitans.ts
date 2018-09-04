@@ -15,7 +15,6 @@ export class HITANSProps {
 
 export class HITANS extends SegmentClass(HITANSProps) {
     public type = "HITANS";
-    public tanMethods: TANMethod[] = [];
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
@@ -43,6 +42,7 @@ export class HITANS extends SegmentClass(HITANSProps) {
         this.securityProfile = Parse.num(securityProfile);
         this.multiple = Parse.bool(multiple);
         const tanMethodArgumentsLength = tanMethodArgumentMap.get(this.version).length;
+        this.tanMethods = [];
         for (let i = 0; i < tanMethodArgs.length; i += tanMethodArgumentsLength) {
             const currentArgs = tanMethodArgs.slice(i, i + tanMethodArgumentsLength);
             this.tanMethods.push(new TANMethod(this.version, currentArgs));

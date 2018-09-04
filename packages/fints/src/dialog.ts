@@ -13,7 +13,7 @@ export class FinTSDialogConfiguration {
 
 export class FinTSDialog extends FinTSDialogConfiguration {
     public msgNo = 1;
-    public dialogId = 0;
+    public dialogId = "0";
     public bankName: string;
     public tanMethods: TANMethod[] = [];
 
@@ -70,7 +70,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
 
     public async end() {
         const response = await this.send(this.msgEnd);
-        this.dialogId = 0;
+        this.dialogId = "0";
         this.msgNo = 1;
     }
 

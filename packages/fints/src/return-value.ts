@@ -1,5 +1,5 @@
 export class ReturnValue {
-    public code: number;
+    public code: string;
     public message: string;
     public parameters: string[];
 

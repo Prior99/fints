@@ -4,7 +4,7 @@ import { SEPAAccount } from "../sepa-account";
 
 export class HKENDProps {
     public segNo: number;
-    public dialogId: number;
+    public dialogId: string;
 }
 
 export class HKEND extends SegmentClass(HKENDProps) {
@@ -12,7 +12,7 @@ export class HKEND extends SegmentClass(HKENDProps) {
     public version = 1;
 
     protected serialize() {
-        return [ Format.num(this.dialogId) ];
+        return [ this.dialogId ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }
