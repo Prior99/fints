@@ -36,6 +36,17 @@ export abstract class Segment<TProps extends SegmentProps> {
         }, `${this.type}:${this.segNo}:${this.version}`);
         return `${body}'`;
     }
+
+    public get debugString() {
+        const info = `Type: ${this.type}\n` +
+            `Version: ${this.version}\n` +
+            `Segment Number: ${this.segNo}\n` +
+            `Referencing: ${this.reference === undefined ? "None" : this.reference}\n` +
+            `----\n`;
+        return this.serialize().reduce((result, group, index) => {
+            return result + `DG ${index}: ${Array.isArray(group) ? group.join(", ") : group}\n`;
+        }, info);
+    }
 }
 
 export function SegmentClass<TProps extends SegmentProps>(

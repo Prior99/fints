@@ -2,7 +2,7 @@ import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN } from "./seg
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
 import { FinTSRequest } from "./request";
-import { splitForDataGroups, splitForDataElements, unescapeFinTS } from "./utils";
+import { splitSegment, unescapeFinTS } from "./utils";
 import { TANMethod, tanMethodArgumentMap } from "./tan";
 
 export class FinTSResponse {
@@ -105,5 +105,19 @@ export class FinTSResponse {
 
     public segmentMaxVersion(segment: Constructable<Segment<any>>) {
         return this.findSegments(segment).reduce((max, current) => current.version > max ? current.version : max, 0);
+    }
+
+    public get debugString() {
+        return this.segmentStrings.map(segmentString => {
+            const split = splitSegment(segmentString);
+            return `Type: ${split[0][0]}\n` +
+                `Version: ${split[0][2]}\n` +
+                `Segment Number: ${split[0][1]}\n` +
+                `Referencing: ${split[0].length <= 3 ? "None" : split[0][3]}\n` +
+                `----\n` +
+                split.splice(1).reduce((result, group, index) => {
+                    return result + `DG ${index}: ${Array.isArray(group) ? group.join(", ") : group}\n`;
+                }, "");
+        }).join("\n");
     }
 }

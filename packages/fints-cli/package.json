@@ -20,9 +20,11 @@
   "dependencies": {
     "clime": "^0.5.9",
     "fints": "^0.0.0",
-    "winston": "^3.1.0"
+    "winston": "^3.1.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "@types/winston": "^2.4.4"
+    "@types/winston": "^2.4.4",
+    "@types/yamljs": "^0.2.30"
   }
 }

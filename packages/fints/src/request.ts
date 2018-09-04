@@ -43,7 +43,7 @@ export class FinTSRequest extends FinTSRequestConfiguration {
         return this.segments.length + 3;
     }
 
-    public toString() {
+    private get allSegments() {
         const {
             dialogId,
             secRef,
@@ -71,11 +71,18 @@ export class FinTSRequest extends FinTSRequestConfiguration {
             new HNHBS({ segNo: segmentCount + 1, msgNo }),
         ];
         let length = segmentsWithoutHeader.reduce((result, segment) => result + String(segment).length, 0);
-        const segments = [
+        return [
             new HNHBK({ segNo: 1, msgLength: length, dialogId, msgNo }),
             ...segmentsWithoutHeader,
         ];
-        return segments
+    }
+
+    public get debugString(): string {
+        return this.segments.map(segment => segment.debugString).join("\n");
+    }
+
+    public toString() {
+        return this.allSegments
             .map(segment => String(segment))
             .join("");
     }

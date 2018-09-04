@@ -6,6 +6,7 @@ import { FinTSResponse } from "./response";
 
 export class FinTSConnectionConfiguration {
     public url: string;
+    public debug = false;
 }
 
 export class FinTSConnection extends FinTSConnectionConfiguration {
@@ -16,14 +17,17 @@ export class FinTSConnection extends FinTSConnectionConfiguration {
 
     public async send(message: FinTSRequest): Promise<FinTSResponse> {
         const { url } = this;
-        verbose(`Sending Request: ${String(message)}`);
+        verbose(`Sending Request: ${message}`);
+        if (this.debug) { verbose(`Parsed Request:\n${message.debugString}`); }
         const request = await fetch(url, {
             method: "POST",
             body: encodeBase64(String(message)),
         });
         if (!request.ok) { throw new Error(`Received bad status code ${request.status} from FinTS endpoint.`); }
-        const response = decodeBase64(await request.text());
-        verbose(`Received Response: ${response}`);
-        return new FinTSResponse(response);
+        const responseString = decodeBase64(await request.text());
+        const response = new FinTSResponse(responseString);
+        verbose(`Received Response: ${responseString}`);
+        if (this.debug) { verbose(`Parsed Response:\n${response.debugString}`); }
+        return response;
     }
 }

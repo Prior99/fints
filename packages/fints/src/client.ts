@@ -10,6 +10,7 @@ export interface FinTSClientConfiguration {
     name: string;
     pin: string;
     url: string;
+    debug?: boolean;
 }
 
 export abstract class FinTSClient {

@@ -9,8 +9,8 @@ export class FinTSPinTanClient extends FinTSClient {
 
     constructor(config: FinTSClientConfiguration) {
         super(config);
-        const { url  } = config;
-        this.connection = new FinTSConnection({ url });
+        const { url, debug  } = config;
+        this.connection = new FinTSConnection({ url, debug });
     }
 
     public createDialog() {
