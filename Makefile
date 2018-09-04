@@ -1,4 +1,4 @@
-default: lint build
+default: build lint test
 
 .PHONY: node_modules
 node_modules:
@@ -12,6 +12,10 @@ build: node_modules
 .PHONY: lint
 lint: node_modules
 	yarn lint
+
+.PHONY: test
+test: node_modules
+	yarn lerna run test
 
 .PHONY: clean
 clean:

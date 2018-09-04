@@ -2,7 +2,7 @@ export * from "./base64";
 export * from "./client";
 export * from "./connection";
 export * from "./dialog";
-export * from "./index";
+export * from "./logger";
 export * from "./pin-tan-client";
 export * from "./request";
 export * from "./response";

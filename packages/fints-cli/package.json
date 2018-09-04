@@ -19,6 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "clime": "^0.5.9",
-    "fints": "^0.0.0"
+    "fints": "^0.0.0",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/winston": "^2.4.4"
   }
 }
