@@ -12,7 +12,7 @@ export class BaseFinTSConfig extends Options implements FinTSClientConfiguration
     @option({ required: true, flag: "p", description: "Pin used for connecting." })
     public pin: string;
 
-    @option({ required: true, flag: "b", description: "BLZ od the bank to connect to." })
+    @option({ required: true, flag: "b", description: "BLZ of the bank to connect to." })
     public blz: string;
 
     @option({ toggle: true, flag: "d" })
