@@ -1,6 +1,7 @@
 import { FinTSConnection } from "./connection";
-import { HKIDN, HKVVB, HKSYN, HKEND } from "./segments";
+import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS } from "./segments";
 import { FinTSRequest } from "./request";
+import { TANMethod } from "./tan";
 
 export class FinTSDialogConfiguration {
     public blz: string;
@@ -14,10 +15,10 @@ export class FinTSDialog extends FinTSDialogConfiguration {
     public msgNo = 1;
     public dialogId = 0;
     public bankName: string;
+    public tanMethods: TANMethod[] = [];
 
-    private hksalVersion = 6;
-    private hkkazVersion = 6;
-    private hktanVersion: number;
+    private hisalsVersion = 6;
+    private hikazsVersion = 6;
 
     constructor(config: FinTSDialogConfiguration) {
         super();
@@ -56,8 +57,9 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         this.systemId = response.systemId;
         this.dialogId = response.dialogId;
         this.bankName = response.bankName;
-        this.hksalVersion = response.hksalMaxVersion;
-        this.hkkazVersion = response.hkkazMaxVersion;
+        this.hisalsVersion = response.segmentMaxVersion(HISALS);
+        this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
+        this.tanMethods = response.supportedTanMethods;
         await this.end();
     }
 
@@ -78,7 +80,9 @@ export class FinTSDialog extends FinTSDialogConfiguration {
 
         const response = await this.connection.send(message);
         if (!response.success) {
-            throw new Error(`Error in dialog: "${response.summaryBySegment}"`);
+            const returnValues = response.errors;
+            const errors = response.errors.map(error => `"${error}"`).join(", ");
+            throw new Error(`Error(s) in dialog: ${errors}.`);
         }
         this.msgNo++;
         return response;

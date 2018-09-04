@@ -1,19 +1,19 @@
-import { ReturnValue } from "../return-value";
 import { Parse } from "../parse";
 import { SegmentClass } from "./segment";
+import { ReturnValue } from "../return-value";
 
-export class HIRMSProps {
+export class HIRMGProps {
     public segNo: number;
     public returnValues: Map<number, ReturnValue>;
 }
 
 /**
- * HIRMS (Rückmeldungen zu Segmenten)
- * Section B.7.3
+ * HIRMG (Rückmeldungen zur Gesamtnachricht)
+ * Section B.7.2
  */
-export class HIRMS extends SegmentClass(HIRMSProps) {
-    public type = "HIRMS";
-    public version = 3;
+export class HIRMG extends SegmentClass(HIRMGProps) {
+    public type = "HIRMG";
+    public version = 2;
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 

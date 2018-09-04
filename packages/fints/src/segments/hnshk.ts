@@ -29,7 +29,7 @@ export class HNSHK extends SegmentClass(HNSHKProps) {
             Format.num(secRef),
             Format.num(SECURITY_BOUNDARY),
             Format.num(SECURITY_SUPPLIER_ROLE),
-            [Format.num(1), Format.empty(), Format.num(systemId)],
+            [Format.num(1), Format.empty(), systemId],
             Format.num(1),
             [Format.num(1), Format.date(), Format.time()],
             [Format.num(1), Format.num(999), Format.num(1)],

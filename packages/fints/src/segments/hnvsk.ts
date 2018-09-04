@@ -21,7 +21,7 @@ export class HNVSK extends SegmentClass(HNVSKProps) {
             ["PIN", Format.num(profileVersion)],
             Format.num(998),
             Format.num(SECURITY_SUPPLIER_ROLE),
-            [Format.num(1), Format.empty(), Format.num(systemId)],
+            [Format.num(1), Format.empty(), systemId],
             [Format.num(1), Format.date(), Format.time()],
             [
                 Format.num(2),

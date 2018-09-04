@@ -6,6 +6,7 @@ export * from "./index";
 export * from "./pin-tan-client";
 export * from "./request";
 export * from "./response";
+export * from "./return-value";
 export * from "./segments";
 export * from "./sepa-account";
 export * from "./tan";
