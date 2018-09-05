@@ -9,7 +9,10 @@ export class HKENDProps {
 
 export class HKEND extends SegmentClass(HKENDProps) {
     public type = "HKEND";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         return [ this.dialogId ];

@@ -11,7 +11,10 @@ export class HKTABProps {
  */
 export class HKTAB extends SegmentClass(HKTABProps) {
     public type = "HKTAB";
-    public version = 5;
+
+    protected defaults() {
+        this.version = 5;
+    }
 
     protected serialize() {
         return [ Format.num(0), "A" ];

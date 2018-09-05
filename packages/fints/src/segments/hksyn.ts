@@ -13,9 +13,11 @@ export class HKSYNProps {
  */
 export class HKSYN extends SegmentClass(HKSYNProps) {
     public type = "HKSYN";
-    public version = 3;
 
-    public mode = SYNC_MODE_NEW_CUSTOMER_ID;
+    protected defaults() {
+        this.version = 3;
+        this.mode = SYNC_MODE_NEW_CUSTOMER_ID;
+    }
 
     protected serialize() {
         return [ Format.num(this.mode) ];

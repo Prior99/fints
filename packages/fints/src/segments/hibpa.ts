@@ -18,7 +18,10 @@ export class HIBPAProps {
  */
 export class HIBPA extends SegmentClass(HIBPAProps) {
     public type = "HIBPA";
-    public version = 3;
+
+    protected defaults() {
+        this.version = 3;
+    }
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 

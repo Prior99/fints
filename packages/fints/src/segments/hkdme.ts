@@ -17,7 +17,10 @@ export class HKDMEProps {
  */
 export class HKDME extends SegmentClass(HKDMEProps) {
     public type = "HKDME";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         const { segNo, account, painMsg, controlSum, currency, bookAsSingle } = this;

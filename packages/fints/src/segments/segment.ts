@@ -13,6 +13,7 @@ export abstract class Segment<TProps extends SegmentProps> {
     public reference?: number;
 
     constructor(arg: string | TProps) {
+        this.defaults();
         if (typeof arg === "string") {
             const splitted = splitSegment(arg);
             this.segNo = Parse.num(splitted[0][1]);
@@ -27,14 +28,14 @@ export abstract class Segment<TProps extends SegmentProps> {
     protected abstract serialize(): (string | string[])[];
     protected abstract deserialize(input: string[][]): void;
 
+    protected defaults() { return; }
+
     public toString() {
-        const body = this.serialize().reduce((result, data) => {
-            if (Array.isArray(data)) {
-                return `${result}+${data.join(":")}`;
-            }
-            return `${result}+${data}`;
-        }, `${this.type}:${this.segNo}:${this.version}`);
-        return `${body}'`;
+        const header = `${this.type}:${this.segNo}:${this.version}`;
+        const body = this.serialize()
+            .map(data => Array.isArray(data) ? data.join(":") : data)
+            .join("+");
+        return `${header}+${body}'`;
     }
 
     public get debugString() {

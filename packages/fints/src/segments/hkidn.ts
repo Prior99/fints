@@ -16,9 +16,12 @@ export class HKIDNProps {
  */
 export class HKIDN extends SegmentClass(HKIDNProps) {
     public type = "HKIDN";
-    public version = 2;
-    public systemId = "0";
-    public customerId = 1;
+
+    protected defaults() {
+        this.version = 2;
+        this.systemId = "0";
+        this.customerId = 1;
+    }
 
     protected serialize() {
         const { segNo, blz, name, systemId, customerId } = this;

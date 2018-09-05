@@ -13,7 +13,10 @@ export class HIRMGProps {
  */
 export class HIRMG extends SegmentClass(HIRMGProps) {
     public type = "HIRMG";
-    public version = 2;
+
+    protected defaults() {
+        this.version = 2;
+    }
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 

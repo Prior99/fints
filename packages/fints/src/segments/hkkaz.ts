@@ -17,7 +17,6 @@ export class HKKAZProps {
  */
 export class HKKAZ extends SegmentClass(HKKAZProps) {
     public type = "HKKAZ";
-    public version: number;
 
     protected serialize() {
         const { segNo, version, account, dateEnd, dateStart, touchdown } = this;

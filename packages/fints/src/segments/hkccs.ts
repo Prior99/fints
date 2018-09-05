@@ -14,7 +14,10 @@ export class HKCCSProps {
  */
 export class HKCCS extends SegmentClass(HKCCSProps) {
     public type = "HKCCS";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         const { segNo, account, painMsg } = this;

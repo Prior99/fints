@@ -12,7 +12,10 @@ export class HNVSDProps {
  */
 export class HNVSD extends SegmentClass(HNVSDProps) {
     public type = "HNVSD";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         return [

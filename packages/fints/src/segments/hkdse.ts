@@ -14,7 +14,10 @@ export class HKDSEProps {
  */
 export class HKDSE extends SegmentClass(HKDSEProps) {
     public type = "HKDSE";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         const { segNo, account, painMsg } = this;

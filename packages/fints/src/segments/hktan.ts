@@ -14,7 +14,6 @@ export class HKTANProps {
  */
 export class HKTAN extends SegmentClass(HKTANProps) {
     public type = "HKTAN";
-    public version: number;
 
     protected deserialize() { throw new Error("Not implemented."); }
 

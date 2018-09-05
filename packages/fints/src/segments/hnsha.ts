@@ -14,7 +14,10 @@ export class HNSHAProps {
  */
 export class HNSHA extends SegmentClass(HNSHAProps) {
     public type = "HNSHA";
-    public version = 2;
+
+    protected defaults() {
+        this.version = 2;
+    }
 
     protected serialize() {
         const { segNo, secRef, pin, tan } = this;

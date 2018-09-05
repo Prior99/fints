@@ -36,12 +36,12 @@ export class FinTSDialog extends FinTSDialogConfiguration {
     }
 
     public get msgInit() {
-        const { blz, name, pin, systemId, dialogId, msgNo } = this;
+        const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
         const segments = [
             new HKIDN({ segNo: 3, blz, name, systemId }),
             new HKVVB({ segNo: 4 }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments });
+        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods });
     }
 
     public get msgEnd() {
