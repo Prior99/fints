@@ -10,7 +10,7 @@ testSegment(HISYN, [
             segNo: 60,
             version: 4,
             reference: 5,
-            systemdId: "DDDA10000000000000000000000A",
+            systemId: "DDDA10000000000000000000000A",
         },
     },
 ], "in");
