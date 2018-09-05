@@ -4,7 +4,7 @@ import { ReturnValue } from "../../return-value";
 
 testSegment(HKSPA, [
     {
-        serialized: "HKSPA:3:1+",
+        serialized: "HKSPA:3:1+'",
         structured: {
             type: "HKSPA",
             segNo: 3,

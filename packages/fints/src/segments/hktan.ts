@@ -2,8 +2,8 @@ import { SegmentClass } from "./segment";
 
 export class HKTANProps {
     public segNo: number;
-    public process: string;
     public version: number;
+    public process: string;
     public aref: string;
     public medium: string;
 }
