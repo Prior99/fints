@@ -1,6 +1,6 @@
-import { FinTSConnection } from "./connection";
+import { Connection } from "./connection";
 import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HKKAZ, HIKAZ } from "./segments";
-import { FinTSRequest } from "./request";
+import { Request } from "./request";
 import { TANMethod } from "./tan";
 
 export class FinTSDialogConfiguration {
@@ -8,7 +8,7 @@ export class FinTSDialogConfiguration {
     public name: string;
     public pin: string;
     public systemId: string;
-    public connection: FinTSConnection;
+    public connection: Connection;
 }
 
 export class FinTSDialog extends FinTSDialogConfiguration {
@@ -33,7 +33,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
             new HKVVB({ segNo: 4 }),
             new HKSYN({ segNo: 5 }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments });
+        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments });
     }
 
     public get msgInit() {
@@ -42,7 +42,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
             new HKIDN({ segNo: 3, blz, name, systemId }),
             new HKVVB({ segNo: 4 }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods });
+        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods });
     }
 
     public get msgEnd() {
@@ -50,7 +50,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         const segments = [
             new HKEND({ segNo: 3, dialogId }),
         ];
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments });
+        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments });
     }
 
     public async sync() {
@@ -76,7 +76,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         this.msgNo = 1;
     }
 
-    public async send(message: FinTSRequest) {
+    public async send(message: Request) {
         message.msgNo = this.msgNo;
         message.dialogId = this.dialogId;
 

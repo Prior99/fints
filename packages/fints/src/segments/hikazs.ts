@@ -17,9 +17,9 @@ export class HIKAZS extends SegmentClass(HIKAZSProps) {
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
-    protected deserialize(input: (string[] | string)[]) {
-        const [ maxRequestCount, minSignatures ] = input;
-        this.minSignatures = Parse.num(minSignatures as string);
-        this.maxRequestCount = Parse.num(maxRequestCount as string);
+    protected deserialize(input: string[][]) {
+        const [ [ maxRequestCount ], [ minSignatures ] ] = input;
+        this.minSignatures = Parse.num(minSignatures);
+        this.maxRequestCount = Parse.num(maxRequestCount);
     }
 }

@@ -7,7 +7,7 @@ testSegment(HIRMG, [
         serialized: "HIRMG:2:2+" +
             "0010::Nachricht entgegengenommen.+" +
             "3020::Noch eine Nachricht.:1:2:3+" +
-            "9030::Ein Fehler ist aufgetreten.",
+            "9030::Ein Fehler ist aufgetreten.'",
         structured: {
             type: "HIRMG",
             segNo: 2,

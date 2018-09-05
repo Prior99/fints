@@ -15,7 +15,7 @@ export class HISYN extends SegmentClass(HISYNProps) {
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
-    protected deserialize(input: (string[] | string)[]) {
+    protected deserialize(input: string[][]) {
         const [ [ systemId ] ] = input;
         this.systemId = systemId as string;
     }

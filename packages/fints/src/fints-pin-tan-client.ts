@@ -1,7 +1,7 @@
-import { FinTSClient } from "./client";
+import { FinTSClient } from "./fints-client";
 import { FinTSDialog } from "./dialog";
-import { FinTSRequest } from "./request";
-import { FinTSConnection } from "./connection";
+import { Request } from "./request";
+import { Connection } from "./connection";
 import { Segment } from "./segments";
 
 export interface FinTSPinTanClientConfiguration {
@@ -13,14 +13,14 @@ export interface FinTSPinTanClientConfiguration {
 }
 
 export class FinTSPinTanClient extends FinTSClient {
-    private connection: FinTSConnection;
+    private connection: Connection;
     protected config: FinTSPinTanClientConfiguration;
 
     constructor(config: FinTSPinTanClientConfiguration) {
         super();
         this.config = config;
         const { url, debug  } = config;
-        this.connection = new FinTSConnection({ url, debug });
+        this.connection = new Connection({ url, debug });
     }
 
     public createDialog() {
@@ -32,6 +32,6 @@ export class FinTSPinTanClient extends FinTSClient {
     public createRequest(dialog: FinTSDialog, segments: Segment<any>[], tan?: string) {
         const { blz, name, pin } = this.config;
         const { systemId, dialogId, msgNo, tanMethods } = dialog;
-        return new FinTSRequest({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods, tan });
+        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods, tan });
     }
 }

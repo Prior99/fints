@@ -2,13 +2,13 @@ import "isomorphic-fetch";
 import { encodeBase64, decodeBase64 } from "./base64";
 import { FinTSDialog } from "./dialog";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
-import { FinTSRequest } from "./request";
+import { Request } from "./request";
 import { SEPAAccount } from "./sepa-account";
-import { FinTSResponse } from "./";
+import { Response } from "./";
 
 export abstract class FinTSClient {
     protected abstract createDialog(): FinTSDialog;
-    protected abstract createRequest(dialog: FinTSDialog, segments: Segment<any>[], tan?: string): FinTSRequest;
+    protected abstract createRequest(dialog: FinTSDialog, segments: Segment<any>[], tan?: string): Request;
 
     public async getSEPAAccounts(): Promise<SEPAAccount[]> {
         const dialog = this.createDialog();
@@ -30,7 +30,7 @@ export abstract class FinTSClient {
         await dialog.init();
         let touchdowns: Map<string, string>;
         let touchdown: string;
-        const responses: FinTSResponse[] = [];
+        const responses: Response[] = [];
         do {
             const request = this.createRequest(dialog, [
                 new HKKAZ({
@@ -47,7 +47,7 @@ export abstract class FinTSClient {
             touchdown = touchdowns.get("HKKAZ");
             responses.push(response);
         } while (touchdown);
-        const segments = responses.reduce((result, response: FinTSResponse) => {
+        const segments = responses.reduce((result, response: Response) => {
             result.push(...response.findSegments(HIKAZ));
             return result;
         }, []);

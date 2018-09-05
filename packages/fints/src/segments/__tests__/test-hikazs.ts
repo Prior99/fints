@@ -3,7 +3,7 @@ import { testSegment } from "./utils";
 
 testSegment(HIKAZS, [
     {
-        serialized: "HIKAZS:11:2:4+1+2+60:J",
+        serialized: "HIKAZS:11:2:4+1+2+60:J'",
         structured: {
             type: "HIKAZS",
             segNo: 11,

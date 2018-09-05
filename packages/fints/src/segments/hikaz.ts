@@ -17,8 +17,8 @@ export class HIKAZ extends SegmentClass(HIKAZProps) {
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
-    protected deserialize(input: (string[] | string)[]) {
-        const [ bookedTransactions, pendingTransactions ] = input;
+    protected deserialize(input: string[][]) {
+        const [ [ bookedTransactions ], [ pendingTransactions ] ] = input;
         this.pendingTransactions = pendingTransactions as string;
         this.bookedTransactions = bookedTransactions as string;
     }

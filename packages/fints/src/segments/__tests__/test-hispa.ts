@@ -6,7 +6,7 @@ testSegment(HISPA, [
     {
         serialized: "HISPA:5:1:3+" +
             "J:DE111234567800000001:GENODE00TES:1::280:12345678+" +
-            "J:DE111234567800000002:GENODE00TES:2::280:12345678",
+            "J:DE111234567800000002:GENODE00TES:2::280:12345678'",
         structured: {
             type: "HISPA",
             segNo: 5,

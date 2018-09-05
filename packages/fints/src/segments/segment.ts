@@ -1,6 +1,6 @@
 import { Parse } from "../parse";
 import { Constructable } from "../types";
-import { splitSegment } from "../utils";
+import { parse } from "../utils";
 
 export interface SegmentProps {
     segNo: number;
@@ -12,16 +12,16 @@ export abstract class Segment<TProps extends SegmentProps> {
     public segNo: number;
     public reference?: number;
 
-    constructor(arg: string | TProps) {
+    constructor(arg: string | string[][] | TProps) {
         this.defaults();
-        if (typeof arg === "string") {
-            const splitted = splitSegment(arg);
+        if (typeof arg === "object" && !Array.isArray(arg)) {
+            Object.assign(this, arg);
+        } else {
+            const splitted = typeof arg === "string" ? parse(arg)[0] : arg;
             this.segNo = Parse.num(splitted[0][1]);
             this.version = Parse.num(splitted[0][2]);
             this.deserialize(splitted.splice(1));
             if (splitted[0].length > 3) { this.reference = Parse.num(splitted[0][3]); }
-        } else {
-            Object.assign(this, arg);
         }
     }
 

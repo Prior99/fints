@@ -1,23 +1,19 @@
 import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN } from "./segments";
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
-import { FinTSRequest } from "./request";
-import { splitSegment, unescapeFinTS } from "./utils";
+import { Request } from "./request";
+import { parse, unescapeFinTS } from "./utils";
 import { TANMethod, tanMethodArgumentMap } from "./tan";
 
-export class FinTSResponse {
-    private static regexUnwrap = /HNVSD:\d+:\d+\+@\d+@(.+)\'\'/;
-    private static regexSegments = /'(?=[A-Z]{4,}:\d|')/;
-    private static regexSystemId = /HISYN:\d+:\d+:\d+\+(.+)/;
-
-    private segmentStrings: string[];
+export class Response {
+    private segmentStrings: string[][][];
 
     constructor(data: string) {
-        this.segmentStrings = data.split(FinTSResponse.regexSegments);
+        this.segmentStrings = parse(data);
     }
 
     public findSegments<T extends Segment<any>>(segmentClass: Constructable<T>): T[] {
-        const matchingStrings = this.segmentStrings.filter(str => str.startsWith(segmentClass.name));
+        const matchingStrings = this.segmentStrings.filter(str => str[0][0][0] === segmentClass.name);
         return matchingStrings.map(segmentString => {
             const segment = new segmentClass(segmentString);
             if (segment.type !== segmentClass.name) {
@@ -92,7 +88,7 @@ export class FinTSResponse {
         return this.findSegments(segmentClass).find(current => current.reference === segment.segNo);
     }
 
-    public getTouchdowns(msg: FinTSRequest): Map<string, string> {
+    public getTouchdowns(msg: Request): Map<string, string> {
         return msg.segments.reduce((result, messageSegment) => {
             const segment = this.findSegmentForReference(HIRMS, messageSegment);
             if (segment) {
@@ -111,7 +107,7 @@ export class FinTSResponse {
 
     public get debugString() {
         return this.segmentStrings.map(segmentString => {
-            const split = splitSegment(segmentString);
+            const split = segmentString[0];
             return `Type: ${split[0][0]}\n` +
                 `Version: ${split[0][2]}\n` +
                 `Segment Number: ${split[0][1]}\n` +

@@ -4,7 +4,7 @@ import { ReturnValue } from "../../return-value";
 
 testSegment(HIRMS, [
     {
-        serialized: "HIRMS:3:2:4+0010::Auftrag entgegengenommen",
+        serialized: "HIRMS:3:2:4+0010::Auftrag entgegengenommen'",
         structured: {
             type: "HIRMS",
             segNo: 3,
