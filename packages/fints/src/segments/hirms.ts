@@ -13,7 +13,6 @@ export class HIRMSProps {
  */
 export class HIRMS extends SegmentClass(HIRMSProps) {
     public type = "HIRMS";
-    public version = 3;
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 

@@ -17,7 +17,7 @@ export class HISPA extends SegmentClass(HISPAProps) {
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
     protected deserialize(input: string[][]) {
-        this.accounts = input.map(([ sepa, iban, bic, accountNumber, subAccount, blz ]) => ({
+        this.accounts = input.map(([ hasSepa, iban, bic, accountNumber, subAccount, countryCode, blz ]) => ({
             iban, bic, accountNumber, subAccount, blz,
         }));
     }

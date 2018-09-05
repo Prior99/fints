@@ -12,7 +12,6 @@ export class HISYNProps {
  */
 export class HISYN extends SegmentClass(HISYNProps) {
     public type = "HISYN";
-    public version = 4;
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 

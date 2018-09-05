@@ -9,7 +9,7 @@
         "api"
     ],
     "scripts": {
-        "build": "tsc",
+        "build": "tsc -p ./tsconfig-build.json",
         "clean": "rm -rf dist",
         "docs": "typedoc --mode file --out docs/ src/",
         "test": "jest"
@@ -33,10 +33,11 @@
             "text-summary"
         ],
         "testMatch": [
-            "<rootDir>/**/__tests__/test-*.ts"
+            "**/__tests__/test-*.ts"
         ],
         "globals": {
             "ts-jest": {
+                "enableTsDiagnostics": true,
                 "ignoreCoverageForDecorators": true,
                 "ignoreCoverageForAllDecorators": true
             }
