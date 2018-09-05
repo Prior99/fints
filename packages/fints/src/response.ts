@@ -96,8 +96,10 @@ export class FinTSResponse {
         return msg.segments.reduce((result, messageSegment) => {
             const segment = this.findSegmentForReference(HIRMS, messageSegment);
             if (segment) {
-                segment.returnValues.get("3040");
-                result.set(messageSegment.type, segment.returnValues.get("3040").parameters[0]);
+                const returnValue = segment.returnValues.get("3040");
+                if (returnValue) {
+                    result.set(messageSegment.type, returnValue.parameters[0]);
+                }
             }
             return result;
         }, new Map());

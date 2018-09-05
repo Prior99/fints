@@ -5,7 +5,7 @@ import { SEPAAccount } from "../sepa-account";
 export class HKKAZProps {
     public segNo: number;
     public version: number;
-    public account: string;
+    public account: SEPAAccount;
     public dateStart: Date;
     public dateEnd: Date;
     public touchdown: string;
@@ -20,8 +20,15 @@ export class HKKAZ extends SegmentClass(HKKAZProps) {
 
     protected serialize() {
         const { segNo, version, account, dateEnd, dateStart, touchdown } = this;
+        const { iban, bic, accountNumber, subAccount, blz } = account;
+        if (![4, 5, 6, 7].includes(version)) {
+            throw new Error(`Unsupported HKKAZ version ${version}.`);
+        }
+        const serializedAccount = version === 7 ?
+            [iban, bic, accountNumber, subAccount, "280", blz] :
+            [accountNumber, subAccount, "280", blz];
         return [
-            account,
+            serializedAccount,
             Format.jn(false),
             Format.date(dateStart),
             Format.date(dateEnd),

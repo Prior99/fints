@@ -1,5 +1,5 @@
 import { FinTSConnection } from "./connection";
-import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS } from "./segments";
+import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HKKAZ, HIKAZ } from "./segments";
 import { FinTSRequest } from "./request";
 import { TANMethod } from "./tan";
 
@@ -17,8 +17,9 @@ export class FinTSDialog extends FinTSDialogConfiguration {
     public bankName: string;
     public tanMethods: TANMethod[] = [];
 
-    private hisalsVersion = 6;
-    private hikazsVersion = 6;
+    public hisalsVersion = 6;
+    public hikazsVersion = 6;
+    public hikazVersion = 6;
 
     constructor(config: FinTSDialogConfiguration) {
         super();
@@ -59,6 +60,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         this.bankName = response.bankName;
         this.hisalsVersion = response.segmentMaxVersion(HISALS);
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
+        this.hikazVersion = response.segmentMaxVersion(HIKAZ);
         this.tanMethods = response.supportedTanMethods;
         await this.end();
     }

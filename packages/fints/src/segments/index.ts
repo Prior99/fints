@@ -1,4 +1,5 @@
 export * from "./hibpa";
+export * from "./hikaz";
 export * from "./hikazs";
 export * from "./hirmg";
 export * from "./hirms";
