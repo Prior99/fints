@@ -24,9 +24,7 @@ export abstract class FinTSClient {
         return hispa.accounts;
     }
 
-    public async getStatements(account: SEPAAccount): Promise<any> {
-        const startDate = new Date("2018-05-01T12:00:00Z");
-        const endDate = new Date("2018-09-01T12:00:00Z");
+    public async getStatements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<any> {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
