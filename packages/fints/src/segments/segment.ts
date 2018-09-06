@@ -20,8 +20,8 @@ export abstract class Segment<TProps extends SegmentProps> {
             const splitted = typeof arg === "string" ? parse(arg)[0] : arg;
             this.segNo = Parse.num(splitted[0][1]);
             this.version = Parse.num(splitted[0][2]);
-            this.deserialize(splitted.splice(1));
             if (splitted[0].length > 3) { this.reference = Parse.num(splitted[0][3]); }
+            this.deserialize(splitted.slice(1));
         }
     }
 

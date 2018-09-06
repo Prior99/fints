@@ -1,4 +1,4 @@
-import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN } from "./segments";
+import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN, HNVSD } from "./segments";
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
 import { Request } from "./request";
@@ -10,10 +10,14 @@ export class Response {
 
     constructor(data: string) {
         this.segmentStrings = parse(data);
+        const hnvsd = this.findSegment(HNVSD);
+        if (hnvsd) {
+            this.segmentStrings.push(...hnvsd.rawSegments);
+        }
     }
 
     public findSegments<T extends Segment<any>>(segmentClass: Constructable<T>): T[] {
-        const matchingStrings = this.segmentStrings.filter(str => str[0][0][0] === segmentClass.name);
+        const matchingStrings = this.segmentStrings.filter(str => str[0][0] === segmentClass.name);
         return matchingStrings.map(segmentString => {
             const segment = new segmentClass(segmentString);
             if (segment.type !== segmentClass.name) {
@@ -107,7 +111,7 @@ export class Response {
 
     public get debugString() {
         return this.segmentStrings.map(segmentString => {
-            const split = segmentString[0];
+            const split = segmentString;
             return `Type: ${split[0][0]}\n` +
                 `Version: ${split[0][2]}\n` +
                 `Segment Number: ${split[0][1]}\n` +
