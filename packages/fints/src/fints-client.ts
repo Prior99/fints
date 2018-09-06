@@ -5,7 +5,6 @@ import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
 import { SEPAAccount } from "./types";
-import { Statements } from "./statements";
 import { read, Statement } from "mt940-js";
 
 export abstract class FinTSClient {
@@ -24,7 +23,7 @@ export abstract class FinTSClient {
         return hispa.accounts;
     }
 
-    public async getStatements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<any> {
+    public async getStatements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
@@ -54,8 +53,6 @@ export abstract class FinTSClient {
         }, []);
         const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
         const booked: Statement[] = await read(Buffer.from(bookedString, "utf8"));
-        const pendingString = segments.map(segment => segment.pendingTransactions || "").join("");
-        const pending: Statement[] = await read(Buffer.from(pendingString, "utf8"));
-        return new Statements({ booked, pending });
+        return booked;
     }
 }

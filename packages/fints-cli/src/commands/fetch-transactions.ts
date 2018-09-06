@@ -4,8 +4,7 @@ import { FinTSPinTanClient } from "fints";
 import { setLevel, info } from "../logger";
 import { Command, command, metadata } from "clime";
 import { BaseFinTSConfig } from "../config";
-import { read } from "mt940-js";
-import { readFileSync } from "fs";
+import { Transaction } from "mt940-js";
 
 export class FetchStatementOptions extends BaseFinTSConfig {
     @option({ required: true, flag: "i", description: "IBAN of the account to fetch." })
@@ -45,6 +44,9 @@ export default class extends Command {
             return;
         }
         const statements = await client.getStatements(account, startDate, endDate);
-        console.info(serializer(statements.bookedTransactions));
+        console.info(serializer(statements.reduce((result: Transaction[], statement) => {
+            result.push(...statement.transactions);
+            return result;
+        }, [])));
     }
 }
