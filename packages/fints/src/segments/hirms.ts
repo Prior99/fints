@@ -24,7 +24,8 @@ export class HIRMS extends SegmentClass(HIRMSProps) {
                 return new ReturnValue({
                     code,
                     message,
-                    references: references.split(",").map(reference => Number(reference.trim())),
+                    references: references.length > 0 ?
+                        references.split(",").map(reference => Number(reference.trim())) : [],
                     parameters,
                 });
             })

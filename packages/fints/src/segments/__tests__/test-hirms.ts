@@ -16,6 +16,7 @@ testSegment(HIRMS, [
                         code: "0010",
                         message: "Auftrag entgegengenommen",
                         parameters: [],
+                        references: [],
                     },
                 ],
             ]),

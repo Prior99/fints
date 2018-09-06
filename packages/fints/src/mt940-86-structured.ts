@@ -15,30 +15,51 @@ export function is86Structured(input: string) {
 
 export interface StructuredDescription {
     paymentReference: string;
+    recipientName: string;
     iban: string;
     text: string;
     bic: string;
 }
 
 export function parse86Structured(input: string) {
-    let paymentReference = "";
     let iban: string;
     let text: string;
     let bic: string;
+    let primaNota: string;
     let currentContent = "";
     let inHeader = true;
-    let currentSection: number;
+    let sectionCode: number;
+    const paymentReferences: { code: number, content: string }[] = [];
+    const recipientNames: { code: number, content: string }[] = [];
 
     const flushHeader = () => {
-        currentSection = Number(currentContent);
+        sectionCode = Number(currentContent);
         currentContent = "";
         inHeader = false;
+    };
+
+    const flushSection = () => {
+        inHeader = true;
+        if (sectionCode === 0) {
+            text = currentContent;
+        } else if (sectionCode === 10) {
+            primaNota = currentContent;
+        } else if ((sectionCode >= 20 && sectionCode < 30) || (sectionCode >= 60 && sectionCode <= 63)) {
+            paymentReferences.push({ code: sectionCode, content: currentContent });
+        } else if (sectionCode === 30) {
+            bic = currentContent;
+        } else if (sectionCode === 31) {
+            iban = currentContent;
+        } else if (sectionCode >= 32 && sectionCode <= 33) {
+            recipientNames.push({ code: sectionCode, content: currentContent });
+        }
+        currentContent = "";
     };
 
     for (let i = 0; i < input.length; ++i) {
         const character = input[i];
         if (character === "?") {
-
+            flushSection();
             continue;
         }
         currentContent += character;
@@ -47,4 +68,16 @@ export function parse86Structured(input: string) {
             continue;
         }
     }
+    flushSection();
+
+    const paymentReference = paymentReferences
+        .sort((a, b) => a.code - b.code)
+        .map(reference => reference.content)
+        .join("");
+    const recipientName = recipientNames
+        .sort((a, b) => a.code - b.code)
+        .map(recipient => recipient.content)
+        .join("");
+
+    return { paymentReference, recipientName, iban, text, bic };
 }
