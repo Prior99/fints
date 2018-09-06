@@ -92,13 +92,13 @@ export class Response {
         return this.findSegments(segmentClass).find(current => current.reference === segment.segNo);
     }
 
-    public getTouchdowns(msg: Request): Map<string, string> {
-        return msg.segments.reduce((result, messageSegment) => {
-            const segment = this.findSegmentForReference(HIRMS, messageSegment);
+    public getTouchdowns(request: Request): Map<string, string> {
+        return request.segments.reduce((result, requestSegment) => {
+            const segment = this.findSegmentForReference(HIRMS, requestSegment);
             if (segment) {
                 const returnValue = segment.returnValues.get("3040");
                 if (returnValue) {
-                    result.set(messageSegment.type, returnValue.parameters[0]);
+                    result.set(requestSegment.type, returnValue.parameters[0]);
                 }
             }
             return result;
@@ -117,7 +117,7 @@ export class Response {
                 `Segment Number: ${split[0][1]}\n` +
                 `Referencing: ${split[0].length <= 3 ? "None" : split[0][3]}\n` +
                 `----\n` +
-                split.splice(1).reduce((result, group, index) => {
+                split.slice(1).reduce((result, group, index) => {
                     return result + `DG ${index}: ${Array.isArray(group) ? group.join(", ") : group}\n`;
                 }, "");
         }).join("\n");

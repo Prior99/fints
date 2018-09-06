@@ -1,5 +1,5 @@
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 import { Parse } from "../parse";
 
 export class HISPAProps {

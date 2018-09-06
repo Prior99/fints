@@ -2,6 +2,7 @@ export class ReturnValue {
     public code: string;
     public message: string;
     public parameters: string[];
+    public references: number[];
 
     constructor(props: Partial<ReturnValue>) {
         Object.assign(this, props);

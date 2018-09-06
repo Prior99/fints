@@ -1,13 +1,13 @@
 import { Format } from "../format";
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 
 export class HKKAZProps {
     public segNo: number;
     public version: number;
     public account: SEPAAccount;
-    public dateStart: Date;
-    public dateEnd: Date;
+    public startDate: Date;
+    public endDate: Date;
     public touchdown: string;
 }
 
@@ -19,7 +19,7 @@ export class HKKAZ extends SegmentClass(HKKAZProps) {
     public type = "HKKAZ";
 
     protected serialize() {
-        const { segNo, version, account, dateEnd, dateStart, touchdown } = this;
+        const { segNo, version, account, endDate, startDate, touchdown } = this;
         const { iban, bic, accountNumber, subAccount, blz } = account;
         if (![4, 5, 6, 7].includes(version)) {
             throw new Error(`Unsupported HKKAZ version ${version}.`);
@@ -30,8 +30,8 @@ export class HKKAZ extends SegmentClass(HKKAZProps) {
         return [
             serializedAccount,
             Format.jn(false),
-            Format.date(dateStart),
-            Format.date(dateEnd),
+            Format.date(startDate),
+            Format.date(endDate),
             Format.empty(),
             Format.stringEscaped(touchdown),
         ];

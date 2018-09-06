@@ -1,10 +1,12 @@
 import "isomorphic-fetch";
-import { encodeBase64, decodeBase64 } from "./base64";
+import { encodeBase64, decodeBase64 } from "./utils";
 import { FinTSDialog } from "./dialog";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";
-import { SEPAAccount } from "./sepa-account";
-import { Response } from "./";
+import { Response } from "./response";
+import { SEPAAccount } from "./types";
+import { Statements } from "./statements";
+import { read, Statement } from "mt940-js";
 
 export abstract class FinTSClient {
     protected abstract createDialog(): FinTSDialog;
@@ -22,7 +24,7 @@ export abstract class FinTSClient {
         return hispa.accounts;
     }
 
-    public async getStatements(account: SEPAAccount): Promise<any[]> {
+    public async getStatements(account: SEPAAccount): Promise<any> {
         const startDate = new Date("2018-05-01T12:00:00Z");
         const endDate = new Date("2018-09-01T12:00:00Z");
         const dialog = this.createDialog();
@@ -35,7 +37,7 @@ export abstract class FinTSClient {
             const request = this.createRequest(dialog, [
                 new HKKAZ({
                     segNo: 3,
-                    version: dialog.hikazVersion,
+                    version: dialog.hikazsVersion,
                     account,
                     startDate,
                     endDate,
@@ -47,10 +49,15 @@ export abstract class FinTSClient {
             touchdown = touchdowns.get("HKKAZ");
             responses.push(response);
         } while (touchdown);
-        const segments = responses.reduce((result, response: Response) => {
+        await dialog.end();
+        const segments: HIKAZ[] = responses.reduce((result, response: Response) => {
             result.push(...response.findSegments(HIKAZ));
             return result;
         }, []);
-        return segments;
+        const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
+        const booked: Statement[] = await read(Buffer.from(bookedString, "utf8"));
+        const pendingString = segments.map(segment => segment.pendingTransactions || "").join("");
+        const pending: Statement[] = await read(Buffer.from(pendingString, "utf8"));
+        return new Statements({ booked, pending });
     }
 }

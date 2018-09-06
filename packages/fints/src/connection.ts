@@ -1,6 +1,6 @@
 import "isomorphic-fetch";
 import { verbose } from "./logger";
-import { encodeBase64, decodeBase64 } from "./base64";
+import { encodeBase64, decodeBase64 } from "./utils";
 import { Request } from "./request";
 import { Response } from "./response";
 

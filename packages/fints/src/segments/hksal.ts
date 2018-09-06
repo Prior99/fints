@@ -1,5 +1,5 @@
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 import { Format } from "../format";
 
 export class HKSALProps {

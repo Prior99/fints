@@ -1,6 +1,6 @@
 import { SegmentClass } from "./segment";
 import { Format } from "../format";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 
 export class HKCCMProps {
     public segNo: number;

@@ -1,4 +1,3 @@
-export * from "./base64";
 export * from "./connection";
 export * from "./dialog";
 export * from "./fints-client";
@@ -8,7 +7,7 @@ export * from "./request";
 export * from "./response";
 export * from "./return-value";
 export * from "./segments";
-export * from "./sepa-account";
+export * from "./statements";
 export * from "./tan";
 export * from "./types";
 export * from "./utils";

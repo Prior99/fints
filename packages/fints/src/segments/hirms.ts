@@ -20,10 +20,11 @@ export class HIRMS extends SegmentClass(HIRMSProps) {
         this.returnValues = new Map();
         input
             .map(dataElements => {
-                const [ code, reference, message, ...parameters ] = dataElements;
+                const [ code, references, message, ...parameters ] = dataElements;
                 return new ReturnValue({
                     code,
                     message,
+                    references: references.split(",").map(reference => Number(reference.trim())),
                     parameters,
                 });
             })

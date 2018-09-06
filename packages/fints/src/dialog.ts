@@ -19,7 +19,6 @@ export class FinTSDialog extends FinTSDialogConfiguration {
 
     public hisalsVersion = 6;
     public hikazsVersion = 6;
-    public hikazVersion = 6;
 
     constructor(config: FinTSDialogConfiguration) {
         super();
@@ -60,7 +59,6 @@ export class FinTSDialog extends FinTSDialogConfiguration {
         this.bankName = response.bankName;
         this.hisalsVersion = response.segmentMaxVersion(HISALS);
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
-        this.hikazVersion = response.segmentMaxVersion(HIKAZ);
         this.tanMethods = response.supportedTanMethods;
         await this.end();
     }
