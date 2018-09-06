@@ -7,9 +7,58 @@ describe("parse86Structured", () => {
             parsed: {
                 bic: "DEUTDEFFXXX",
                 iban: "DE88500700100175526303",
-                paymentReference: "PP.7723.PP . GOOGLE, Ihr Einkauf bei GOOGLE",
-                recipientName: "PayPal (Europe) S.a.r.l. et Cie., S.C.A.",
+                paymentReference: {
+                    creditorId: "LU96ZZZ0000000000000000058",
+                    endToEndRef: "1003760276550 PP.7723.PP PAYPAL",
+                    mandateRef: "5Z7J224S5B3QS",
+                    paymentReference: "PP.7723.PP . GOOGLE, Ihr Einkauf bei GOOGLE",
+                    raw: "EREF+1003760276550 PP.7723.PP PAYPALMREF+5Z7J224S5B3QSCRED+LU96ZZZ0000000000000000058SVWZ+PP.7723.PP . GOOGLE, Ihr Einkauf bei GOOGLE", // tslint:disable-line
+                },
+                primaNota: "9248",
+                name: "PayPal (Europe) S.a.r.l. et Cie., S.C.A.",
                 text: "FOLGELASTSCHRIFT",
+            },
+        },
+        {
+            str: "008?00DAUERAUFTRAG?100599?20Miete November?3010020030?31234567?32MUELLER?34339",
+            parsed: {
+                bic: "10020030",
+                iban: "234567",
+                paymentReference: { raw: "Miete November" },
+                name: "MUELLER",
+                text: "DAUERAUFTRAG",
+                primaNota: "0599",
+            },
+        },
+        {
+            str: "051?00UEBERWEISUNG?100599?20Gehalt Oktober\n?21Firma Mustermann GmbH?3050060400?310847564700?32MUELLER?34339", // tslint:disable-line
+            parsed: {
+                bic: "50060400",
+                iban: "0847564700",
+                paymentReference: { raw: "Gehalt Oktober\nFirma Mustermann GmbH" },
+                name: "MUELLER",
+                text: "UEBERWEISUNG",
+                primaNota: "0599",
+            },
+        },
+        {
+            str: "177?00ONLINE-UEBERWEISUNG?109310?20KREF+1053050069-20180829182?21432?22SVWZ+KMC Huellen?23DATUM 29.08.2018, 18.25 UHR?241.TAN 389252?30COBADEFFXXX?31DE32250400660167600600?32Players-Point GbR?34997", // tslint:disable-line
+            parsed: {
+                bic: "COBADEFFXXX",
+                iban: "DE32250400660167600600",
+                paymentReference: {
+                    customerRef: "1053050069-20180829182432",
+                    date: new Date("2018-08-29T16:25:00.000Z"),
+                    paymentReference: "KMC Huellen",
+                    raw: "KREF+1053050069-20180829182432SVWZ+KMC HuellenDATUM 29.08.2018, 18.25 UHR1.TAN 389252",
+                    tan: {
+                        num: 1,
+                        value: "389252",
+                    },
+                },
+                primaNota: "9310",
+                name: "Players-Point GbR",
+                text: "ONLINE-UEBERWEISUNG",
             },
         },
     ];
@@ -20,3 +69,13 @@ describe("parse86Structured", () => {
         });
     });
 });
+// 17 7?
+// 20 KREF+1053050069-20180829182?
+//
+// 21 432?
+//
+// 22 SVWZ+KMC Huellen?
+//
+// 23 DATUM 29.08.2018, 18.25 UHR?
+//
+// 24 1.TAN 389252?
