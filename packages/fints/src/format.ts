@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { SEPAAccount } from "./sepa-account";
+import { SEPAAccount } from "./types";
 import { escapeFinTS, leftPad } from "./utils";
 import { COUNTRY_CODE, HEADER_LENGTH } from "./constants";
 

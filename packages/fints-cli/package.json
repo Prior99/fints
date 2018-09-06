@@ -19,11 +19,13 @@
   "license": "MIT",
   "dependencies": {
     "clime": "^0.5.9",
+    "date-fns": "^1.29.0",
     "fints": "^0.0.0",
     "winston": "^3.1.0",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "@types/date-fns": "^2.6.0",
     "@types/winston": "^2.4.4",
     "@types/yamljs": "^0.2.30"
   }

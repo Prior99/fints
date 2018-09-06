@@ -1,6 +1,6 @@
 import { SegmentClass } from "./segment";
 import { Format } from "../format";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 
 export class HKCCMProps {
     public segNo: number;
@@ -17,7 +17,10 @@ export class HKCCMProps {
  */
 export class HKCCM extends SegmentClass(HKCCMProps) {
     public type = "HKCCM";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         const { account, painMsg, controlSum, currency, bookAsSingle } = this;

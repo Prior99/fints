@@ -18,16 +18,19 @@ export class HIBPAProps {
  */
 export class HIBPA extends SegmentClass(HIBPAProps) {
     public type = "HIBPA";
-    public version = 3;
+
+    protected defaults() {
+        this.version = 3;
+    }
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
-    protected deserialize(input: (string[] | string)[]) {
+    protected deserialize(input: string[][]) {
         const [
-            bpdVersion,
+            [ bpdVersion ],
             [ countryCode, blz ],
             [ bankName ],
-            transactionTypeCount,
+            [ transactionTypeCount ],
             supportedLanguages,
             supportedHbciVersions,
         ] = input;
@@ -36,7 +39,7 @@ export class HIBPA extends SegmentClass(HIBPAProps) {
         this.blz = blz;
         this.bankName = bankName as string;
         this.transactionTypeCount = Parse.num(transactionTypeCount as string);
-        this.supportedLanguages = (supportedLanguages as string[]).map(Parse.num);
-        this.supportedHbciVersions = (supportedHbciVersions as string[]).map(Parse.num);
+        this.supportedLanguages = supportedLanguages.map(Parse.num);
+        this.supportedHbciVersions = supportedHbciVersions.map(Parse.num);
     }
 }

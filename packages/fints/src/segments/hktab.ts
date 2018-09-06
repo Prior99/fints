@@ -3,18 +3,25 @@ import { Format } from "../format";
 
 export class HKTABProps {
     public segNo: number;
+    public tanClass: string;
+    public mode: number;
 }
 
 /**
- * HKTAB (Verfügbarre TAN-Medien ermitteln)
+ * HKTAB (Verfügbare TAN-Medien ermitteln)
  * Section C.2.1.2
  */
 export class HKTAB extends SegmentClass(HKTABProps) {
     public type = "HKTAB";
-    public version = 5;
+
+    protected defaults() {
+        this.version = 5;
+        this.tanClass = "A";
+        this.mode = 0;
+    }
 
     protected serialize() {
-        return [ Format.num(0), "A" ];
+        return [ Format.num(this.mode), this.tanClass ];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

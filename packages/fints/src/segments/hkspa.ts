@@ -13,21 +13,20 @@ export class HKSPAProps {
  * Section C.10.1.3
  */
 export class HKSPA extends SegmentClass(HKSPAProps) {
-    public static headerLength = 29;
-
     public type = "HKSPA";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         const { segNo, accNo, subAccFeature, blz } = this;
-        return [
-            accNo ? [
-                Format.num(accNo),
-                subAccFeature,
-                Format.num(COUNTRY_CODE),
-                blz,
-            ] : [],
-        ];
+        return accNo ? [
+            Format.num(accNo),
+            subAccFeature,
+            Format.num(COUNTRY_CODE),
+            blz,
+        ] : [];
     }
 
     protected deserialize() { throw new Error("Not implemented."); }

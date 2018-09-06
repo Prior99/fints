@@ -12,7 +12,10 @@ export class HNHBSProps {
  */
 export class HNHBS extends SegmentClass(HNHBSProps) {
     public type = "HNHBS";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         return [ Format.num(this.msgNo) ];

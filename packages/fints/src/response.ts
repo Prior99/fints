@@ -1,23 +1,23 @@
-import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN } from "./segments";
+import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN, HNVSD } from "./segments";
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
-import { FinTSRequest } from "./request";
-import { splitSegment, unescapeFinTS } from "./utils";
+import { Request } from "./request";
+import { parse, unescapeFinTS } from "./utils";
 import { TANMethod, tanMethodArgumentMap } from "./tan";
 
-export class FinTSResponse {
-    private static regexUnwrap = /HNVSD:\d+:\d+\+@\d+@(.+)\'\'/;
-    private static regexSegments = /'(?=[A-Z]{4,}:\d|')/;
-    private static regexSystemId = /HISYN:\d+:\d+:\d+\+(.+)/;
-
-    private segmentStrings: string[];
+export class Response {
+    private segmentStrings: string[][][];
 
     constructor(data: string) {
-        this.segmentStrings = data.split(FinTSResponse.regexSegments);
+        this.segmentStrings = parse(data);
+        const hnvsd = this.findSegment(HNVSD);
+        if (hnvsd) {
+            this.segmentStrings.push(...hnvsd.rawSegments);
+        }
     }
 
     public findSegments<T extends Segment<any>>(segmentClass: Constructable<T>): T[] {
-        const matchingStrings = this.segmentStrings.filter(str => str.startsWith(segmentClass.name));
+        const matchingStrings = this.segmentStrings.filter(str => str[0][0] === segmentClass.name);
         return matchingStrings.map(segmentString => {
             const segment = new segmentClass(segmentString);
             if (segment.type !== segmentClass.name) {
@@ -92,12 +92,14 @@ export class FinTSResponse {
         return this.findSegments(segmentClass).find(current => current.reference === segment.segNo);
     }
 
-    public getTouchdowns(msg: FinTSRequest): Map<string, string> {
-        return msg.segments.reduce((result, messageSegment) => {
-            const segment = this.findSegmentForReference(HIRMS, messageSegment);
+    public getTouchdowns(request: Request): Map<string, string> {
+        return request.segments.reduce((result, requestSegment) => {
+            const segment = this.findSegmentForReference(HIRMS, requestSegment);
             if (segment) {
-                segment.returnValues.get("3040");
-                result.set(messageSegment.type, segment.returnValues.get("3040").parameters[0]);
+                const returnValue = segment.returnValues.get("3040");
+                if (returnValue) {
+                    result.set(requestSegment.type, returnValue.parameters[0]);
+                }
             }
             return result;
         }, new Map());
@@ -109,13 +111,13 @@ export class FinTSResponse {
 
     public get debugString() {
         return this.segmentStrings.map(segmentString => {
-            const split = splitSegment(segmentString);
+            const split = segmentString;
             return `Type: ${split[0][0]}\n` +
                 `Version: ${split[0][2]}\n` +
                 `Segment Number: ${split[0][1]}\n` +
                 `Referencing: ${split[0].length <= 3 ? "None" : split[0][3]}\n` +
                 `----\n` +
-                split.splice(1).reduce((result, group, index) => {
+                split.slice(1).reduce((result, group, index) => {
                     return result + `DG ${index}: ${Array.isArray(group) ? group.join(", ") : group}\n`;
                 }, "");
         }).join("\n");

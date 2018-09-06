@@ -18,8 +18,11 @@ export class HNSHKProps {
  */
 export class HNSHK extends SegmentClass(HNSHKProps) {
     public type = "HNSHK";
-    public version = 4;
-    public securityFunction = SECURITY_FUNCTION;
+
+    protected defaults() {
+        this.version = 4;
+        this.securityFunction = SECURITY_FUNCTION;
+    }
 
     protected serialize() {
         const { segNo, secRef, blz, name, systemId, profileVersion, securityFunction } = this;

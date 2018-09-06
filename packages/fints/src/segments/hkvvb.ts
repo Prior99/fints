@@ -13,8 +13,11 @@ export class HKVVBProps {
  */
 export class HKVVB extends SegmentClass(HKVVBProps) {
     public type = "HKVVB";
-    public version = 3;
-    public lang = LANG_DE;
+
+    protected defaults() {
+        this.version = 3;
+        this.lang = LANG_DE;
+    }
 
     protected serialize() {
         const { segNo, lang } = this;

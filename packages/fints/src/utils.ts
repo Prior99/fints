@@ -1,14 +1,89 @@
-export function splitForDataGroups(segment: string) {
-    return segment.split(/\+(?<!\?\+)/);
+import { decode, encode } from "iconv-lite";
+
+export function encodeBase64(input: string): string {
+    return Buffer.from(encode(input, "ISO-8859-1")).toString("base64");
 }
 
-export function splitForDataElements(segment: string) {
-    return segment.split(/:(?<!\?:)/);
+export function decodeBase64(input: string): string {
+    return decode(Buffer.from(input, "base64"), "ISO-8859-1");
 }
 
-export function splitSegment(segment: string): string[][] {
-    const dataGroups = splitForDataGroups(segment);
-    return dataGroups.map(dataGroup => splitForDataElements(dataGroup));
+export function parse(input: string): string[][][] {
+    if (input[input.length - 1] !== "'") {
+        throw new Error(`String must end with "'"`);
+    }
+
+    const segments: string[][][] = [];
+    let groups: string[][] = [];
+    let elements: string[] = [];
+    let str = "";
+    let escapeActive = false;
+
+    const flushSegment = () => {
+        flushGroup();
+        segments.push(groups);
+        groups = [];
+    };
+
+    const flushGroup = () => {
+        flushElement();
+        groups.push(elements);
+        elements = [];
+    };
+
+    const flushElement = () => {
+        elements.push(str);
+        str = "";
+    };
+
+    for (let i = 0; i < input.length; ++i) {
+        const character = input.charAt(i);
+        // If the last character was a questionmark, this character is escaped.
+        if (escapeActive) {
+            if (![":", "'", "+", "?", "@"].includes(character)) {
+                throw new Error(`Unexpected escape sequence "?${character}" at ${i}`);
+            }
+            str += character;
+            escapeActive = false;
+            continue;
+        }
+        // Handle control characters or append default characters to string.
+        switch (character) {
+            case "@":
+                i++;
+                let lengthString = "";
+                for (; i < input.length; ++i) {
+                    const subCharacter = input.charAt(i);
+                    if (subCharacter === "@") { break; }
+                    lengthString += subCharacter;
+                }
+                i++;
+                const endIndex = i + Number(lengthString);
+                for (; i < endIndex; ++i) {
+                    str += input.charAt(i);
+                }
+                i--;
+                break;
+            case "?":
+                escapeActive = true;
+                break;
+            case "'":
+                flushSegment();
+                break;
+            case "+":
+                flushGroup();
+                break;
+            case ":":
+                // An ":" was encountered, flush the current group.
+                flushElement();
+                break;
+            default:
+                str += character;
+                break;
+        }
+    }
+
+    return segments;
 }
 
 export function leftPad(str: string, count: number, character = "0"): string {

@@ -1,3 +1,5 @@
+import { Parse } from "../parse";
+
 export const tanMethodArgumentMap = new Map<number, string[]>();
 
 tanMethodArgumentMap.set(1, [
@@ -10,8 +12,8 @@ tanMethodArgumentMap.set(1, [
     "textReturnvalue",
     "maxLengthReturnvalue",
     "numberOfSupportedLists",
-    "multipleTansAllowed",
-    "tanTimeDelayedAllowed",
+    "multiple",
+    "tanTimeDialogAssociation",
 ]);
 
 tanMethodArgumentMap.set(2, [
@@ -24,10 +26,10 @@ tanMethodArgumentMap.set(2, [
     "textReturnvalue",
     "maxLengthReturnvalue",
     "numberOfSupportedLists",
-    "multipleTansAllowed",
+    "multiple",
     "tanTimeDialogAssociation",
     "tanListNumberRequired",
-    "cancelAllowed",
+    "cancellable",
     "challengeClassRequired",
     "challengeValueRequired",
 ]);
@@ -42,10 +44,10 @@ tanMethodArgumentMap.set(3, [
     "textReturnvalue",
     "maxLengthReturnvalue",
     "numberOfSupportedLists",
-    "multipleTansAllowed",
+    "multiple",
     "tanTimeDialogAssociation",
     "tanListNumberRequired",
-    "cancelAllowed",
+    "cancellable",
     "challengeClassRequired",
     "challengeValueRequired",
     "initializationMode",
@@ -65,10 +67,10 @@ tanMethodArgumentMap.set(4, [
     "textReturnvalue",
     "maxLengthReturnvalue",
     "numberOfSupportedLists",
-    "multipleTansAllowed",
+    "multiple",
     "tanTimeDialogAssociation",
     "tanListNumberRequired",
-    "cancelAllowed",
+    "cancellable",
     "smsChargeAccountRequired",
     "challengeClassRequired",
     "challengeValueRequired",
@@ -90,10 +92,10 @@ tanMethodArgumentMap.set(5, [
     "textReturnvalue",
     "maxLengthReturnvalue",
     "numberOfSupportedLists",
-    "multipleTansAllowed",
+    "multiple",
     "tanTimeDialogAssociation",
     "tanListNumberRequired",
-    "cancelAllowed",
+    "cancellable",
     "smsChargeAccountRequired",
     "principalAccountRequired",
     "challengeClassRequired",
@@ -114,9 +116,9 @@ tanMethodArgumentMap.set(6, [
     "allowedFormat",
     "textReturnvalue",
     "maxLengthReturnvalue",
-    "multipleTansAllowed",
+    "multiple",
     "tanTimeDialogAssociation",
-    "cancelAllowed",
+    "cancellable",
     "smsChargeAccountRequired",
     "principalAccountRequired",
     "challengeClassRequired",
@@ -129,16 +131,16 @@ tanMethodArgumentMap.set(6, [
 
 export class TANMethod {
     public allowedFormat?: string;
-    public cancelAllowed?: boolean;
+    public cancellable?: boolean;
     public challengeClassRequired?: boolean;
     public challengeValueRequired?: boolean;
     public challengeStructured?: boolean;
-    public descriptionRequired?: boolean;
+    public descriptionRequired?: string;
     public hhdUcRequired?: boolean;
     public initializationMode?: string;
     public maxLengthInput?: number;
     public maxLengthReturnvalue?: number;
-    public multipleTansAllowed?: boolean;
+    public multiple?: boolean;
     public name?: string;
     public numberOfSupportedLists?: number;
     public principalAccountRequired?: boolean;
@@ -147,7 +149,6 @@ export class TANMethod {
     public supportedMediaNumber?: number;
     public tanListNumberRequired?: boolean;
     public tanProcess?: string;
-    public tanTimeDelayedAllowed?: boolean;
     public tanTimeDialogAssociation?: string;
     public techId?: string;
     public textReturnvalue?: string;
@@ -157,7 +158,34 @@ export class TANMethod {
 
     constructor(version: number, config?: string[]) {
         this.version = version;
-        const argmentList = tanMethodArgumentMap.get(version);
-        argmentList.forEach((argumentName, index) => (this as any)[argumentName] = config[index]);
+        const argumentList = tanMethodArgumentMap.get(version);
+        const map = argumentList.reduce((result, argumentName, index) => {
+            result.set(argumentName, config[index]);
+            return result;
+        }, new Map<string, string>());
+        this.allowedFormat = map.get("allowedFormat");
+        this.cancellable = Parse.bool(map.get("cancellable"));
+        this.challengeClassRequired = Parse.bool(map.get("challengeClassRequired"));
+        this.challengeValueRequired = Parse.bool(map.get("challengeValueRequired"));
+        this.challengeStructured = Parse.bool(map.get("challengeStructured"));
+        this.descriptionRequired = map.get("descriptionRequired");
+        this.hhdUcRequired = Parse.bool(map.get("hhdUcRequired"));
+        this.initializationMode = map.get("initializationMode");
+        this.maxLengthInput = Parse.num(map.get("maxLengthInput"));
+        this.maxLengthReturnvalue = Parse.num(map.get("maxLengthReturnvalue"));
+        this.multiple = Parse.bool(map.get("multiple"));
+        this.name = map.get("name");
+        this.numberOfSupportedLists = Parse.num(map.get("numberOfSupportedLists"));
+        this.principalAccountRequired = map.get("principalAccountRequired") === "2";
+        this.securityFunction = map.get("securityFunction");
+        this.smsChargeAccountRequired = map.get("smsChargeAccountRequired") === "1";
+        this.supportedMediaNumber = Parse.num(map.get("supportedMediaNumber"));
+        this.tanListNumberRequired = Parse.bool(map.get("tanListNumberRequired"));
+        this.tanProcess = map.get("tanProcess");
+        this.tanTimeDialogAssociation = map.get("tanTimeDialogAssociation");
+        this.techId = map.get("techId");
+        this.textReturnvalue = map.get("textReturnvalue");
+        this.zkaId = map.get("zkaId");
+        this.zkaVersion = map.get("zkaVersion");
     }
 }

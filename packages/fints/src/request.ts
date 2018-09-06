@@ -1,7 +1,7 @@
 import { Segment, HNSHK, HNVSK, HNVSD, HNSHA, HNHBS, HNHBK } from "./segments";
 import { TANMethod } from "./tan";
 
-export class FinTSRequestConfiguration {
+export class RequestConfiguration {
     public blz: string;
     public name: string;
     public pin: string;
@@ -13,10 +13,10 @@ export class FinTSRequestConfiguration {
     public segments: Segment<any>[] = [];
 }
 
-export class FinTSRequest extends FinTSRequestConfiguration {
+export class Request extends RequestConfiguration {
     public secRef: number;
 
-    constructor(config: Partial<FinTSRequestConfiguration>) {
+    constructor(config: Partial<RequestConfiguration>) {
         super();
         Object.assign(this, config);
         // Generate `this.secRef`.

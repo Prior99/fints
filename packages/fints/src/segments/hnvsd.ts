@@ -1,9 +1,19 @@
 import { Format } from "../format";
+import { parse } from "../utils";
 import { Segment, SegmentClass } from "./segment";
 
 export class HNVSDProps {
     public segNo: number;
+    /**
+     * Only populated by constructor.
+     * Deserializing ignores this property.
+     */
     public segments: Segment<any>[];
+
+    /**
+     * Populated when deserializing.
+     */
+    public rawSegments: string[][][];
 }
 
 /**
@@ -12,7 +22,10 @@ export class HNVSDProps {
  */
 export class HNVSD extends SegmentClass(HNVSDProps) {
     public type = "HNVSD";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         return [
@@ -24,5 +37,8 @@ export class HNVSD extends SegmentClass(HNVSDProps) {
         ];
     }
 
-    protected deserialize() { throw new Error("Not implemented."); }
+    protected deserialize(input: string[][]) {
+        const [ [ content ] ] = input;
+        this.rawSegments = parse(content);
+    }
 }

@@ -1,5 +1,5 @@
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 import { Parse } from "../parse";
 
 export class HISALSProps {
@@ -17,8 +17,8 @@ export class HISALS extends SegmentClass(HISALSProps) {
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
-    protected deserialize(input: (string[] | string)[]) {
-        const [ maxRequestCount, minSignatures ] = input;
+    protected deserialize(input: string[][]) {
+        const [ [ maxRequestCount ], [ minSignatures ] ] = input;
         this.minSignatures = Parse.num(minSignatures as string);
         this.maxRequestCount = Parse.num(maxRequestCount as string);
     }

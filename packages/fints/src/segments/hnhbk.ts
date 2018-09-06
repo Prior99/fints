@@ -17,7 +17,10 @@ export class HNHBKProps {
  */
 export class HNHBK extends SegmentClass(HNHBKProps) {
     public type = "HNHBK";
-    public version = 3;
+
+    protected defaults() {
+        this.version = 3;
+    }
 
     protected serialize() {
         const { msgLength, dialogId, msgNo } = this;

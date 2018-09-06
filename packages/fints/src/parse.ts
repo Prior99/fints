@@ -1,4 +1,4 @@
-import { SEPAAccount } from "./sepa-account";
+import { SEPAAccount } from "./types";
 import { unescapeFinTS } from "./utils";
 
 export const Parse = {

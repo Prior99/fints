@@ -12,7 +12,6 @@ export class HKWPDProps {
  */
 export class HKWPD extends SegmentClass(HKWPDProps) {
     public type = "HKWPD";
-    public version: number;
 
     protected serialize() {
         return [ this.account ];

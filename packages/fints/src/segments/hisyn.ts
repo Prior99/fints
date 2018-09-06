@@ -12,12 +12,11 @@ export class HISYNProps {
  */
 export class HISYN extends SegmentClass(HISYNProps) {
     public type = "HISYN";
-    public version = 4;
 
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
-    protected deserialize(input: (string[] | string)[]) {
-        const [ systemId ] = input;
+    protected deserialize(input: string[][]) {
+        const [ [ systemId ] ] = input;
         this.systemId = systemId as string;
     }
 }

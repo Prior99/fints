@@ -1,5 +1,5 @@
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 import { Format } from "../format";
 
 export class HKSALProps {
@@ -14,7 +14,10 @@ export class HKSALProps {
  */
 export class HKSAL extends SegmentClass(HKSALProps) {
     public type = "HKSAL";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         return [ this.account, Format.jn(false) ];

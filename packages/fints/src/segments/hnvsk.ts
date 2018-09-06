@@ -13,7 +13,10 @@ export class HNVSKProps {
 
 export class HNVSK extends SegmentClass(HNVSKProps) {
     public type = "HNVSK";
-    public version = 3;
+
+    protected defaults() {
+        this.version = 3;
+    }
 
     protected serialize() {
         const { segNo, blz, name, systemId, profileVersion } = this;

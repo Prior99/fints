@@ -1,6 +1,6 @@
 import { Format } from "../format";
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../sepa-account";
+import { SEPAAccount } from "../types";
 
 export class HKDSEProps {
     public account: SEPAAccount;
@@ -14,7 +14,10 @@ export class HKDSEProps {
  */
 export class HKDSE extends SegmentClass(HKDSEProps) {
     public type = "HKDSE";
-    public version = 1;
+
+    protected defaults() {
+        this.version = 1;
+    }
 
     protected serialize() {
         const { segNo, account, painMsg } = this;

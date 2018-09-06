@@ -1,8 +1,8 @@
 import { option, Options } from "clime";
-import { FinTSClientConfiguration } from "fints";
+import { FinTSPinTanClientConfiguration } from "fints";
 import * as YAML from "yamljs";
 
-export class BaseFinTSConfig extends Options implements FinTSClientConfiguration {
+export class BaseFinTSConfig extends Options implements FinTSPinTanClientConfiguration {
     @option({ required: true, flag: "u", description: "FinTS endpoint URL." })
     public url: string;
 

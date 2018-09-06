@@ -2,8 +2,8 @@ import { SegmentClass } from "./segment";
 
 export class HKTANProps {
     public segNo: number;
-    public process: string;
     public version: number;
+    public process: string;
     public aref: string;
     public medium: string;
 }
@@ -14,7 +14,6 @@ export class HKTANProps {
  */
 export class HKTAN extends SegmentClass(HKTANProps) {
     public type = "HKTAN";
-    public version: number;
 
     protected deserialize() { throw new Error("Not implemented."); }
 
