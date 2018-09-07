@@ -1,6 +1,6 @@
 {
   "name": "fints-cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "FinTS command line interface.",
   "keywords": [
     "fints",
@@ -20,7 +20,7 @@
   "dependencies": {
     "clime": "^0.5.9",
     "date-fns": "^1.29.0",
-    "fints": "^0.0.0",
+    "fints": "^0.1.0",
     "winston": "^3.1.0",
     "yamljs": "^0.3.0"
   },
