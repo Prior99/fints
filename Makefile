@@ -17,6 +17,10 @@ lint: node_modules
 test: node_modules
 	yarn lerna run test
 
+.PHONY: docs
+docs: node_modules
+	yarn lerna run docs
+
 .PHONY: clean
 clean:
 	yarn lerna run clean
