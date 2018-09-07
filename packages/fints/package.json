@@ -12,7 +12,7 @@
         "build": "tsc -p ./tsconfig-build.json",
         "clean": "rm -rf dist",
         "docs": "typedoc --mode file --out docs/ src/",
-        "test": "jest"
+        "test": "TZ=UTC jest"
     },
     "main": "dist/index.js",
     "repository": "https://github.com/Prior99/fints",

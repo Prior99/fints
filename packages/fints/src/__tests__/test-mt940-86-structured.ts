@@ -47,7 +47,7 @@ const testData = [
             iban: "DE32250400660167600600",
             reference: {
                 customerRef: "1053050069-20180829182432",
-                date: new Date("2018-08-29T16:25:00.000Z"),
+                date: new Date("2018-08-29T18:25:00.000Z"),
                 text: "KMC Huellen",
                 raw: "KREF+1053050069-20180829182432SVWZ+KMC HuellenDATUM 29.08.2018, 18.25 UHR1.TAN 389252",
                 tan: {
