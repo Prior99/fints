@@ -1,14 +1,14 @@
-import { FinTSPinTanClient } from "fints";
+import { PinTanClient } from "fints";
 import { setLevel, info } from "../logger";
 import { Command, command, metadata } from "clime";
-import { BaseFinTSConfig } from "../config";
+import { BaseConfig } from "../config";
 
 @command({ description: "List the accounts available for the specified user." })
 export default class extends Command {
     @metadata
-    public async execute({ verbose, json, serializer, ...config }: BaseFinTSConfig) {
+    public async execute({ verbose, json, serializer, ...config }: BaseConfig) {
         setLevel(verbose);
-        const client = new FinTSPinTanClient(config);
+        const client = new PinTanClient(config);
         const accounts = await client.getSEPAAccounts();
         console.info(serializer(accounts));
     }

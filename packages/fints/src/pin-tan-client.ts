@@ -1,10 +1,10 @@
-import { FinTSClient } from "./fints-client";
-import { FinTSDialog } from "./dialog";
+import { Client } from "./client";
+import { Dialog } from "./dialog";
 import { Request } from "./request";
 import { Connection } from "./connection";
 import { Segment } from "./segments";
 
-export interface FinTSPinTanClientConfiguration {
+export interface PinTanClientConfig {
     blz: string;
     name: string;
     pin: string;
@@ -12,11 +12,11 @@ export interface FinTSPinTanClientConfiguration {
     debug?: boolean;
 }
 
-export class FinTSPinTanClient extends FinTSClient {
+export class PinTanClient extends Client {
     private connection: Connection;
-    protected config: FinTSPinTanClientConfiguration;
+    protected config: PinTanClientConfig;
 
-    constructor(config: FinTSPinTanClientConfiguration) {
+    constructor(config: PinTanClientConfig) {
         super();
         this.config = config;
         const { url, debug  } = config;
@@ -26,10 +26,10 @@ export class FinTSPinTanClient extends FinTSClient {
     public createDialog() {
         const { blz, name, pin } = this.config;
         const { connection } = this;
-        return new FinTSDialog({ blz, name, pin, systemId: "0", connection });
+        return new Dialog({ blz, name, pin, systemId: "0", connection });
     }
 
-    public createRequest(dialog: FinTSDialog, segments: Segment<any>[], tan?: string) {
+    public createRequest(dialog: Dialog, segments: Segment<any>[], tan?: string) {
         const { blz, name, pin } = this.config;
         const { systemId, dialogId, msgNo, tanMethods } = dialog;
         return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods, tan });

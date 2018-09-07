@@ -3,7 +3,7 @@ import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HKKAZ, HIKAZ } from "./segm
 import { Request } from "./request";
 import { TANMethod } from "./tan";
 
-export class FinTSDialogConfiguration {
+export class DialogConfig {
     public blz: string;
     public name: string;
     public pin: string;
@@ -11,7 +11,7 @@ export class FinTSDialogConfiguration {
     public connection: Connection;
 }
 
-export class FinTSDialog extends FinTSDialogConfiguration {
+export class Dialog extends DialogConfig {
     public msgNo = 1;
     public dialogId = "0";
     public bankName: string;
@@ -20,7 +20,7 @@ export class FinTSDialog extends FinTSDialogConfiguration {
     public hisalsVersion = 6;
     public hikazsVersion = 6;
 
-    constructor(config: FinTSDialogConfiguration) {
+    constructor(config: DialogConfig) {
         super();
         Object.assign(this, config);
     }

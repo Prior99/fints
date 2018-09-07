@@ -4,13 +4,13 @@ import { encodeBase64, decodeBase64 } from "./utils";
 import { Request } from "./request";
 import { Response } from "./response";
 
-export class ConnectionConfiguration {
+export class ConnectionConfig {
     public url: string;
     public debug = false;
 }
 
-export class Connection extends ConnectionConfiguration {
-    constructor(config: ConnectionConfiguration) {
+export class Connection extends ConnectionConfig {
+    constructor(config: ConnectionConfig) {
         super();
         Object.assign(this, config);
     }

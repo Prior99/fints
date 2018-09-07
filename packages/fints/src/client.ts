@@ -1,6 +1,6 @@
 import "isomorphic-fetch";
 import { encodeBase64, decodeBase64 } from "./utils";
-import { FinTSDialog } from "./dialog";
+import { Dialog } from "./dialog";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
@@ -8,9 +8,9 @@ import { SEPAAccount, Statement } from "./types";
 import { read } from "mt940-js";
 import { is86Structured, parse86Structured } from "./mt940-86-structured";
 
-export abstract class FinTSClient {
-    protected abstract createDialog(): FinTSDialog;
-    protected abstract createRequest(dialog: FinTSDialog, segments: Segment<any>[], tan?: string): Request;
+export abstract class Client {
+    protected abstract createDialog(): Dialog;
+    protected abstract createRequest(dialog: Dialog, segments: Segment<any>[], tan?: string): Request;
 
     public async getSEPAAccounts(): Promise<SEPAAccount[]> {
         const dialog = this.createDialog();

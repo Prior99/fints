@@ -1,12 +1,12 @@
 import { option } from "clime";
 import { parse, subMonths } from "date-fns";
-import { FinTSPinTanClient } from "fints";
+import { PinTanClient } from "fints";
 import { setLevel, info } from "../logger";
 import { Command, command, metadata } from "clime";
-import { BaseFinTSConfig } from "../config";
+import { BaseConfig } from "../config";
 import { Transaction } from "mt940-js";
 
-export class FetchStatementOptions extends BaseFinTSConfig {
+export class FetchStatementOptions extends BaseConfig {
     @option({ required: true, flag: "i", description: "IBAN of the account to fetch." })
     public iban: string;
 
@@ -36,7 +36,7 @@ export default class extends Command {
             return;
         }
         setLevel(verbose);
-        const client = new FinTSPinTanClient(config);
+        const client = new PinTanClient(config);
         const accounts = await client.getSEPAAccounts();
         const account = accounts.find(current => current.iban === iban);
         if (!account) {

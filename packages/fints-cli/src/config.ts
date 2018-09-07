@@ -1,9 +1,9 @@
 import { option, Options } from "clime";
-import { FinTSPinTanClientConfiguration } from "fints";
+import { PinTanClientConfig } from "fints";
 import * as YAML from "yamljs";
 
-export class BaseFinTSConfig extends Options implements FinTSPinTanClientConfiguration {
-    @option({ required: true, flag: "u", description: "FinTS endpoint URL." })
+export class BaseConfig extends Options implements PinTanClientConfig {
+    @option({ required: true, flag: "u", description: " endpoint URL." })
     public url: string;
 
     @option({ required: true, flag: "n", description: "Username used for connecting." })

@@ -2,7 +2,7 @@ import { Segment, HNSHK, HNVSK, HNVSD, HNSHA, HNHBS, HNHBK } from "./segments";
 import { TANMethod } from "./tan";
 import { HEADER_LENGTH } from "./constants";
 
-export class RequestConfiguration {
+export class RequestConfig {
     public blz: string;
     public name: string;
     public pin: string;
@@ -14,10 +14,10 @@ export class RequestConfiguration {
     public segments: Segment<any>[] = [];
 }
 
-export class Request extends RequestConfiguration {
+export class Request extends RequestConfig {
     public secRef: number;
 
-    constructor(config: Partial<RequestConfiguration>) {
+    constructor(config: Partial<RequestConfig>) {
         super();
         Object.assign(this, config);
         // Generate `this.secRef`.
