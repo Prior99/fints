@@ -1,0 +1,63 @@
+image: node:10
+
+stages:
+  - build
+  - test
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  before_script:
+    - apt-get update -qq
+    - apt-get install make git -qq
+    - npm install -g yarn lerna
+    - lerna bootstrap
+  stage: build
+  script:
+    - make build
+    - make docs
+  artifacts:
+    paths:
+      - packages/
+
+test:
+  before_script:
+    - apt-get update -qq
+    - apt-get install make git -qq
+    - npm install -g yarn lerna
+    - lerna bootstrap
+  stage: test
+  script:
+    - make test
+  dependencies:
+    - build
+  artifacts:
+    paths:
+      - packages/fints/coverage/
+
+lint:
+  before_script:
+    - apt-get update -qq
+    - apt-get install make git -qq
+    - npm install -g yarn lerna
+    - lerna bootstrap
+  stage: test
+  script:
+    - make lint
+
+pages:
+  stage: deploy
+  script:
+    - mv packages/fints/docs public
+    - mv packages/fints/coverage/lcov-report public/coverage
+  dependencies:
+    - test
+    - build
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
