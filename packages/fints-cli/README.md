@@ -1,5 +1,10 @@
 # fints-cli
 
+[![npm](https://img.shields.io/npm/v/fints-cli.svg)](https://www.npmjs.com/package/fints-cli)
+[![pipeline status](https://gitlab.com/prior99/fints/badges/master/pipeline.svg)](https://github.com/Prior99/fints)
+[![coverage report](https://gitlab.com/prior99/fints/badges/master/coverage.svg)](https://github.com/Prior99/fints)
+
+
 A command line interface for communicating with [FinTS servers](https://www.hbci-zka.de/).
 
 
