@@ -9,7 +9,7 @@ export default class extends Command {
     public async execute({ verbose, json, serializer, ...config }: BaseConfig) {
         setLevel(verbose);
         const client = new PinTanClient(config);
-        const accounts = await client.getSEPAAccounts();
+        const accounts = await client.accounts();
         console.info(serializer(accounts));
     }
 }

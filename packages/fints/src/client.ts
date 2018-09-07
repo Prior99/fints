@@ -12,7 +12,7 @@ export abstract class Client {
     protected abstract createDialog(): Dialog;
     protected abstract createRequest(dialog: Dialog, segments: Segment<any>[], tan?: string): Request;
 
-    public async getSEPAAccounts(): Promise<SEPAAccount[]> {
+    public async accounts(): Promise<SEPAAccount[]> {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
@@ -24,7 +24,7 @@ export abstract class Client {
         return hispa.accounts;
     }
 
-    public async getStatements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
+    public async statements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
