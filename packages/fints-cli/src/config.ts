@@ -3,7 +3,7 @@ import { PinTanClientConfig } from "fints";
 import * as YAML from "yamljs";
 
 export class BaseConfig extends Options implements PinTanClientConfig {
-    @option({ required: true, flag: "u", description: " endpoint URL." })
+    @option({ required: true, flag: "u", description: "Endpoint URL." })
     public url: string;
 
     @option({ required: true, flag: "n", description: "Username used for connecting." })

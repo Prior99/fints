@@ -19,7 +19,7 @@ A command line interface for communicating with [FinTS servers](https://www.hbci
 
   OPTIONS
 
-    -u, --url <url>   -  endpoint URL.                
+    -u, --url <url>   - Endpoint URL.                
     -n, --name <name> - Username used for connecting. 
     -p, --pin <pin>   - Pin used for connecting.      
     -b, --blz <blz>   - BLZ of the bank to connect to.
@@ -43,7 +43,7 @@ fint-cli list-accounts --url https://example.com/fints -n username -p 12345 -b 1
 
   OPTIONS
 
-    -u, --url <url>     -  endpoint URL.                        
+    -u, --url <url>     - Endpoint URL.                        
     -n, --name <name>   - Username used for connecting.         
     -p, --pin <pin>     - Pin used for connecting.              
     -b, --blz <blz>     - BLZ of the bank to connect to.        
