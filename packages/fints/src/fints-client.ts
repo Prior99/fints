@@ -4,8 +4,9 @@ import { FinTSDialog } from "./dialog";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
-import { SEPAAccount } from "./types";
-import { read, Statement } from "mt940-js";
+import { SEPAAccount, Statement } from "./types";
+import { read } from "mt940-js";
+import { is86Structured, parse86Structured } from "./mt940-86-structured";
 
 export abstract class FinTSClient {
     protected abstract createDialog(): FinTSDialog;
@@ -52,7 +53,14 @@ export abstract class FinTSClient {
             return result;
         }, []);
         const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
-        const booked: Statement[] = await read(Buffer.from(bookedString, "utf8"));
-        return booked;
+        const unprocessedStatements = await read(Buffer.from(bookedString, "utf8"));
+        return unprocessedStatements.map(statement => {
+            const transactions = statement.transactions.map(transaction => {
+                if (!is86Structured(transaction.description)) { return transaction; }
+                const descriptionStructured = parse86Structured(transaction.description);
+                return { ...transaction, descriptionStructured };
+            });
+            return { ...statement, transactions };
+        });
     }
 }
