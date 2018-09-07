@@ -1,6 +1,4 @@
-import { Format } from "../format";
 import { SegmentClass } from "./segment";
-import { SEPAAccount } from "../types";
 
 export class HKENDProps {
     public segNo: number;

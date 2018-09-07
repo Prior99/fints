@@ -1,6 +1,5 @@
 import { HKIDN } from "../hkidn";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HKIDN, [
     {

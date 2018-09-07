@@ -24,7 +24,7 @@ export class HKIDN extends SegmentClass(HKIDNProps) {
     }
 
     protected serialize() {
-        const { segNo, blz, name, systemId, customerId } = this;
+        const { blz, name, systemId, customerId } = this;
         return [
             [Format.num(COUNTRY_CODE), blz],
             Format.stringEscaped(name),

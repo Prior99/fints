@@ -1,5 +1,5 @@
 import { Format } from "../format";
-import { SegmentClass, Segment } from "./segment";
+import { SegmentClass } from "./segment";
 import { COUNTRY_CODE } from "../constants";
 
 export class HKSPAProps {
@@ -20,7 +20,7 @@ export class HKSPA extends SegmentClass(HKSPAProps) {
     }
 
     protected serialize() {
-        const { segNo, accNo, subAccFeature, blz } = this;
+        const { accNo, subAccFeature, blz } = this;
         return accNo ? [
             Format.num(accNo),
             subAccFeature,

@@ -1,7 +1,7 @@
 import { option } from "clime";
-import { parse, subMonths } from "date-fns";
+import { subMonths } from "date-fns";
 import { PinTanClient } from "fints";
-import { setLevel, info } from "../logger";
+import { setLevel } from "../logger";
 import { Command, command, metadata } from "clime";
 import { BaseConfig } from "../config";
 import { Transaction } from "mt940-js";

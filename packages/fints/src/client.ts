@@ -1,5 +1,4 @@
 import "isomorphic-fetch";
-import { encodeBase64, decodeBase64 } from "./utils";
 import { Dialog } from "./dialog";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";

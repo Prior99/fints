@@ -1,5 +1,5 @@
 import { Connection } from "./types";
-import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HKKAZ, HIKAZ } from "./segments";
+import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS } from "./segments";
 import { Request } from "./request";
 import { TanMethod } from "./tan-method";
 
@@ -116,7 +116,7 @@ export class Dialog extends DialogConfig {
         const segments = [
             new HKEND({ segNo: 3, dialogId }),
         ];
-        const response = await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
+        await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
         this.dialogId = "0";
         this.msgNo = 1;
     }
@@ -134,7 +134,6 @@ export class Dialog extends DialogConfig {
 
         const response = await this.connection.send(request);
         if (!response.success) {
-            const returnValues = response.errors;
             const errors = response.errors.map(error => `"${error}"`).join(", ");
             throw new Error(`Error(s) in dialog: ${errors}.`);
         }

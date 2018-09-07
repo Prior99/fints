@@ -1,6 +1,5 @@
 import { HKKAZ } from "../hkkaz";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 const account = {
     accountNumber: "01234",

@@ -1,10 +1,9 @@
 import { HNVSK } from "../hnvsk";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 import { Format } from "../../format";
 
-const dateMock = jest.spyOn(Format, "date").mockReturnValueOnce("20180907");
-const timeMock = jest.spyOn(Format, "time").mockReturnValueOnce("080000");
+jest.spyOn(Format, "date").mockReturnValueOnce("20180907");
+jest.spyOn(Format, "time").mockReturnValueOnce("080000");
 
 testSegment(HNVSK, [
     {

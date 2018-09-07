@@ -20,7 +20,7 @@ export class HNSHA extends SegmentClass(HNSHAProps) {
     }
 
     protected serialize() {
-        const { segNo, secRef, pin, tan } = this;
+        const { secRef, pin, tan } = this;
         return [
             Format.num(secRef),
             Format.empty(),

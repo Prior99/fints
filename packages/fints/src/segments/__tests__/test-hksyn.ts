@@ -1,6 +1,5 @@
 import { HKSYN } from "../hksyn";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HKSYN, [
     {

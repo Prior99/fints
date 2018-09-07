@@ -1,5 +1,3 @@
-import { SEPAAccount } from "./types";
-import { unescapeFinTS } from "./utils";
 
 /**
  * A set of utilities for parsing data from the fints data formats.

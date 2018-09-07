@@ -1,6 +1,5 @@
 import { HISYN } from "../hisyn";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HISYN, [
     {

@@ -1,6 +1,5 @@
 import { HKTAN } from "../hktan";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HKTAN, [
     {

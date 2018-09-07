@@ -1,4 +1,3 @@
-import { Parse } from "../parse";
 import { SegmentClass } from "./segment";
 
 export class HISYNProps {

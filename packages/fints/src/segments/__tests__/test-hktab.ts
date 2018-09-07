@@ -1,6 +1,5 @@
 import { HKTAB } from "../hktab";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HKTAB, [
     {

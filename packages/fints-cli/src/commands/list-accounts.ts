@@ -1,5 +1,5 @@
 import { PinTanClient } from "fints";
-import { setLevel, info } from "../logger";
+import { setLevel } from "../logger";
 import { Command, command, metadata } from "clime";
 import { BaseConfig } from "../config";
 

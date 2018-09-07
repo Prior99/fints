@@ -1,6 +1,5 @@
 import { HIRMS } from "../hirms";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HIRMS, [
     {

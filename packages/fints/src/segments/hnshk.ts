@@ -25,7 +25,7 @@ export class HNSHK extends SegmentClass(HNSHKProps) {
     }
 
     protected serialize() {
-        const { segNo, secRef, blz, name, systemId, profileVersion, securityFunction } = this;
+        const { secRef, blz, name, systemId, profileVersion, securityFunction } = this;
         return [
             ["PIN", Format.num(profileVersion)],
             securityFunction,

@@ -1,6 +1,5 @@
 import { HKEND } from "../hkend";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HKEND, [
     {

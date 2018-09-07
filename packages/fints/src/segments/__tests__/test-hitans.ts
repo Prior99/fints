@@ -1,6 +1,5 @@
 import { HITANS } from "../hitans";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HITANS, [
     {

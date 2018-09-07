@@ -1,9 +1,9 @@
-import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HKTAN, HNVSD } from "./segments";
+import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HNVSD } from "./segments";
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
 import { Request } from "./request";
-import { parse, unescapeFinTS } from "./utils";
-import { TanMethod, tanMethodArgumentMap } from "./tan-method";
+import { parse } from "./utils";
+import { TanMethod } from "./tan-method";
 
 /**
  * A wrapper class for on-demand parsing a response received from the server.

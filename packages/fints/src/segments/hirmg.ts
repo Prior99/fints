@@ -1,4 +1,3 @@
-import { Parse } from "../parse";
 import { SegmentClass } from "./segment";
 import { ReturnValue } from "../return-value";
 
@@ -24,7 +23,7 @@ export class HIRMG extends SegmentClass(HIRMGProps) {
         this.returnValues = new Map();
         input
             .map(dataElements => {
-                const [ code, reference, message, ...parameters ] = dataElements;
+                const [ code, , message, ...parameters ] = dataElements;
                 return new ReturnValue({
                     code,
                     message,

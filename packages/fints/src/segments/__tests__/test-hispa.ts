@@ -1,6 +1,5 @@
 import { HISPA } from "../hispa";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HISPA, [
     {

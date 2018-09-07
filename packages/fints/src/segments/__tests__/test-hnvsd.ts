@@ -1,7 +1,6 @@
 import { HNVSD } from "../hnvsd";
 import { HKTAB } from "../hktab";
 import { HKSYN } from "../hksyn";
-import { ReturnValue } from "../../return-value";
 
 describe("Segment HNVSD", () => {
     test(`serializes "HNVSD:999:1+@26@HKSYN:5:3+0'HKTAB:8:5+0+A''"`, () => {

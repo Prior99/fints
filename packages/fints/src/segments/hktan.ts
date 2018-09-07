@@ -18,7 +18,7 @@ export class HKTAN extends SegmentClass(HKTANProps) {
     protected deserialize() { throw new Error("Not implemented."); }
 
     protected serialize() {
-        const { segNo, process, aref, medium, version } = this;
+        const { process, aref, medium, version } = this;
         if (!["2", "4"].includes(process)) {
             throw new Error(`HKTAN process ${process} not implemented.`);
         }

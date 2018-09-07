@@ -1,6 +1,5 @@
 import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../types";
-import { Parse } from "../parse";
 
 export class HISPAProps {
     public segNo: number;

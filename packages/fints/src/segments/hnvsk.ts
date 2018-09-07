@@ -19,7 +19,7 @@ export class HNVSK extends SegmentClass(HNVSKProps) {
     }
 
     protected serialize() {
-        const { segNo, blz, name, systemId, profileVersion } = this;
+        const { blz, name, systemId, profileVersion } = this;
         return [
             ["PIN", Format.num(profileVersion)],
             Format.num(998),

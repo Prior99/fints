@@ -1,7 +1,5 @@
 import { format } from "date-fns";
-import { SEPAAccount } from "./types";
 import { escapeFinTS, leftPad } from "./utils";
-import { COUNTRY_CODE, HEADER_LENGTH } from "./constants";
 
 /**
  * A set of utilities for formatting data into the fints data formats.

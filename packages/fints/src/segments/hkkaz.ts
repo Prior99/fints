@@ -20,7 +20,7 @@ export class HKKAZ extends SegmentClass(HKKAZProps) {
     public type = "HKKAZ";
 
     protected serialize() {
-        const { segNo, version, account, endDate, startDate, touchdown } = this;
+        const { version, account, endDate, startDate, touchdown } = this;
         const { iban, bic, accountNumber, subAccount, blz } = account;
         if (![4, 5, 6, 7].includes(version)) {
             throw new Error(`Unsupported HKKAZ version ${version}.`);

@@ -1,6 +1,5 @@
 import { HISALS } from "../hisals";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HISALS, [
     {

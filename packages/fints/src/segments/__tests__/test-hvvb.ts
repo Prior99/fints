@@ -1,6 +1,5 @@
 import { HKVVB } from "../hkvvb";
 import { testSegment } from "./utils";
-import { ReturnValue } from "../../return-value";
 
 testSegment(HKVVB, [
     {

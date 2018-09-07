@@ -20,7 +20,7 @@ export class HKVVB extends SegmentClass(HKVVBProps) {
     }
 
     protected serialize() {
-        const { segNo, lang } = this;
+        const { lang } = this;
         return [
             Format.num(0),
             Format.num(0),
