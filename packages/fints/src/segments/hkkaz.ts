@@ -12,7 +12,7 @@ export class HKKAZProps {
 }
 
 /**
- * HKKAZ (Kontoumsätze
+ * HKKAZ (Kontoumsätze)
  * Section C.2.1.1.1.2
  */
 export class HKKAZ extends SegmentClass(HKKAZProps) {
