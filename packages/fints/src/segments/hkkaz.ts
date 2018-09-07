@@ -1,6 +1,7 @@
 import { Format } from "../format";
 import { SegmentClass } from "./segment";
 import { SEPAAccount } from "../types";
+import { COUNTRY_CODE } from "../constants";
 
 export class HKKAZProps {
     public segNo: number;
@@ -25,8 +26,8 @@ export class HKKAZ extends SegmentClass(HKKAZProps) {
             throw new Error(`Unsupported HKKAZ version ${version}.`);
         }
         const serializedAccount = version === 7 ?
-            [iban, bic, accountNumber, subAccount, "280", blz] :
-            [accountNumber, subAccount, "280", blz];
+            [iban, bic, accountNumber, subAccount, String(COUNTRY_CODE), blz] :
+            [accountNumber, subAccount, String(COUNTRY_CODE), blz];
         return [
             serializedAccount,
             Format.jn(false),

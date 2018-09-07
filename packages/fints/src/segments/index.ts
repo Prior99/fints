@@ -10,7 +10,6 @@ export * from "./hitans";
 export * from "./hkend";
 export * from "./hkidn";
 export * from "./hkkaz";
-export * from "./hksal";
 export * from "./hkspa";
 export * from "./hksyn";
 export * from "./hktab";

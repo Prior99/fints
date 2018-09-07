@@ -45,5 +45,8 @@ export class HNVSK extends SegmentClass(HNVSKProps) {
             throw new Error(`Unsupported profile: ${profile}`);
         }
         this.profileVersion = Parse.num(profileVersion);
+        this.systemId = input[3][2];
+        this.name = input[6][2];
+        this.blz = input[6][1];
     }
 }
