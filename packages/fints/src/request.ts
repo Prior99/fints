@@ -1,5 +1,5 @@
 import { Segment, HNSHK, HNVSK, HNVSD, HNSHA, HNHBS, HNHBK } from "./segments";
-import { TANMethod } from "./tan";
+import { TanMethod } from "./tan-method";
 import { HEADER_LENGTH } from "./constants";
 
 /**
@@ -40,7 +40,7 @@ export class RequestConfig {
     /**
      * A list of allowed TAN methods as configured by the server.
      */
-    public tanMethods: TANMethod[] = [];
+    public tanMethods: TanMethod[] = [];
     /**
      * All segments that should be transmitted in the HNVSD segment of the request.
      */

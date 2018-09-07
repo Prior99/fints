@@ -1,6 +1,6 @@
 import { Parse } from "../parse";
 import { SegmentClass } from "./segment";
-import { TANMethod, tanMethodArgumentMap } from "../tan";
+import { TanMethod, tanMethodArgumentMap } from "../tan-method";
 
 export class HITANSProps {
     public segNo: number;
@@ -10,7 +10,7 @@ export class HITANSProps {
     public securityProfile: number;
     public oneStepAllowed: boolean;
     public multiple: boolean;
-    public tanMethods: TANMethod[];
+    public tanMethods: TanMethod[];
 }
 
 export class HITANS extends SegmentClass(HITANSProps) {
@@ -45,7 +45,7 @@ export class HITANS extends SegmentClass(HITANSProps) {
         this.tanMethods = [];
         for (let i = 0; i < tanMethodArgs.length; i += tanMethodArgumentsLength) {
             const currentArgs = tanMethodArgs.slice(i, i + tanMethodArgumentsLength);
-            this.tanMethods.push(new TANMethod(this.version, currentArgs));
+            this.tanMethods.push(new TanMethod(this.version, currentArgs));
         }
     }
 }

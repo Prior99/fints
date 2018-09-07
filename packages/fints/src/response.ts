@@ -3,7 +3,7 @@ import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
 import { Request } from "./request";
 import { parse, unescapeFinTS } from "./utils";
-import { TANMethod, tanMethodArgumentMap } from "./tan";
+import { TanMethod, tanMethodArgumentMap } from "./tan-method";
 
 /**
  * A wrapper class for on-demand parsing a response received from the server.
@@ -124,7 +124,7 @@ export class Response {
     /**
      * Will assemble a list of all supported TAN methods.
      */
-    public get supportedTanMethods(): TANMethod[] {
+    public get supportedTanMethods(): TanMethod[] {
         const hirms = this.findSegments(HIRMS).find(segment => segment.returnValues.has("3920"));
         const securityFunctions = hirms.returnValues.get("3920").parameters;
         const tanSegments = this.findSegments(HITANS);

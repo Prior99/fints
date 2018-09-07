@@ -86,7 +86,7 @@ export abstract class Segment<TProps extends SegmentProps> {
             `Referencing: ${this.reference === undefined ? "None" : this.reference}\n` +
             `----\n`;
         return this.serialize().reduce((result, group, index) => {
-            return result + `DG ${index}: ${Array.isArray(group) ? group.join(", ") : group}\n`;
+            return `${result}DG ${index}: ${Array.isArray(group) ? group.join(", ") : group}\n`;
         }, info);
     }
 }

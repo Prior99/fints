@@ -28,7 +28,7 @@ export interface PinTanClientConfig {
     /**
      * If set to `true`, will log all requests performed and responses received.
      */
-    debug: boolean;
+    debug?: boolean;
 }
 
 export class PinTanClient extends Client {

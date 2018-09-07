@@ -1,4 +1,4 @@
-import { Parse } from "../parse";
+import { Parse } from "./parse";
 
 export const tanMethodArgumentMap = new Map<number, string[]>();
 
@@ -129,7 +129,7 @@ tanMethodArgumentMap.set(6, [
     "supportedMediaNumber",
 ]);
 
-export class TANMethod {
+export class TanMethod {
     public allowedFormat?: string;
     public cancellable?: boolean;
     public challengeClassRequired?: boolean;

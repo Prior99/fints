@@ -1,7 +1,7 @@
 import { Connection } from "./types";
 import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";
-import { TANMethod } from "./tan";
+import { TanMethod } from "./tan-method";
 
 /**
  * Properties passed to configure a `Dialog`.
@@ -48,7 +48,7 @@ export class Dialog extends DialogConfig {
     /**
      * A list of allowed TAN methods as configured by the server.
      */
-    public tanMethods: TANMethod[] = [];
+    public tanMethods: TanMethod[] = [];
     /**
      * The server will only accept a certain version for the HISALS segment.
      * This version defaults to the latest version (6).
