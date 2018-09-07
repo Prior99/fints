@@ -1,14 +1,17 @@
 import { Format } from "../format";
 import { Parse } from "../parse";
 import { SegmentClass } from "./segment";
-import { HEADER_LENGTH, HBCI_VERSION } from "../constants";
+import { HBCI_VERSION } from "../constants";
 
 export class HNHBKProps {
     public msgLength: number;
     public dialogId: string;
     public msgNo: number;
     public segNo: number;
-    public refMsgNo?: number;
+    public refMsg?: {
+        msgNo: number;
+        dialogId: string;
+    };
 }
 
 /**
@@ -23,23 +26,33 @@ export class HNHBK extends SegmentClass(HNHBKProps) {
     }
 
     protected serialize() {
-        const { msgLength, dialogId, msgNo } = this;
-        return [
-            Format.dig(msgLength + HEADER_LENGTH + dialogId.length + String(msgNo).length),
+        const { msgLength, dialogId, msgNo, refMsg } = this;
+        const result: (string | string[])[] = [
+            Format.dig(msgLength),
             Format.num(HBCI_VERSION),
             dialogId,
             Format.num(msgNo),
         ];
+        if (refMsg) {
+            result.push([ refMsg.dialogId, String(refMsg.msgNo) ]);
+        }
+        return result;
     }
 
     protected deserialize(input: string[][]) {
-        const [ [msgLength], [hbciVersion], [dialogId], [msgNo], [refMsgNo] ] = input;
+        const [ [msgLength], [hbciVersion], [dialogId], [msgNo], refMsg ] = input;
         if (hbciVersion !== "300") {
             throw new Error(`Version mismatch. Server is using HBCI version ${hbciVersion}.`);
         }
         this.msgLength = Parse.dig(msgLength);
         this.dialogId = dialogId;
         this.msgNo = Parse.dig(msgNo);
-        this.refMsgNo = Parse.dig(refMsgNo);
+        if (typeof refMsg !== "undefined") {
+            const [refDialogId, refMsgNo] = refMsg;
+            this.refMsg = {
+                dialogId: refDialogId,
+                msgNo: Parse.num(refMsgNo),
+            };
+        }
     }
 }

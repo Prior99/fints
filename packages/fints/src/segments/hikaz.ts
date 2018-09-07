@@ -19,10 +19,10 @@ export class HIKAZ extends SegmentClass(HIKAZProps) {
 
     protected deserialize(input: string[][]) {
         const [ bookedTransactions, pendingTransactions ] = input;
-        if (pendingTransactions) {
+        if (pendingTransactions && pendingTransactions[0]) {
             this.pendingTransactions = pendingTransactions[0];
         }
-        if (bookedTransactions) {
+        if (bookedTransactions && bookedTransactions[0]) {
             this.bookedTransactions = bookedTransactions[0];
         }
     }

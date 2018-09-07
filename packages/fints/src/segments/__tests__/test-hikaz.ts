@@ -13,7 +13,7 @@ testSegment(HIKAZ, [
         },
     },
     {
-        serialized: "HIKAZ:5:5:3+:@10@abcdefghij'",
+        serialized: "HIKAZ:5:5:3++@10@abcdefghij'",
         structured: {
             type: "HIKAZ",
             segNo: 5,

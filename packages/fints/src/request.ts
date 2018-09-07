@@ -1,5 +1,6 @@
 import { Segment, HNSHK, HNVSK, HNVSD, HNSHA, HNHBS, HNHBK } from "./segments";
 import { TANMethod } from "./tan";
+import { HEADER_LENGTH } from "./constants";
 
 export class RequestConfiguration {
     public blz: string;
@@ -70,7 +71,11 @@ export class Request extends RequestConfiguration {
             // Add `1` to the index because of HNSHA.
             new HNHBS({ segNo: segmentCount + 1, msgNo }),
         ];
-        let length = segmentsWithoutHeader.reduce((result, segment) => result + String(segment).length, 0);
+        let length =
+            segmentsWithoutHeader.reduce((result, segment) => result + String(segment).length, 0) +
+            HEADER_LENGTH +
+            dialogId.length +
+            String(msgNo).length;
         return [
             new HNHBK({ segNo: 1, msgLength: length, dialogId, msgNo }),
             ...segmentsWithoutHeader,
