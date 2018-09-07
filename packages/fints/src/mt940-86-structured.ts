@@ -2,6 +2,14 @@ import { Section, PaymentReference, StructuredDescription } from "./types";
 
 const detectionRegex = /(?:^|\?)(..)(.*?)(?:$|\?)/g;
 
+/**
+ * Used to sniff whether the 86 section of the MT940 statement list supports the fints structured
+ * representation.
+ *
+ * @param input The string for the 86 section.
+ *
+ * @return Whether the string is likely structured.
+ */
 export function is86Structured(input: string) {
     const matches: RegExpExecArray[] = [];
     let lastMatch: RegExpExecArray;
@@ -17,6 +25,13 @@ export function is86Structured(input: string) {
     return true;
 }
 
+/**
+ * Parses a commonly used date format ("DATUM 15.11.2018, 12:00 UHR") into a date
+ *
+ * @param content The date string to parse.
+ *
+ * @return The parsed date.
+ */
 export function parsePaymentReferenceDate(content: string): Date {
     const groups = /DATUM\s+(\d+)\.(\d+)\.(\d+),\s+(\d+)\.(\d+)\s+UHR/.exec(content);
     if (!groups){ return; }
@@ -29,6 +44,13 @@ export function parsePaymentReferenceDate(content: string): Date {
     );
 }
 
+/**
+ * Parses a commonly format for representing a TAN related to a transaction ("1. TAN 123456").
+ *
+ * @param content The string to parse.
+ *
+ * @return The parsed TAN number and TAN iteself.
+ */
 export function parsePaymentReferenceTan(content: string) {
     const groups = /(\d+)\.\s*TAN\s+(.*)/.exec(content);
     if (!groups){ return; }
@@ -41,6 +63,10 @@ export function parsePaymentReferenceTan(content: string) {
 /**
  * If the payment reference follows the SEPA tagging system, parse the information.
  * See: https://tinyurl.com/ycdfx5hd
+ *
+ * @param references A lsit of all sections used for payment reference (20 - 29 and 60 - 63).
+ *
+ * @return A parsed payment reference with all extracted data.
  */
 export function assemblePaymentReference(references: Section[]): PaymentReference {
     let lastIdentifiedAttribute: keyof PaymentReference;
@@ -74,6 +100,14 @@ export function assemblePaymentReference(references: Section[]): PaymentReferenc
     return result;
 }
 
+/**
+ * Parse as much information as possible from the structured 86 section of a MT940 statement list.
+ * Use `is86Structured` to sniff whether the payment reference is parsable.
+ *
+ * @param input The input string for the 86 section to parse.
+ *
+ * @return The parsed structured description.
+ */
 export function parse86Structured(input: string): StructuredDescription {
     let iban: string;
     let text: string;
@@ -84,13 +118,14 @@ export function parse86Structured(input: string): StructuredDescription {
     let sectionCode: number;
     const references: Section[] = [];
     const names: Section[] = [];
-
+    // The header has been parsed fully. Store the section code and begin parsing the content.
     const flushHeader = () => {
         sectionCode = Number(currentContent);
         currentContent = "";
         inHeader = false;
     };
-
+    // A questionmark has been encountered, hence the content of the current section is complete.
+    // Store the parsed data and continue to read the next header.
     const flushSection = () => {
         if (sectionCode === 0) {
             text = currentContent;
@@ -109,7 +144,7 @@ export function parse86Structured(input: string): StructuredDescription {
         sectionCode = undefined;
         inHeader = true;
     };
-
+    // Read the string character by character and split it into sections.
     for (let i = 0; i < input.length; ++i) {
         const character = input[i];
         if (character === "?") {
@@ -122,13 +157,14 @@ export function parse86Structured(input: string): StructuredDescription {
             continue;
         }
     }
+    // After parsing, flush the last section.
     flushSection();
-
+    // The payment reference could have been using tags.
+    // Attempt to parse the tags.
     const reference = assemblePaymentReference(references);
     const name = names
         .sort((a, b) => a.code - b.code)
         .map(recipient => recipient.content)
         .join("");
-
     return { reference, name, iban, text, bic, primaNota };
 }

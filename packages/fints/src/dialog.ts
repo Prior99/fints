@@ -1,23 +1,65 @@
-import { Connection } from "./connection";
+import { Connection } from "./types";
 import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HKKAZ, HIKAZ } from "./segments";
 import { Request } from "./request";
 import { TANMethod } from "./tan";
 
+/**
+ * Properties passed to configure a `Dialog`.
+ */
 export class DialogConfig {
+    /**
+     * The banks identification number (Bankleitzahl).
+     */
     public blz: string;
+    /**
+     * The username or identification number.
+     */
     public name: string;
+    /**
+     * The pin code or password used for authenticating with the fints server.
+     */
     public pin: string;
+    /**
+     * The system's id. This id needs to be stored across all dialogs and will be assigned
+     * by the server at the first request.
+     */
     public systemId: string;
+    /**
+     * An instance implementing `Connection` used for performing requests.
+     */
     public connection: Connection;
 }
 
+/**
+ * A dialog consisting of multiple related requests and responses.
+ */
 export class Dialog extends DialogConfig {
+    /**
+     * All messages sent within a dialog are numbered.
+     * This counter is kept here.
+     */
     public msgNo = 1;
+    /**
+     * A unique id for the dialog.
+     * Assigned by the server as response to the initial request.
+     * For the initial request a `0` needs to be sent.
+     */
     public dialogId = "0";
-    public bankName: string;
+    /**
+     * A list of allowed TAN methods as configured by the server.
+     */
     public tanMethods: TANMethod[] = [];
-
+    /**
+     * The server will only accept a certain version for the HISALS segment.
+     * This version defaults to the latest version (6).
+     * The server's maximum supported version can be parsed from the initial requests and is stored here.
+     */
     public hisalsVersion = 6;
+    /**
+     * The server will only accept a certain version for the HIKAZS segment.
+     * This version defaults to the latest version (6).
+     * The server's maximum supported version can be parsed from the initial requests and is stored here.
+     */
     public hikazsVersion = 6;
 
     constructor(config: DialogConfig) {
@@ -25,60 +67,72 @@ export class Dialog extends DialogConfig {
         Object.assign(this, config);
     }
 
-    private get msgSync() {
+    /**
+     * Send a synchronization request to the server.
+     * Only one synchronization is needed per dialog.
+     * This ist most likely the initial request sent.
+     * It will be answered with the system's id and a list of supported TAN methods.
+     * The supported HISALS and HIKAZS version can also be parsed from this request.
+     *
+     * @return The response as received by the server.
+     */
+    public async sync() {
         const { blz, name, pin, systemId, dialogId, msgNo } = this;
         const segments = [
             new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
             new HKVVB({ segNo: 4 }),
             new HKSYN({ segNo: 5 }),
         ];
-        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments });
-    }
-
-    public get msgInit() {
-        const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
-        const segments = [
-            new HKIDN({ segNo: 3, blz, name, systemId }),
-            new HKVVB({ segNo: 4 }),
-        ];
-        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods });
-    }
-
-    public get msgEnd() {
-        const { blz, name, pin, systemId, dialogId, msgNo } = this;
-        const segments = [
-            new HKEND({ segNo: 3, dialogId }),
-        ];
-        return new Request({ blz, name, pin, systemId, dialogId, msgNo, segments });
-    }
-
-    public async sync() {
-        const response = await this.send(this.msgSync);
+        const response = await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
         this.systemId = response.systemId;
         this.dialogId = response.dialogId;
-        this.bankName = response.bankName;
         this.hisalsVersion = response.segmentMaxVersion(HISALS);
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
         this.tanMethods = response.supportedTanMethods;
         await this.end();
     }
 
+    /**
+     * Send the initializing request to the server.
+     * The dialog is ready for performing custom requests afterwards.
+     */
     public async init() {
-        const response = await this.send(this.msgInit);
+        const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
+        const segments = [
+            new HKIDN({ segNo: 3, blz, name, systemId }),
+            new HKVVB({ segNo: 4 }),
+        ];
+        const response = await this.send(
+            new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods }),
+        );
         this.dialogId = response.dialogId;
     }
 
+    /**
+     * End the currently open request.
+     */
     public async end() {
-        const response = await this.send(this.msgEnd);
+        const { blz, name, pin, systemId, dialogId, msgNo } = this;
+        const segments = [
+            new HKEND({ segNo: 3, dialogId }),
+        ];
+        const response = await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
         this.dialogId = "0";
         this.msgNo = 1;
     }
 
-    public async send(message: Request) {
-        message.msgNo = this.msgNo;
-        message.dialogId = this.dialogId;
+    /**
+     * Send a custom request to the fints server and return the received response.
+     *
+     * @param request The request to send to the server.
+     *
+     * @return The response received from the server.
+     */
+    public async send(request: Request) {
+        request.msgNo = this.msgNo;
+        request.dialogId = this.dialogId;
 
-        const response = await this.connection.send(message);
+        const response = await this.connection.send(request);
         if (!response.success) {
             const returnValues = response.errors;
             const errors = response.errors.map(error => `"${error}"`).join(", ");

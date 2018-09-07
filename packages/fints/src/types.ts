@@ -1,58 +1,183 @@
 import { Statement as MT940Statement, Transaction as MT940Transaction } from "mt940-js";
+import { Request } from "./request";
+import { Response } from "./response";
 
 export interface Constructable<T> {
     new(...args: any[]): T;
 }
 
+/**
+ * A payment reference as wrapped in a structured description in the 86 section of the MT 940 format.
+ * Most properties will likely be `undefined` if no matching tags were found.
+ */
 export interface PaymentReference {
+    /**
+     * The unprocessed, raw payment reference as a string.
+     */
     raw: string;
+    /**
+     * The principal's IBAN (IBAN+ tag).
+     */
     iban?: string;
+    /**
+     * The principal's BIC (BIC+ tag).
+     */
     bic?: string;
+    /**
+     * End to end reference of the transaction (EREF+ tag).
+     */
     endToEndRef?: string;
+    /**
+     * Customer reference (KREF+).
+     */
     customerRef?: string;
+    /**
+     * Mandate reference (MREF+). Specified if the transaction was a debit.
+     */
     mandateRef?: string;
+    /**
+     * Creditor identification (CRED+). Specified if the transaction was a debit.
+     */
     creditorId?: string;
+    /**
+     * Original amount of turnover (OAMT+). Specified if the transaction was a return.
+     */
     originalTurnover?: string;
+    /**
+     * Interest compensation (COAM+). Specified if the transaction was a return.
+     */
     interestCompensation?: string;
-    paymentReference?: string;
+    /**
+     * Specified if the principal of the transaction was diverging (ABWA+).
+     */
     divergingPrincipal?: string;
+    /**
+     * Bank identification reference (BREF+).
+     */
     bank?: string;
+    /**
+     * Return reference (RREF+). Specified if the transaction was a return.
+     */
     back?: string;
+    /**
+     * The originator's id (DEBT+).
+     */
     originatorId?: string;
+    /**
+     * The transaction's date (DATUM).
+     */
     date?: Date;
+    /**
+     * The tan associated with the transaction (TAN).
+     */
     tan?: {
         num: number;
         value: string;
     };
+    /**
+     * The principal's specified payment reference (description text of the transaction) (SVWZ+).
+     */
     text?: string;
 }
 
+/**
+ * A parsed structure from the description in the 86 section of a MT940 list of s
+ */
 export interface StructuredDescription {
+    /**
+     * Payment reference. Can be a parsed structure using tags or only contain the textual representation in the
+     * property named `raw`.
+     */
     reference: PaymentReference;
+    /**
+     * The name of the principal or benefitiary.
+     */
     name: string;
+    /**
+     * The IBAN of the principal or benefitiary.
+     */
     iban: string;
+    /**
+     * The textual, not parsed representation of the description.
+     */
     text: string;
+    /**
+     * The BIC of the principal or benefitiary.
+     */
     bic: string;
+    /**
+     * The prima nota associated with this transaction.
+     * Used by some german banks. See: https://de.wikipedia.org/wiki/Primanota
+     */
     primaNota: string;
 }
 
+/**
+ * An unparsed raw sub section from the structured 86 section.
+ */
 export interface Section {
+    /**
+     * The section's code.
+     */
     code: number;
+    /**
+     * The section's raw content.
+     */
     content: string;
 }
 
+/**
+ * A single SEPA account.
+ */
 export interface SEPAAccount {
+    /**
+     * The account's IBAN.
+     */
     iban: string;
+    /**
+     * The account's BIC.
+     */
     bic: string;
+    /**
+     * The account's internal account number used together with the BLZ before SEPA.
+     */
     accountNumber: string;
-    subAccount: string;
+    /**
+     * An optional sub account identification.
+     */
+    subAccount?: string;
+    /**
+     * The account's BLZ used together with the account number before SEPA.
+     */
     blz: string;
 }
 
+/**
+ * An augmented version of the `mt940-js` `Transaction` with an added parsed
+ * version of structured 86 fields.
+ */
 export interface Transaction extends MT940Transaction {
     descriptionStructured?: StructuredDescription;
 }
 
+/**
+ * An augmented version of the `mt940-js` `Statement` with an added parsed
+ * version of structured 86 fields on each transaction.
+ */
 export interface Statement extends MT940Statement {
     transactions: Transaction[];
+}
+
+/**
+ * A connection used in the client to contact the server.
+ */
+export interface Connection {
+    /**
+     * Send a request to the server and return the response received.
+     *
+     * @param request Request to send to the server.
+     *
+     * @return The response received from the server.
+     */
+    send(request: Request): Promise<Response>;
 }

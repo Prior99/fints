@@ -1,26 +1,51 @@
 import { Client } from "./client";
 import { Dialog } from "./dialog";
 import { Request } from "./request";
-import { Connection } from "./connection";
+import { HttpConnection } from "./http-connection";
 import { Segment } from "./segments";
+import { Connection } from "./types";
 
+/**
+ * Set of options needed to construct a `PinTanClient`.
+ */
 export interface PinTanClientConfig {
+    /**
+     * The banks identification number (Bankleitzahl).
+     */
     blz: string;
+    /**
+     * The username or identification number.
+     */
     name: string;
+    /**
+     * The pin code or password used for authenticating with the fints server.
+     */
     pin: string;
+    /**
+     * The URL to reach the server at.
+     */
     url: string;
-    debug?: boolean;
+    /**
+     * If set to `true`, will log all requests performed and responses received.
+     */
+    debug: boolean;
 }
 
 export class PinTanClient extends Client {
+    /**
+     * Connection used to reach the server.
+     */
     private connection: Connection;
+    /**
+     * Configuration for connecting and authenticating.
+     */
     protected config: PinTanClientConfig;
 
     constructor(config: PinTanClientConfig) {
         super();
         this.config = config;
         const { url, debug  } = config;
-        this.connection = new Connection({ url, debug });
+        this.connection = new HttpConnection({ url, debug });
     }
 
     public createDialog() {

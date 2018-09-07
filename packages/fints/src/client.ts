@@ -8,10 +8,25 @@ import { SEPAAccount, Statement } from "./types";
 import { read } from "mt940-js";
 import { is86Structured, parse86Structured } from "./mt940-86-structured";
 
+/**
+ * An abstract class for communicating with a fints server.
+ * For a common implementation look at `PinTanClient`.
+ */
 export abstract class Client {
+    /**
+     * Create a new dialog.
+     */
     protected abstract createDialog(): Dialog;
+    /**
+     * Create a request.
+     */
     protected abstract createRequest(dialog: Dialog, segments: Segment<any>[], tan?: string): Request;
 
+    /**
+     * Fetch a list of all SEPA accounts accessible by the user.
+     *
+     * @return An array of all SEPA accounts.
+     */
     public async accounts(): Promise<SEPAAccount[]> {
         const dialog = this.createDialog();
         await dialog.sync();
@@ -24,6 +39,14 @@ export abstract class Client {
         return hispa.accounts;
     }
 
+    /**
+     * Fetch a list of bank statements deserialized from the MT940 transmitted by the fints server.
+     *
+     * @param startDate The start of the range for which the statements should be fetched.
+     * @param endDate The end of the range for which the statements should be fetched.
+     *
+     * @return A list of all statements in the specified range.
+     */
     public async statements(account: SEPAAccount, startDate: Date, endDate: Date): Promise<Statement[]> {
         const dialog = this.createDialog();
         await dialog.sync();
