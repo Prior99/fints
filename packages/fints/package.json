@@ -14,6 +14,12 @@
         "docs": "typedoc --mode file --out docs/ src/",
         "test": "TZ=UTC jest"
     },
+    "files": [
+        "dist",
+        "LICENSE",
+        "package.json",
+        "README.md"
+    ],
     "main": "dist/index.js",
     "repository": "https://github.com/Prior99/fints",
     "typings": "dist/index.d.ts",

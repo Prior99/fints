@@ -1,32 +1,41 @@
 {
-  "name": "fints-cli",
-  "version": "0.1.2",
-  "description": "FinTS command line interface.",
-  "keywords": [
-    "fints",
-    "hbci",
-    "banking",
-    "api",
-    "cli"
-  ],
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf dist"
-  },
-  "repository": "https://github.com/Prior99/fints",
-  "author": "Frederick Gnodtke",
-  "license": "MIT",
-  "dependencies": {
-    "clime": "^0.5.9",
-    "date-fns": "^1.29.0",
-    "fints": "^0.1.2",
-    "winston": "^3.1.0",
-    "yamljs": "^0.3.0"
-  },
-  "devDependencies": {
-    "@types/date-fns": "^2.6.0",
-    "@types/winston": "^2.4.4",
-    "@types/yamljs": "^0.2.30"
-  }
+    "name": "fints-cli",
+    "version": "0.1.2",
+    "description": "FinTS command line interface.",
+    "keywords": [
+        "fints",
+        "hbci",
+        "banking",
+        "api",
+        "cli"
+    ],
+    "bin": {
+        "fints": "dist/index.js"
+    },
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "clean": "rm -rf dist"
+    },
+    "files": [
+        "dist",
+        "LICENSE",
+        "package.json",
+        "README.md"
+    ],
+    "repository": "https://github.com/Prior99/fints",
+    "author": "Frederick Gnodtke",
+    "license": "MIT",
+    "dependencies": {
+        "clime": "^0.5.9",
+        "date-fns": "^1.29.0",
+        "fints": "^0.1.2",
+        "winston": "^3.1.0",
+        "yamljs": "^0.3.0"
+    },
+    "devDependencies": {
+        "@types/date-fns": "^2.6.0",
+        "@types/winston": "^2.4.4",
+        "@types/yamljs": "^0.2.30"
+    }
 }
