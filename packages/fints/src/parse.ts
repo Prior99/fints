@@ -22,6 +22,7 @@ export const Parse = {
      * @return The parsed number.
      */
     num(str: string): number {
+        if (typeof str === "undefined") { return; }
         return Number(str.replace(/,/, "."));
     },
     /**
