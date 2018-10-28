@@ -64,7 +64,7 @@ export function parsePaymentReferenceTan(content: string) {
  * If the payment reference follows the SEPA tagging system, parse the information.
  * See: https://tinyurl.com/ycdfx5hd
  *
- * @param references A lsit of all sections used for payment reference (20 - 29 and 60 - 63).
+ * @param references A list of all sections used for payment reference (20 - 29 and 60 - 63).
  *
  * @return A parsed payment reference with all extracted data.
  */
