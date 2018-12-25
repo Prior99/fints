@@ -70,7 +70,7 @@ export class Dialog extends DialogConfig {
     /**
      * Send a synchronization request to the server.
      * Only one synchronization is needed per dialog.
-     * This ist most likely the initial request sent.
+     * This is most likely the initial request sent.
      * It will be answered with the system's id and a list of supported TAN methods.
      * The supported HISALS and HIKAZS version can also be parsed from this request.
      *
