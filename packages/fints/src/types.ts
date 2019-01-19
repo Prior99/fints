@@ -169,6 +169,40 @@ export interface Statement extends MT940Statement {
 }
 
 /**
+ * Represents the balance for a single SEPA account.
+ */
+export interface Balance {
+    /**
+     * The SEPA account, this balance belongs to.
+     */
+    account: SEPAAccount;
+    /**
+     * The product name of this account.
+     */
+    productName: string;
+    /**
+     * The currency of this account.
+     */
+    currency: string;
+    /**
+     * Balance which is already booked of this account.
+     */
+    bookedBalance: number;
+    /**
+     * Balance of pending transactions of this account.
+     */
+    pendingBalance: number;
+    /**
+     * Available credit limit of this account.
+     */
+    creditLimit: number;
+    /**
+     * Balance which is accessible for this account.
+     */
+    availableBalance: number;
+}
+
+/**
  * A connection used in the client to contact the server.
  */
 export interface Connection {
