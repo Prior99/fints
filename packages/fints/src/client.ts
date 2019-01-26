@@ -1,9 +1,9 @@
 import "isomorphic-fetch";
 import { Dialog } from "./dialog";
-import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ } from "./segments";
+import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
-import { SEPAAccount, Statement } from "./types";
+import { SEPAAccount, Statement, Balance } from "./types";
 import { read } from "mt940-js";
 import { is86Structured, parse86Structured } from "./mt940-86-structured";
 
@@ -36,6 +36,52 @@ export abstract class Client {
         await dialog.end();
         const hispa = response.findSegment(HISPA);
         return hispa.accounts;
+    }
+
+    /**
+     * Fetch the balance for a SEPA account.
+     *
+     * @param account The SEPA account to fetch the balance for.
+     *
+     * @return The balance of the given SEPA account.
+     */
+    public async balance(account: SEPAAccount): Promise<Balance> {
+        const dialog = this.createDialog();
+        await dialog.sync();
+        await dialog.init();
+        let touchdowns: Map<string, string>;
+        let touchdown: string;
+        const responses: Response[] = [];
+        do {
+            const request = this.createRequest(dialog, [
+                new HKSAL({
+                    segNo: 3,
+                    version: dialog.hisalsVersion,
+                    account,
+                    touchdown,
+                }),
+            ]);
+            const response = await dialog.send(request);
+            touchdowns = response.getTouchdowns(request);
+            touchdown = touchdowns.get("HKSAL");
+            responses.push(response);
+        } while (touchdown);
+        await dialog.end();
+        const segments: HISAL[] = responses.reduce((result, response: Response) => {
+            result.push(...response.findSegments(HISAL));
+            return result;
+        }, []);
+        const hisal: HISAL =
+            segments.find(s => s.account.accountNumber === account.accountNumber && s.account.blz === account.blz);
+        return {
+            account,
+            availableBalance: hisal.availableBalance,
+            bookedBalance: hisal.bookedBalance,
+            currency: hisal.currency,
+            creditLimit: hisal.creditLimit,
+            pendingBalance: hisal.pendingBalance,
+            productName: hisal.productName,
+        };
     }
 
     /**

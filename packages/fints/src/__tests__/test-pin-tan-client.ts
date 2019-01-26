@@ -56,3 +56,25 @@ test("statements", async () => {
     expect(calls).toMatchSnapshot();
     mock.restore();
 });
+
+test("balance", async () => {
+    const responseFixtures: string[] = JSON.parse(readFileSync(`${__dirname}/fixture-balance.json`, "utf8"));
+    let responseNo = 0;
+    const mock = fetchMock.post(url, () => {
+        const response = encodeBase64(responseFixtures[responseNo]);
+        responseNo++;
+        return response;
+    });
+    const account = {
+        accountNumber: "2",
+        bic: "GENODE00TES",
+        blz: "12346789",
+        iban: "DE111234567800000002",
+        subAccount: "",
+    };
+    const result = await client.balance(account);
+    expect(result).toMatchSnapshot();
+    const calls = (mock.calls() as any).map((call: any) => decodeBase64(String(call[1].body)));
+    expect(calls).toMatchSnapshot();
+    mock.restore();
+});
