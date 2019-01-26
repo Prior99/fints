@@ -62,7 +62,7 @@
         "no-shadowed-variable": true,
         "no-unsafe-finally": true,
         "no-unused-expression": true,
-        "no-unused-variable": true,
+        "no-unused-variable": [ true, {"ignore-pattern": "^_"} ],
         "no-var-keyword": true,
         "restrict-plus-operands": true,
         "triple-equals": true,
