@@ -1,4 +1,4 @@
-import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HNVSD } from "./segments";
+import { Segment, HIRMS, HITANS, HNHBK, HIBPA, HISYN, HIRMG, HNVSD, HISPAS } from "./segments";
 import { Constructable } from "./types";
 import { ReturnValue } from "./return-value";
 import { Request } from "./request";
@@ -136,6 +136,13 @@ export class Response {
             });
             return result;
         }, []);
+    }
+
+    /**
+     * Will assemble a list of all supported SEPA pain-message formats.
+     */
+    public get painFormats(): string[] {
+        return this.findSegment(HISPAS).painFormats;
     }
 
     /**

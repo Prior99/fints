@@ -75,6 +75,7 @@
     "dependencies": {
         "bind-decorator": "^1.0.11",
         "date-fns": "^1.29.0",
+        "fast-xml-parser": "^3.12.12",
         "iconv-lite": "^0.4.24",
         "invariant": "^2.2.4",
         "isomorphic-fetch": "^2.2.1",
