@@ -1,9 +1,9 @@
 import "isomorphic-fetch";
 import { Dialog } from "./dialog";
-import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL } from "./segments";
+import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
-import { SEPAAccount, Statement, Balance } from "./types";
+import { SEPAAccount, Statement, Balance, StandingOrder } from "./types";
 import { read } from "mt940-js";
 import { is86Structured, parse86Structured } from "./mt940-86-structured";
 
@@ -130,5 +130,43 @@ export abstract class Client {
             });
             return { ...statement, transactions };
         });
+    }
+
+    /**
+     * Fetch a list of standing orders for the given account.
+     *
+     * @param account The account to fetch standing orders for.
+     *
+     * @return A list of all standing orders for the given account.
+     */
+    public async standingOrders(account: SEPAAccount): Promise<StandingOrder[]> {
+        const dialog = this.createDialog();
+        await dialog.sync();
+        await dialog.init();
+        let touchdowns: Map<string, string>;
+        let touchdown: string;
+        const responses: Response[] = [];
+        do {
+            const request = this.createRequest(dialog, [
+                new HKCDB({
+                    segNo: 3,
+                    version: dialog.hicdbVersion,
+                    account,
+                    painFormats: dialog.painFormats,
+                    touchdown,
+                }),
+            ]);
+            const response = await dialog.send(request);
+            touchdowns = response.getTouchdowns(request);
+            touchdown = touchdowns.get("HKCDB");
+            responses.push(response);
+        } while (touchdown);
+        await dialog.end();
+        const segments: HICDB[] = responses.reduce((result, response: Response) => {
+            result.push(...response.findSegments(HICDB));
+            return result;
+        }, []);
+
+        return segments.map(s => s.standingOrder);
     }
 }
