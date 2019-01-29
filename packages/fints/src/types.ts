@@ -181,29 +181,13 @@ export interface StandingOrder {
      */
     creationDate: Date;
     /**
-     * The name of the debitor.
+     * The debitor.
      */
-    debitorName: string;
+    debitor: PartyIdentification;
     /**
-     * The IBAN of the debitor.
+     * The creditor.
      */
-    debitorIban: string;
-    /**
-     * The BIC of the debitor.
-     */
-    debitorBic: string;
-    /**
-     * The name of the creditor.
-     */
-    creditorName: string;
-    /**
-     * The IBAN of the creditor.
-     */
-    creditorIban: string;
-    /**
-     * The BIC of the creditor.
-     */
-    creditorBic: string;
+    creditor: PartyIdentification;
     /**
      * The amount of every transaction.
      */
@@ -212,6 +196,24 @@ export interface StandingOrder {
      * The payment purpose (text of the transaction).
      */
     paymentPurpose: string;
+}
+
+/**
+ * Represents a creditor or debitor identification object.
+ */
+export interface PartyIdentification {
+    /**
+     * Name of the party.
+     */
+    name: string;
+    /**
+     * IBAN of the party.
+     */
+    iban: string;
+    /**
+     * BIC of the party.
+     */
+    bic: string;
 }
 
 /**

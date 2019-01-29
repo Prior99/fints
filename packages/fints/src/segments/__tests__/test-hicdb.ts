@@ -9,14 +9,18 @@ const standingOrder: StandingOrder = {
     orderDay: 29,
     lastOrderDate: new Date("2020-06-30"),
     creationDate: new Date("2014-12-01T00:00:00"),
-    debitorName: "Max Mustermann",
-    debitorIban: "DE27100777770209299700",
-    debitorBic: "DEUTDEFF500",
-    creditorName: "John Doe",
-    creditorIban: "DE58140369180198038800",
-    creditorBic: "DEU1GFAS800",
     amount: 90.2,
     paymentPurpose: "Common Order",
+    debitor: {
+        name: "Max Mustermann",
+        iban: "DE27100777770209299700",
+        bic: "DEUTDEFF500",
+    },
+    creditor: {
+        name: "John Doe",
+        iban: "DE58140369180198038800",
+        bic: "DEU1GFAS800",
+    },
 };
 
 testSegment(HICDB, [

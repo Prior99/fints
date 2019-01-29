@@ -56,7 +56,7 @@ export const Parse = {
      *
      * @return The parsed object.
      */
-    xml<T>(str: string): T {
+    xml(str: string): unknown {
         return parseXml(str);
     },
 };
