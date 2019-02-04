@@ -9,6 +9,7 @@
         "api"
     ],
     "scripts": {
+        "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
         "build": "tsc -p ./tsconfig-build.json",
         "clean": "rm -rf dist",
         "docs": "typedoc --mode file --out docs/ src/",
@@ -65,6 +66,7 @@
         "@types/jest": "^23.3.1",
         "@types/node": "^10.9.4",
         "@types/winston": "^2.4.4",
+        "cxsd": "^0.1.1",
         "fetch-mock": "^7.0.0-alpha.6",
         "jest": "^23.5.0",
         "ts-jest": "^23.1.4",
