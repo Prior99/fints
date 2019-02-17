@@ -153,6 +153,70 @@ export interface SEPAAccount {
 }
 
 /**
+ * A single standing order.
+ */
+export interface StandingOrder {
+    /**
+     * The next time this standing order will trigger a transaction.
+     */
+    nextOrderDate: Date;
+    /**
+     * Unit of the order-interval.
+     */
+    timeUnit: string;
+    /**
+     * Interval of repeating transactions.
+     */
+    interval: number;
+    /**
+     * Day in month when transaction is triggered.
+     */
+    orderDay?: number;
+    /**
+     * The last time this standing order will trigger a transaction.
+     */
+    lastOrderDate?: Date;
+    /**
+     * Creation date of this standing order.
+     */
+    creationDate: Date;
+    /**
+     * The debitor.
+     */
+    debitor: PartyIdentification;
+    /**
+     * The creditor.
+     */
+    creditor: PartyIdentification;
+    /**
+     * The amount of every transaction.
+     */
+    amount: number;
+    /**
+     * The payment purpose (text of the transaction).
+     */
+    paymentPurpose: string;
+}
+
+/**
+ * Represents a creditor or debitor identification object.
+ */
+export interface PartyIdentification {
+    /**
+     * Name of the party.
+     */
+    name: string;
+    /**
+     * IBAN of the party.
+     */
+    iban: string;
+    /**
+     * BIC of the party.
+     */
+    bic: string;
+}
+
+/**
  * An augmented version of the `mt940-js` `Transaction` with an added parsed
  * version of structured 86 fields.
  */

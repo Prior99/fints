@@ -1,4 +1,6 @@
 export * from "./hibpa";
+export * from "./hicdb";
+export * from "./hicdbs";
 export * from "./hikaz";
 export * from "./hikazs";
 export * from "./hirmg";
@@ -6,8 +8,10 @@ export * from "./hirms";
 export * from "./hisal";
 export * from "./hisals";
 export * from "./hispa";
+export * from "./hispas";
 export * from "./hisyn";
 export * from "./hitans";
+export * from "./hkcdb";
 export * from "./hkend";
 export * from "./hkidn";
 export * from "./hkkaz";

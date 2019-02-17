@@ -1,5 +1,5 @@
 import { Connection } from "./types";
-import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS } from "./segments";
+import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HICDBS } from "./segments";
 import { Request } from "./request";
 import { TanMethod } from "./tan-method";
 
@@ -61,6 +61,16 @@ export class Dialog extends DialogConfig {
      * The server's maximum supported version can be parsed from the initial requests and is stored here.
      */
     public hikazsVersion = 6;
+    /**
+     * The server will only accept a certain version for the HICDB segment.
+     * This version defaults to the latest version (1).
+     * The server's maximum supported version can be parsed from the initial requests and is stored here.
+     */
+    public hicdbVersion = 1;
+    /**
+     * A list of supported SEPA pain-formats as configured by the server.
+     */
+    public painFormats: string[] = [];
 
     constructor(config: DialogConfig) {
         super();
@@ -88,7 +98,9 @@ export class Dialog extends DialogConfig {
         this.dialogId = response.dialogId;
         this.hisalsVersion = response.segmentMaxVersion(HISALS);
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
+        this.hicdbVersion = response.segmentMaxVersion(HICDBS);
         this.tanMethods = response.supportedTanMethods;
+        this.painFormats = response.painFormats;
         await this.end();
     }
 

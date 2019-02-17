@@ -1,3 +1,5 @@
+import { parse as parseDate } from "date-fns";
+import { parse as parseXml } from "fast-xml-parser";
 
 /**
  * A set of utilities for parsing data from the fints data formats.
@@ -36,5 +38,25 @@ export const Parse = {
         if (str === "0") { return 0; }
         while (str.startsWith("0")) { str = str.substr(1, str.length); }
         return Number(str);
+    },
+    /**
+     * Parse a date.
+     *
+     * @param str The string or date to parse.
+     *
+     * @return The parsed date.
+     */
+    date(str: string|Date): Date {
+        return parseDate(str);
+    },
+    /**
+     * Parse a xml document to an object.
+     *
+     * @param str The xml parse.
+     *
+     * @return The parsed object.
+     */
+    xml(str: string): unknown {
+        return parseXml(str);
     },
 };
