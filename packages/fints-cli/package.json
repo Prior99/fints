@@ -36,6 +36,7 @@
     "devDependencies": {
         "@types/date-fns": "^2.6.0",
         "@types/winston": "^2.4.4",
+        "@types/node": "^11.9.4",
         "@types/yamljs": "^0.2.30"
     }
 }
