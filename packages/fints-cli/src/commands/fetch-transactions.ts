@@ -1,8 +1,7 @@
-import { option } from "clime";
 import { subMonths } from "date-fns";
 import { PinTanClient } from "fints";
 import { setLevel } from "../logger";
-import { Command, command, metadata } from "clime";
+import { Command, command, metadata, option } from "clime";
 import { BaseConfig } from "../config";
 import { Transaction } from "mt940-js";
 
@@ -13,7 +12,7 @@ export class FetchStatementOptions extends BaseConfig {
     @option({ flag: "s", description: "Date of earliest transaction to fetch." })
     public start: string;
 
-@option({ flag: "e", description: "Date of latest transaction to fetch." })
+    @option({ flag: "e", description: "Date of latest transaction to fetch." })
     public end: string;
 }
 

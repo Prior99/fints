@@ -4,6 +4,6 @@ export const logger = createLogger();
 
 logger.silent = true;
 
-export const verbose = logger.verbose;
-export const warn = logger.warn;
-export const error = logger.error;
+export const verbose = (...args: any[]) => logger.verbose(...args);
+export const warn = (...args: any[]) => logger.warn(...args);
+export const error = (...args: any[]) => logger.error(...args);
