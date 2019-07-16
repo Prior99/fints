@@ -1,6 +1,6 @@
 {
-    "name": "fints",
-    "version": "0.3.1",
+    "name": "node-fints",
+    "version": "0.3.2",
     "description": "FinTS client library.",
     "keywords": [
         "fints",
@@ -22,9 +22,9 @@
         "README.md"
     ],
     "main": "dist/index.js",
-    "repository": "https://github.com/Prior99/fints",
+    "repository": "https://github.com/guidoMueller/nodejs-fints",
     "typings": "dist/index.d.ts",
-    "author": "Frederick Gnodtke",
+    "author": "Guido Müller",
     "license": "MIT",
     "jest": {
         "collectCoverage": true,
