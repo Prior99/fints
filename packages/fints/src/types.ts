@@ -150,6 +150,26 @@ export interface SEPAAccount {
      * The account's BLZ used together with the account number before SEPA.
      */
     blz: string;
+
+    accountOwnerName?: string;
+
+    accountName?: string;
+
+    limitValue?: number;
+}
+
+
+
+/**
+ * A single SEPA account.
+ */
+export interface SEPAAccountHiupd {
+
+    accountNumber: string;
+    iban: string;
+    accountOwnerName1: string;
+    accountName: string;
+    limitValue: string;
 }
 
 /**

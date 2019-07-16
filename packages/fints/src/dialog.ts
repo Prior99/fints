@@ -1,5 +1,5 @@
 import { Connection } from "./types";
-import { HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HICDBS } from "./segments";
+import {HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD} from "./segments";
 import { Request } from "./request";
 import { TanMethod } from "./tan-method";
 
@@ -72,6 +72,8 @@ export class Dialog extends DialogConfig {
      */
     public painFormats: string[] = [];
 
+    public hiupd: HIUPD[];
+
     constructor(config: DialogConfig) {
         super();
         Object.assign(this, config);
@@ -101,6 +103,8 @@ export class Dialog extends DialogConfig {
         this.hicdbVersion = response.segmentMaxVersion(HICDBS);
         this.tanMethods = response.supportedTanMethods;
         this.painFormats = response.painFormats;
+        const hiupd = response.findSegments(HIUPD);
+        this.hiupd = hiupd
         await this.end();
     }
 

@@ -37,7 +37,9 @@ export class HttpConnection extends ConnectionConfig implements Connection {
             body: encodeBase64(String(request)),
         });
         if (!httpRequest.ok) { throw new Error(`Received bad status code ${httpRequest.status} from FinTS endpoint.`); }
+
         const responseString = decodeBase64(await httpRequest.text());
+        //console.log("RESPONSE", responseString);
         const response = new Response(responseString);
         verbose(`Received Response: ${responseString}`);
         if (this.debug) { verbose(`Parsed Response:\n${response.debugString}`); }

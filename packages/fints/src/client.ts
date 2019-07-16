@@ -1,6 +1,7 @@
 import "isomorphic-fetch";
 import { Dialog } from "./dialog";
-import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB } from "./segments";
+import { Parse } from "./parse";
+import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HIUPD } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
 import { SEPAAccount, Statement, Balance, StandingOrder } from "./types";
@@ -35,6 +36,18 @@ export abstract class Client {
         ]));
         await dialog.end();
         const hispa = response.findSegment(HISPA);
+
+        hispa.accounts.map((account)=> {
+            const hiupdAccount = dialog.hiupd.filter((element)=> {
+                return (element.account.iban === account.iban);
+            });
+            if (hiupdAccount.length > 0) {
+                account.accountOwnerName = hiupdAccount[0].account.accountOwnerName1;
+                account.accountName = hiupdAccount[0].account.accountName;
+                account.limitValue = Parse.num(hiupdAccount[0].account.limitValue);
+            }
+        });
+
         return hispa.accounts;
     }
 
@@ -124,7 +137,7 @@ export abstract class Client {
         const unprocessedStatements = await read(Buffer.from(bookedString, "utf8"));
         return unprocessedStatements.map(statement => {
             const transactions = statement.transactions.map(transaction => {
-                if (!is86Structured(transaction.description)) { return transaction; }
+               // if (!is86Structured(transaction.description)) { return transaction; }
                 const descriptionStructured = parse86Structured(transaction.description);
                 return { ...transaction, descriptionStructured };
             });
