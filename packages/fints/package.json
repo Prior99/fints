@@ -1,12 +1,14 @@
 {
     "name": "node-fints",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "description": "FinTS client library.",
     "keywords": [
         "fints",
         "hbci",
         "banking",
-        "api"
+        "api",
+        "ios",
+        "nodejs"
     ],
     "scripts": {
         "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
