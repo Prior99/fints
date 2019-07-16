@@ -9,7 +9,7 @@ Fork from npm [fints](https://github.com/Prior99/fints)
 ## Example
 
 ```typescript
-import { PinTanClient } from "fints";
+import { PinTanClient } from "node-fints";
 
 const startDate = new Date("2018-08-10T12:00:00Z");
 const endDate = new Date("2018-10-10T12:00:00Z");

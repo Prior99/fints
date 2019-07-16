@@ -2699,6 +2699,20 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
+fints@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/fints/-/fints-0.3.1.tgz#57caba2b4725f4763c3fd517d3b028a8ea5962bb"
+  integrity sha512-nCrlVqWY9Q5aP6wBeb8NNUySmS5ITJIN8ng+DbZ208J7Uqcx1PaW/Tp/KLxyNw0Tzq/bPIfIN5mBTs+OJdOAgQ==
+  dependencies:
+    bind-decorator "^1.0.11"
+    date-fns "^1.29.0"
+    fast-xml-parser "^3.12.12"
+    iconv-lite "^0.4.24"
+    invariant "^2.2.4"
+    isomorphic-fetch "^2.2.1"
+    mt940-js "^0.6.0"
+    winston "^3.1.0"
+
 flush-write-stream@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
