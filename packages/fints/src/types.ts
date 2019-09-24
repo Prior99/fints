@@ -158,8 +158,6 @@ export interface SEPAAccount {
     limitValue?: number;
 }
 
-
-
 /**
  * A single SEPA account.
  */

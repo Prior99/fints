@@ -37,8 +37,8 @@ export abstract class Client {
         await dialog.end();
         const hispa = response.findSegment(HISPA);
 
-        hispa.accounts.map((account)=> {
-            const hiupdAccount = dialog.hiupd.filter((element)=> {
+        hispa.accounts.map((account) => {
+            const hiupdAccount = dialog.hiupd.filter((element) => {
                 return (element.account.iban === account.iban);
             });
             if (hiupdAccount.length > 0) {
@@ -134,7 +134,7 @@ export abstract class Client {
             return result;
         }, []);
         const bookedString = segments.map(segment => segment.bookedTransactions || "").join("");
-        const unprocessedStatements = await read(Buffer.from(bookedString, "utf8"));
+        const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
         return unprocessedStatements.map(statement => {
             const transactions = statement.transactions.map(transaction => {
                // if (!is86Structured(transaction.description)) { return transaction; }

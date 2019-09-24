@@ -69,7 +69,7 @@ export class Response {
     public get errors() {
         return Array.from(this.returnValues().values())
             .filter(value => value.error)
-            .map(value => value.message);
+            .map(value => `${value.code} ${value.message}`);
     }
 
     /**

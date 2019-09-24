@@ -1,5 +1,5 @@
 import { Connection } from "./types";
-import {HKIDN, HKVVB, HKSYN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD} from "./segments";
+import { HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD } from "./segments";
 import { Request } from "./request";
 import { TanMethod } from "./tan-method";
 
@@ -7,6 +7,10 @@ import { TanMethod } from "./tan-method";
  * Properties passed to configure a `Dialog`.
  */
 export class DialogConfig {
+    /**
+     * The product ID that was assigned by ZKA
+     */
+    public productId = "fints";
     /**
      * The banks identification number (Bankleitzahl).
      */
@@ -92,7 +96,7 @@ export class Dialog extends DialogConfig {
         const { blz, name, pin, systemId, dialogId, msgNo } = this;
         const segments = [
             new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
-            new HKVVB({ segNo: 4 }),
+            new HKVVB({ segNo: 4, productId: this.productId, lang: 0 }),
             new HKSYN({ segNo: 5 }),
         ];
         const response = await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
@@ -104,7 +108,7 @@ export class Dialog extends DialogConfig {
         this.tanMethods = response.supportedTanMethods;
         this.painFormats = response.painFormats;
         const hiupd = response.findSegments(HIUPD);
-        this.hiupd = hiupd
+        this.hiupd = hiupd;
         await this.end();
     }
 
@@ -116,7 +120,8 @@ export class Dialog extends DialogConfig {
         const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
         const segments = [
             new HKIDN({ segNo: 3, blz, name, systemId }),
-            new HKVVB({ segNo: 4 }),
+            new HKVVB({ segNo: 4, productId: this.productId, lang: 0 }),
+            new HKTAN({ segNo: 5, version: 6, process: "4" }),
         ];
         const response = await this.send(
             new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods }),
@@ -147,6 +152,7 @@ export class Dialog extends DialogConfig {
     public async send(request: Request) {
         request.msgNo = this.msgNo;
         request.dialogId = this.dialogId;
+        request.tanMethods = this.tanMethods;
 
         const response = await this.connection.send(request);
         if (!response.success) {

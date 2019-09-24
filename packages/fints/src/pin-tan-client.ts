@@ -10,6 +10,10 @@ import { Connection } from "./types";
  */
 export interface PinTanClientConfig {
     /**
+     * The fints product identification.
+     */
+    productId: string;
+    /**
      * The banks identification number (Bankleitzahl).
      */
     blz: string;
@@ -49,9 +53,9 @@ export class PinTanClient extends Client {
     }
 
     public createDialog() {
-        const { blz, name, pin } = this.config;
+        const { blz, name, pin, productId } = this.config;
         const { connection } = this;
-        return new Dialog({ blz, name, pin, systemId: "0", connection });
+        return new Dialog({ blz, name, pin, systemId: "0", productId: productId, connection });
     }
 
     public createRequest(dialog: Dialog, segments: Segment<any>[], tan?: string) {
