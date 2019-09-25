@@ -61,29 +61,29 @@
     },
     "devDependencies": {
         "@types/date-fns": "^2.6.0",
-        "@types/fetch-mock": "^6.0.3",
+        "@types/fetch-mock": "^7.3.1",
         "@types/iconv-lite": "^0.0.1",
-        "@types/invariant": "^2.2.29",
-        "@types/isomorphic-fetch": "^0.0.34",
-        "@types/jest": "^23.3.1",
-        "@types/node": "^10.9.4",
+        "@types/invariant": "^2.2.30",
+        "@types/isomorphic-fetch": "^0.0.35",
+        "@types/jest": "^24.0.18",
+        "@types/node": "^12.7.7",
         "@types/winston": "^2.4.4",
         "cxsd": "^0.1.1",
-        "fetch-mock": "^7.0.0-alpha.6",
-        "jest": "^23.5.0",
-        "ts-jest": "^23.1.4",
-        "tslint": "^5.11.0",
-        "typedoc": "^0.12.0",
-        "typescript": "^3.0.3"
+        "fetch-mock": "^7.3.9",
+        "jest": "^24.9.0",
+        "ts-jest": "^24.1.0",
+        "tslint": "^5.20.0",
+        "typedoc": "^0.15.0",
+        "typescript": "^3.6.3"
     },
     "dependencies": {
         "bind-decorator": "^1.0.11",
-        "date-fns": "^1.29.0",
-        "fast-xml-parser": "^3.12.12",
-        "iconv-lite": "^0.4.24",
+        "date-fns": "^2.3.0",
+        "fast-xml-parser": "^3.12.20",
+        "iconv-lite": "^0.5.0",
         "invariant": "^2.2.4",
         "isomorphic-fetch": "^2.2.1",
         "mt940-js": "^0.6.0",
-        "winston": "^3.1.0"
+        "winston": "^3.2.1"
     }
 }
