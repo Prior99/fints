@@ -2,6 +2,7 @@ import { Connection } from "./types";
 import { HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD } from "./segments";
 import { Request } from "./request";
 import { TanMethod } from "./tan-method";
+import { escapeFinTS } from "./utils";
 
 /**
  * Properties passed to configure a `Dialog`.
@@ -100,7 +101,7 @@ export class Dialog extends DialogConfig {
             new HKSYN({ segNo: 5 }),
         ];
         const response = await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
-        this.systemId = response.systemId;
+        this.systemId = escapeFinTS(response.systemId);
         this.dialogId = response.dialogId;
         this.hisalsVersion = response.segmentMaxVersion(HISALS);
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
@@ -117,14 +118,14 @@ export class Dialog extends DialogConfig {
      * The dialog is ready for performing custom requests afterwards.
      */
     public async init() {
-        const { blz, name, pin, systemId, dialogId, msgNo, tanMethods } = this;
+        const { blz, name, pin, dialogId, msgNo, tanMethods } = this;
         const segments = [
-            new HKIDN({ segNo: 3, blz, name, systemId }),
+            new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
             new HKVVB({ segNo: 4, productId: this.productId, lang: 0 }),
             new HKTAN({ segNo: 5, version: 6, process: "4" }),
         ];
         const response = await this.send(
-            new Request({ blz, name, pin, systemId, dialogId, msgNo, segments, tanMethods }),
+            new Request({ blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods }),
         );
         this.dialogId = response.dialogId;
     }
