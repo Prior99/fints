@@ -1,7 +1,7 @@
 import "isomorphic-fetch";
 import { Dialog } from "./dialog";
 import { Parse } from "./parse";
-import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HIUPD } from "./segments";
+import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
 import { SEPAAccount, Statement, Balance, StandingOrder } from "./types";
@@ -122,6 +122,7 @@ export abstract class Client {
                     endDate,
                     touchdown,
                 }),
+                new HKTAN({ segNo: 4, version: 6, process: "4" })
             ]);
             const response = await dialog.send(request);
             touchdowns = response.getTouchdowns(request);
