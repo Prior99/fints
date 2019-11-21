@@ -46,8 +46,8 @@ export const Parse = {
      *
      * @return The parsed date.
      */
-    date(str: string|Date): Date {
-        return parseDate(str);
+    date(str: string): Date {
+        return parseDate(str, 'yyyy-mm-dd', new Date());
     },
     /**
      * Parse a xml document to an object.

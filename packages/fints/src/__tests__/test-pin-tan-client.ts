@@ -9,6 +9,7 @@ const url = "https://example.com/fints";
 const name = "test1";
 const pin = "12345";
 const blz = "12345678";
+const productId = "Product";
 
 let client: PinTanClient;
 
@@ -16,7 +17,7 @@ beforeEach(() => {
     jest.spyOn(Format, "date").mockImplementation(date => date ? format(date, "HHMMss") : "20180101");
     jest.spyOn(Format, "time").mockImplementation(time => time ? format(time, "HHMMss") : "120000");
     jest.spyOn(Math, "random").mockReturnValue(0.5);
-    client = new PinTanClient({ blz, name, pin, url });
+    client = new PinTanClient({ blz, name, pin, url, productId });
 });
 
 test("accounts", async () => {
