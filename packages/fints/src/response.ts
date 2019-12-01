@@ -111,7 +111,7 @@ export class Response {
      *
      * @return A map of (code -> return value).
      */
-    public returnValues(...segmentClasses: (Constructable<HIRMG | HIRMS>)[]): Map<number, ReturnValue> {
+    public returnValues(...segmentClasses: (Constructable<HIRMG | HIRMS>)[]): Map<string, ReturnValue> {
         const classes = segmentClasses.length === 0 ? [HIRMG, HIRMS] : segmentClasses;
         return classes.reduce((result, currentClass) => {
             const segment = this.findSegment(currentClass);

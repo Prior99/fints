@@ -3,17 +3,23 @@
 exports[`accounts 1`] = `
 Array [
   Object {
+    "accountName": "Girokonto",
     "accountNumber": "1",
+    "accountOwnerName": "Fullname",
     "bic": "GENODE00TES",
     "blz": "12345678",
     "iban": "DE111234567800000001",
+    "limitValue": undefined,
     "subAccount": "",
   },
   Object {
+    "accountName": "Tagesgeld",
     "accountNumber": "2",
+    "accountOwnerName": "Fullname",
     "bic": "GENODE00TES",
     "blz": "12345678",
     "iban": "DE111234567800000002",
+    "limitValue": undefined,
     "subAccount": "",
   },
 ]

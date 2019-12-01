@@ -1,8 +1,10 @@
 import { Connection } from "./types";
 import { HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD } from "./segments";
 import { Request } from "./request";
+import { Response } from "./response";
 import { TanMethod } from "./tan-method";
 import { escapeFinTS } from "./utils";
+import { ResponseError } from "./response-error";
 
 /**
  * Properties passed to configure a `Dialog`.
@@ -117,17 +119,18 @@ export class Dialog extends DialogConfig {
      * Send the initializing request to the server.
      * The dialog is ready for performing custom requests afterwards.
      */
-    public async init() {
+    public async init(): Promise<Response> {
         const { blz, name, pin, dialogId, msgNo, tanMethods } = this;
         const segments = [
             new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
             new HKVVB({ segNo: 4, productId: this.productId, lang: 0 }),
             new HKTAN({ segNo: 5, version: 6, process: "4" }),
         ];
-        const response = await this.send(
+        const response:Response = await this.send(
             new Request({ blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods }),
         );
         this.dialogId = response.dialogId;
+        return response;
     }
 
     /**
@@ -150,15 +153,14 @@ export class Dialog extends DialogConfig {
      *
      * @return The response received from the server.
      */
-    public async send(request: Request) {
+    public async send(request: Request): Promise<Response> {
         request.msgNo = this.msgNo;
         request.dialogId = this.dialogId;
         request.tanMethods = this.tanMethods;
 
         const response = await this.connection.send(request);
         if (!response.success) {
-            const errors = response.errors.map(error => `"${error}"`).join(", ");
-            throw new Error(`Error(s) in dialog: ${errors}.`);
+            throw new ResponseError(response);
         }
         this.msgNo++;
         return response;

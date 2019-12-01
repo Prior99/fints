@@ -25,8 +25,28 @@
                 "${workspaceRoot}/jest.config.json"          
               ],
             },
+            "env": {"TZ": "UTC"},
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
           },
+          {
+            "type": "node",
+            "request": "launch",
+            "name": "Single Jest Tests",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "args": [
+                "--config",
+                "${workspaceRoot}/jest.config.json",
+                "-i",
+                "${relativeFile}",
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "integratedTerminal",
+            "outFiles": [
+                "${workspaceRoot}/dist"
+            ],
+            "env": {"TZ": "UTC"}
+        }
     ]
 }
