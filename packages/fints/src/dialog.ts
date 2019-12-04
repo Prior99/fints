@@ -31,10 +31,6 @@ export class DialogConfig {
      * by the server at the first request.
      */
     public systemId: string;
-    /**
-     * An instance implementing `Connection` used for performing requests.
-     */
-    public connection: Connection;
 }
 
 /**
@@ -81,9 +77,12 @@ export class Dialog extends DialogConfig {
 
     public hiupd: HIUPD[];
 
-    constructor(config: DialogConfig) {
+    public connection: Connection;
+
+    constructor(config: DialogConfig, connection: Connection) {
         super();
         Object.assign(this, config);
+        this.connection = connection;
     }
 
     /**

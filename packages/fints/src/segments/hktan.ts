@@ -20,7 +20,7 @@ export class HKTAN extends SegmentClass(HKTANProps) {
   }
 
   protected serialize() {
-    const {process, aref, medium, version} = this;
+    const { process, aref, medium, version } = this;
     if (!["2", "4"].includes(process)) {
       throw new Error(`HKTAN process ${process} not implemented.`);
     }
@@ -50,7 +50,7 @@ export class HKTAN extends SegmentClass(HKTANProps) {
       }
     } else if (process === "2") {
       if (version === 6) {
-        return [process, "", "", "", aref, "N"];
+        return [process, "", "", "", aref, "N", "", "", "", "", medium];
       }
       if (version === 5) {
         return [process, "", "", "", aref, "", "N"];
