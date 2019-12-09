@@ -4,6 +4,7 @@ export class HKTANProps {
   public segNo: number;
   public version: number;
   public process: string;
+  public segmentReference: string;
   public aref: string;
   public medium: string;
 }
@@ -20,7 +21,7 @@ export class HKTAN extends SegmentClass(HKTANProps) {
   }
 
   protected serialize() {
-    const { process, aref, medium, version } = this;
+    const { process, segmentReference, aref, medium, version } = this;
     if (!["2", "4"].includes(process)) {
       throw new Error(`HKTAN process ${process} not implemented.`);
     }
@@ -30,16 +31,16 @@ export class HKTAN extends SegmentClass(HKTANProps) {
     if (process === "4") {
       if (medium) {
         if (version === 3) {
-          return [process, "", "", "", "", "", "", "", medium];
+          return [process, segmentReference, "", "", "", "", "", "", medium];
         }
         if (version === 4) {
-          return [process, "", "", "", "", "", "", "", "", medium];
+          return [process, segmentReference, "", "", "", "", "", "", "", medium];
         }
         if (version === 5) {
-          return [process, "", "", "", "", "", "", "", "", "", "", medium];
+          return [process, segmentReference, "", "", "", "", "", "", "", "", "", medium];
         }
         if (version === 6) {
-          return [process, "", "", "", "", "", "", "", "", "", medium];
+          return [process, segmentReference, "", "", "", "", "", "", "", "", medium];
         }
       } else {
         if (version === 6) {
@@ -50,13 +51,13 @@ export class HKTAN extends SegmentClass(HKTANProps) {
       }
     } else if (process === "2") {
       if (version === 6) {
-        return [process, "", "", "", aref, "N", "", "", "", "", medium];
+        return [process, segmentReference, "", "", aref, "N", "", "", "", "", medium];
       }
       if (version === 5) {
-        return [process, "", "", "", aref, "", "N"];
+        return [process, segmentReference, "", "", aref, "", "N"];
       }
       if (version === 3 || version === 4) {
-        return [process, "", aref, "", "N"];
+        return [process, segmentReference, aref, "", "N"];
       }
     }
   }

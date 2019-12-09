@@ -55,7 +55,7 @@ export class PinTanClient extends Client {
     public createDialog(dialogConfig?:DialogConfig) {
         const { blz, name, pin, productId } = this.config;
         const { connection } = this;
-        return new Dialog(dialogConfig!=null?dialogConfig:{ blz, name, pin, systemId: "0", productId: productId}, connection );
+        return new Dialog(dialogConfig?dialogConfig:{ blz, name, pin, systemId: "0", productId}, connection );
     }
 
     public createRequest(dialog: Dialog, segments: Segment<any>[], tan?: string) {

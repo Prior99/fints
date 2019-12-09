@@ -1,10 +1,11 @@
 import { Connection } from "./types";
-import { HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD } from "./segments";
+import { HKIDN, HKVVB, HKSYN, HKTAN, HKEND, HISALS, HIKAZS, HICDBS, HIUPD, HITANS, Segment } from "./segments";
 import { Request } from "./request";
 import { Response } from "./response";
 import { TanMethod } from "./tan-method";
 import { escapeFinTS } from "./utils";
-import { ResponseError } from "./response-error";
+import { ResponseError } from "./errors/response-error";
+import { TanRequiredError } from "./errors/tan-required-error";
 
 /**
  * Properties passed to configure a `Dialog`.
@@ -70,6 +71,8 @@ export class Dialog extends DialogConfig {
      * The server's maximum supported version can be parsed from the initial requests and is stored here.
      */
     public hicdbVersion = 1;
+
+    public hktanVersion = 1;
     /**
      * A list of supported SEPA pain-formats as configured by the server.
      */
@@ -107,6 +110,7 @@ export class Dialog extends DialogConfig {
         this.hisalsVersion = response.segmentMaxVersion(HISALS);
         this.hikazsVersion = response.segmentMaxVersion(HIKAZS);
         this.hicdbVersion = response.segmentMaxVersion(HICDBS);
+        this.hktanVersion = response.segmentMaxVersion(HITANS);
         this.tanMethods = response.supportedTanMethods;
         this.painFormats = response.painFormats;
         const hiupd = response.findSegments(HIUPD);
@@ -120,12 +124,14 @@ export class Dialog extends DialogConfig {
      */
     public async init(): Promise<Response> {
         const { blz, name, pin, dialogId, msgNo, tanMethods } = this;
-        const segments = [
+        const segments:Segment<any>[] = [
             new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
             new HKVVB({ segNo: 4, productId: this.productId, lang: 0 }),
-            new HKTAN({ segNo: 5, version: 6, process: "4" }),
         ];
-        const response:Response = await this.send(
+        if (this.hktanVersion >= 6) {
+            segments.push(new HKTAN({ segNo: 5, version: 6, process: "4" }));
+        }
+        const response: Response = await this.send(
             new Request({ blz, name, pin, systemId: "0", dialogId, msgNo, segments, tanMethods }),
         );
         this.dialogId = response.dialogId;
@@ -160,6 +166,9 @@ export class Dialog extends DialogConfig {
         const response = await this.connection.send(request);
         if (!response.success) {
             throw new ResponseError(response);
+        }
+        if (response.returnValues().has('0030')) {
+            throw new TanRequiredError(response);
         }
         this.msgNo++;
         return response;
