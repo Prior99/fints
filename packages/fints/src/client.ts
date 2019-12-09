@@ -111,19 +111,23 @@ export abstract class Client {
         await dialog.init();
         let touchdowns: Map<string, string>;
         let touchdown: string;
-        const segments: Segment<any>[] = transactionReference ? [
-            new HKTAN({ segNo: 4, version: 6, process: "2", segmentReference:"HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name })
-        ] : [
-            new HKKAZ({
+        const segments: Segment<any>[] = [];
+        
+        if (transactionReference) {
+            segments.push(new HKTAN({ segNo: 4, version: 6, process: "2", segmentReference:"HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
+        } else {
+            segments.push(new HKKAZ({
                 segNo: 3,
                 version: dialog.hikazsVersion,
                 account,
                 startDate,
                 endDate,
                 touchdown,
-            }),
-            new HKTAN({ segNo: 4, version: 6, process: "4", segmentReference:"HKKAZ", medium: dialog.tanMethods[0].name })
-        ];
+            }));
+            if (dialog.hktanVersion >= 6) {
+                segments.push(new HKTAN({ segNo: 4, version: 6, process: "4", segmentReference:"HKKAZ", medium: dialog.tanMethods[0].name }));
+            }
+        }
         const responses: Response[] = [];
         do {
             const request = this.createRequest(dialog, segments, tan);
