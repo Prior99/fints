@@ -1,10 +1,12 @@
-# nodejs-fints
+# node-fints
 
 [![npm](https://img.shields.io/npm/v/node-fints.svg)](https://www.npmjs.com/package/node-fints)
 
 A client library for communicating with [FinTS servers](https://www.hbci-zka.de/).
 
-Fork from npm [fints](https://github.com/Prior99/fints)
+Fork from [fints](https://github.com/Prior99/fints)
+
+Fork from [nodejs-fints](https://github.com/as19git67/nodejs-fints)
 
 ## Example
 
