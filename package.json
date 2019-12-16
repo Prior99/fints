@@ -9,7 +9,7 @@
   "devDependencies": {
     "lerna": "^3.2.1",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.3"
   },
   "dependencies": {}
 }
