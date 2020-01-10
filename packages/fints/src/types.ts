@@ -197,7 +197,7 @@ export interface StandingOrder {
     /**
      * Creation date of this standing order.
      */
-    creationDate: Date;
+    creationDate: string;
     /**
      * The debitor.
      */

@@ -47,7 +47,7 @@ testSegment(HKTAN, [
         },
     },
     {
-        serialized: "HKTAN:5:6+4'",
+        serialized: "HKTAN:5:6+4+HKIDN'",
         structured: {
             type: "HKTAN",
             segNo: 5,
@@ -57,7 +57,7 @@ testSegment(HKTAN, [
         },
     },
     {
-        serialized: "HKTAN:5:6+2++++3+N'",
+        serialized: "HKTAN:5:6+2++++3+N+++++3'",
         structured: {
             type: "HKTAN",
             segNo: 5,
