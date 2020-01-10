@@ -7,9 +7,9 @@
   ],
   "private": true,
   "devDependencies": {
-    "lerna": "^3.2.1",
+    "lerna": "^3.19.0",
     "tslint": "^5.20.0",
     "typescript": "^3.7.3"
   },
-  "dependencies": {}
+  "name": "fints-psd2"
 }
