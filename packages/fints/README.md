@@ -1,4 +1,4 @@
-# node-fints
+# fints-psd2-lib
 
 [![npm](https://img.shields.io/npm/v/node-fints.svg)](https://www.npmjs.com/package/node-fints)
 
