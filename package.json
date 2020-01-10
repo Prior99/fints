@@ -11,5 +11,5 @@
     "tslint": "^5.20.0",
     "typescript": "^3.7.3"
   },
-  "name": "fints-psd2"
+  "name": "fints-lerna"
 }
