@@ -78,6 +78,8 @@ export interface PaymentReference {
      * The principal's specified payment reference (description text of the transaction) (SVWZ+).
      */
     text?: string;
+    /** Purpose code */
+    purpose?: string;
 }
 
 /**

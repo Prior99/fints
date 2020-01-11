@@ -13,7 +13,6 @@
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)$",
     "testPathIgnorePatterns" : [
       "<rootDir>/node_modules/", 
-      "-e2e\\.ts",
       "\\.d\\.ts", 
       "\\.js"
     ],

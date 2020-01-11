@@ -145,7 +145,6 @@ export abstract class Client {
         const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
         return unprocessedStatements.map(statement => {
             const transactions = statement.transactions.map(transaction => {
-                // if (!is86Structured(transaction.description)) { return transaction; }
                 const descriptionStructured = parse86Structured(transaction.description);
                 return { ...transaction, descriptionStructured };
             });
