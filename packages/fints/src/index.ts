@@ -14,3 +14,5 @@ export * from "./segments";
 export * from "./tan-method";
 export * from "./types";
 export * from "./utils";
+export * from "./errors/response-error";
+export * from "./errors/tan-required-error";
