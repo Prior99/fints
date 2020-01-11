@@ -1,14 +1,7 @@
 import * as fs from "fs";
-import { Dialog, DialogConfig } from "../dialog";
-import { Parse } from "../parse";
-import { PinTanClient } from "../pin-tan-client";
-import { Response } from "../response";
-import { HISPA } from "../segments/hispa";
-import { HITAN } from "../segments/hitan";
-import { HKSPA } from "../segments/hkspa";
-import { HKTAN } from "../segments/hktan";
-import { SEPAAccount } from "../types";
 import { TanRequiredError } from "../errors/tan-required-error";
+import { PinTanClient } from "../pin-tan-client";
+import { SEPAAccount } from "../types";
 
 const url = process.env.FINTS_URL;
 const name = process.env.FINTS_USER;

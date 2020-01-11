@@ -8,7 +8,7 @@ const standingOrder: StandingOrder = {
     interval: 1,
     orderDay: 29,
     lastOrderDate: new Date("2020-06-30T00:00:00"),
-    creationDate: "2014-12-01T00:00:00",
+    creationDate: new Date("2014-12-01T00:00:00"),
     amount: 90.2,
     paymentPurpose: "Common Order",
     debitor: {

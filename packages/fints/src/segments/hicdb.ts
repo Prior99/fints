@@ -51,7 +51,7 @@ export class HICDB extends SegmentClass(HICDBProps) {
             interval: Parse.num(interval),
             orderDay: Parse.num(orderDay),
             lastOrderDate: lastOrder ? Parse.date(lastOrder) : null,
-            creationDate: jsonMessage.GrpHdr.CreDtTm,
+            creationDate: new Date(jsonMessage.GrpHdr.CreDtTm),
             amount: jsonMessage.GrpHdr.CtrlSum,
             paymentPurpose: creditTransaction.RmtInf.Ustrd,
             debitor: {
