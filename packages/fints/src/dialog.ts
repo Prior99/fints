@@ -6,6 +6,7 @@ import { TanMethod } from "./tan-method";
 import { escapeFinTS } from "./utils";
 import { ResponseError } from "./errors/response-error";
 import { TanRequiredError } from "./errors/tan-required-error";
+import { HITAN } from "./segments/hitan";
 
 /**
  * Properties passed to configure a `Dialog`.
@@ -168,7 +169,7 @@ export class Dialog extends DialogConfig {
             throw new ResponseError(response);
         }
         if (response.returnValues().has('0030')) {
-            throw new TanRequiredError(response);
+            throw new TanRequiredError(response.returnValues().get('0030').message, response.findSegment(HITAN).transactionReference, response.findSegment(HITAN).challengeMedia);
         }
         this.msgNo++;
         return response;

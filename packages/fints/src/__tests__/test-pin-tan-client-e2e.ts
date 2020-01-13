@@ -28,9 +28,8 @@ test.skip("get accounts", async () => {
         await fs.writeFileSync('/tmp/account.json', JSON.stringify(accounts[0]))
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            const hitan = error.hitan;
-            fs.writeFileSync('/tmp/hitan-auftragsreferenz.txt', hitan.transactionReference);
-            fs.writeFileSync('/tmp/challenge.png', hitan.challengeMedia);
+            fs.writeFileSync('/tmp/hitan-auftragsreferenz.txt', error.transactionReference);
+            fs.writeFileSync('/tmp/challenge.png', error.challengeMedia);
         } else {
             console.error(error);
         }
@@ -49,9 +48,8 @@ test.skip("get statements", async () => {
         console.info(statements);
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            const hitan = error.hitan;
-            await fs.writeFileSync('/tmp/hitan-auftragsreferenz.txt', hitan.transactionReference);
-            await fs.writeFileSync('/tmp/challenge.png', hitan.challengeMedia);
+            await fs.writeFileSync('/tmp/hitan-auftragsreferenz.txt', error.transactionReference);
+            await fs.writeFileSync('/tmp/challenge.png', error.challengeMedia);
         } else {
             console.error(error);
         }

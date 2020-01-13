@@ -2,12 +2,12 @@ import { Response } from "../response";
 import { HITAN } from "../segments/hitan";
 
 export class TanRequiredError extends Error {
-    hitan: HITAN;
+    transactionReference:string;
+    challengeMedia:Buffer;
 
-    constructor(response: Response) {
-        const message = response.returnValues().get('0030').message
-        const hitan = response.findSegment(HITAN);
+    constructor(message:string, transactionReference: string, challengeMedia:Buffer) {
         super(message);
-        this.hitan = hitan;
+        this.transactionReference = transactionReference;
+        this.challengeMedia = challengeMedia;
     }
 }
