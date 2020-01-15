@@ -8,7 +8,7 @@ export class HITANProps {
     public transactionHash: string;
     public transactionReference: string;
     public challengeText: string;
-    public challengeMediaType:string;
+    public challengeMediaType: string;
     public challengeMedia: Buffer;
 }
 
@@ -22,19 +22,20 @@ export class HITAN extends SegmentClass(HITANProps) {
             throw new Error(`Unimplemented TAN method version ${this.version} encountered.`);
         }
         const [
-            [ process ],
-            [ transactionHash ],
-            [ transactionReference ],
-            [ challengeText],
-            [ challengeHhdUc ]
+            [process],
+            [transactionHash],
+            [transactionReference],
+            [challengeText],
+            ...challengeHhdUc
         ] = input;
-        
-      
+
+
         this.process = Parse.num(process as string);
         this.transactionHash = transactionHash;
         this.transactionReference = transactionReference;
         this.challengeText = challengeText;
-        [this.challengeMediaType, this.challengeMedia] = Parse.challengeHhdUc(challengeHhdUc);
-
+        if (challengeHhdUc.length > 0) {
+            [this.challengeMediaType, this.challengeMedia] = Parse.challengeHhdUc(challengeHhdUc);
+        }
     }
 }

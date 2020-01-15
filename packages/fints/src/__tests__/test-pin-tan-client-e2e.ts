@@ -40,8 +40,8 @@ test.skip("get statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
     const account: SEPAAccount = JSON.parse((await fs.readFileSync('/tmp/account.json') as Buffer).toString());
 
-    const startDate = new Date("2019-11-01T12:00:00Z");
-    const endDate = new Date("2019-12-09T12:00:00Z");
+    const startDate = new Date("2019-01-01T12:00:00Z");
+    const endDate = new Date("2020-01-14T12:00:00Z");
 
     try {
         const statements = await client.statements(account, startDate, endDate);
