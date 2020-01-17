@@ -169,7 +169,11 @@ export class Dialog extends DialogConfig {
             throw new ResponseError(response);
         }
         if (response.returnValues().has('0030')) {
-            throw new TanRequiredError(response.returnValues().get('0030').message, response.findSegment(HITAN).transactionReference, response.findSegment(HITAN).challengeMedia);
+            const hitan = response.findSegment(HITAN);
+            throw new TanRequiredError(response.returnValues().get('0030').message, 
+            hitan.transactionReference,
+            hitan.challengeText,
+            hitan.challengeMedia);
         }
         this.msgNo++;
         return response;
