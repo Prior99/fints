@@ -51,7 +51,7 @@ export class HKTAN extends SegmentClass(HKTANProps) {
       }
     } else if (process === "2") {
       if (version === 6) {
-        return [process, segmentReference, "", "", aref, "N", "", "", "", "", medium];
+        return [process, segmentReference, "", "", aref, "N"];
       }
       if (version === 5) {
         return [process, segmentReference, "", "", aref, "", "N"];

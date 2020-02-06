@@ -114,7 +114,7 @@ export abstract class Client {
         const segments: Segment<any>[] = [];
         
         if (transactionReference) {
-            segments.push(new HKTAN({ segNo: 4, version: 6, process: "2", segmentReference:"HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
+            segments.push(new HKTAN({ segNo: 3, version: 6, process: "2", segmentReference:"HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
         } else {
             segments.push(new HKKAZ({
                 segNo: 3,
