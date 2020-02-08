@@ -2,6 +2,7 @@ import * as fs from "fs";
 import { TanRequiredError } from "../errors/tan-required-error";
 import { PinTanClient } from "../pin-tan-client";
 import { SEPAAccount } from "../types";
+import { DialogConfig, Dialog } from "../dialog";
 
 const url = process.env.FINTS_URL;
 const name = process.env.FINTS_USER;
@@ -39,18 +40,38 @@ test.skip("get accounts", async () => {
 test.skip("get statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
     const account: SEPAAccount = JSON.parse((await fs.readFileSync('/tmp/account.json') as Buffer).toString());
-
     const startDate = new Date("2019-08-06T12:00:00Z");
     const endDate = new Date("2020-02-06T12:00:00Z");
 
     try {
         const statements = await client.statements(account, startDate, endDate);
         console.info(statements);
+        await fs.unlinkSync('/tmp/statements-status.txt');
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            console.log('Transaction Reference: ' + error.transactionReference)
-            await fs.writeFileSync('/tmp/hitan-auftragsreferenz.txt', error.transactionReference);
-            await fs.writeFileSync('/tmp/challenge.png', error.challengeMedia);
+            console.log('Transaction Reference: ' + error.transactionReference);
+            await fs.writeFileSync('/tmp/statements-status.txt', JSON.stringify(error));
+        } else {
+            console.error(error);
+        }
+    }
+}, 600000);
+
+test("complete statements", async () => {
+    const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
+  
+    const tan: string = '694744';
+
+    try {
+        const tanRequiredError = JSON.parse((await fs.readFileSync('/tmp/statements-status.txt') as Buffer).toString()) as TanRequiredError;
+        tanRequiredError.dialog.msgNo = tanRequiredError.dialog.msgNo + 1;
+
+        const statements = await client.completeStatements(tanRequiredError.dialog, tanRequiredError.transactionReference, tan);
+        console.info(statements);
+        await fs.unlinkSync('/tmp/statements-status.txt');
+    } catch (error) {
+        if (error instanceof TanRequiredError) {
+            await fs.writeFileSync('/tmp/statements-status.txt', JSON.stringify(error));
         } else {
             console.error(error);
         }

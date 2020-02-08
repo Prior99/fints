@@ -173,7 +173,8 @@ export class Dialog extends DialogConfig {
             throw new TanRequiredError(response.returnValues().get('0030').message, 
             hitan.transactionReference,
             hitan.challengeText,
-            hitan.challengeMedia);
+            hitan.challengeMedia,
+            this);
         }
         this.msgNo++;
         return response;

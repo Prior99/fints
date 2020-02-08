@@ -1,5 +1,5 @@
 import "isomorphic-fetch";
-import { Dialog } from "./dialog";
+import { Dialog, DialogConfig } from "./dialog";
 import { Parse } from "./parse";
 import { Segment, HKSPA, HISPA, HKKAZ, HIKAZ, HKSAL, HISAL, HKCDB, HICDB, HKTAN } from "./segments";
 import { Request } from "./request";
@@ -7,6 +7,7 @@ import { Response } from "./response";
 import { SEPAAccount, Statement, Balance, StandingOrder } from "./types";
 import { read } from "mt940-js";
 import { is86Structured, parse86Structured } from "./mt940-86-structured";
+import { timingSafeEqual } from "crypto";
 
 /**
  * An abstract class for communicating with a fints server.
@@ -16,7 +17,7 @@ export abstract class Client {
     /**
      * Create a new dialog.
      */
-    protected abstract createDialog(): Dialog;
+    protected abstract createDialog(dialogConfig?: DialogConfig): Dialog;
     /**
      * Create a request.
      */
@@ -105,29 +106,42 @@ export abstract class Client {
      *
      * @return A list of all statements in the specified range.
      */
-    public async statements(account: SEPAAccount, startDate?: Date, endDate?: Date, transactionReference?: string, tan?: string): Promise<Statement[]> {
+    public async statements(account: SEPAAccount, startDate?: Date, endDate?: Date): Promise<Statement[]> {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
+        const segments: Segment<any>[] = [];
+        segments.push(new HKKAZ({
+            segNo: 3,
+            version: dialog.hikazsVersion,
+            account,
+            startDate,
+            endDate
+        }));
+        if (dialog.hktanVersion >= 6) {
+            segments.push(new HKTAN({ segNo: 4, version: 6, process: "4", segmentReference: "HKKAZ", medium: dialog.tanMethods[0].name }));
+        }
+        return await this.sendStatementRequest(dialog, segments);
+    }
+
+    /**
+     * Fetch a list of bank statements deserialized from the MT940 transmitted by the fints server.
+     *
+     * @param startDate The start of the range for which the statements should be fetched.
+     * @param endDate The end of the range for which the statements should be fetched.
+     *
+     * @return A list of all statements in the specified range.
+     */
+    public async completeStatements(savedDialog: DialogConfig, transactionReference: string, tan: string): Promise<Statement[]> {
+        const dialog = this.createDialog(savedDialog);
+        const segments: Segment<any>[] = [];
+        segments.push(new HKTAN({ segNo: 3, version: 6, process: "2", segmentReference: "HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
+        return await this.sendStatementRequest(dialog, segments, tan);
+    }
+
+    private async sendStatementRequest(dialog: Dialog, segments: Segment<any>[], tan?: string): Promise<Statement[]> {
         let touchdowns: Map<string, string>;
         let touchdown: string;
-        const segments: Segment<any>[] = [];
-        
-        if (transactionReference) {
-            segments.push(new HKTAN({ segNo: 3, version: 6, process: "2", segmentReference:"HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
-        } else {
-            segments.push(new HKKAZ({
-                segNo: 3,
-                version: dialog.hikazsVersion,
-                account,
-                startDate,
-                endDate,
-                touchdown,
-            }));
-            if (dialog.hktanVersion >= 6) {
-                segments.push(new HKTAN({ segNo: 4, version: 6, process: "4", segmentReference:"HKKAZ", medium: dialog.tanMethods[0].name }));
-            }
-        }
         const responses: Response[] = [];
         do {
             const request = this.createRequest(dialog, segments, tan);
