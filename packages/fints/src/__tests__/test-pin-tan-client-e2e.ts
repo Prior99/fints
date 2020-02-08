@@ -2,7 +2,6 @@ import * as fs from "fs";
 import { TanRequiredError } from "../errors/tan-required-error";
 import { PinTanClient } from "../pin-tan-client";
 import { SEPAAccount } from "../types";
-import { DialogConfig, Dialog } from "../dialog";
 
 const url = process.env.FINTS_URL;
 const name = process.env.FINTS_USER;
@@ -57,9 +56,8 @@ test.skip("get statements", async () => {
     }
 }, 600000);
 
-test("complete statements", async () => {
+test.skip("complete statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
-  
     const tan: string = '694744';
 
     try {
