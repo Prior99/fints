@@ -134,6 +134,7 @@ export abstract class Client {
      */
     public async completeStatements(savedDialog: DialogConfig, transactionReference: string, tan: string): Promise<Statement[]> {
         const dialog = this.createDialog(savedDialog);
+        dialog.msgNo = dialog.msgNo + 1;
         const segments: Segment<any>[] = [];
         segments.push(new HKTAN({ segNo: 3, version: 6, process: "2", segmentReference: "HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
         return await this.sendStatementRequest(dialog, segments, tan);

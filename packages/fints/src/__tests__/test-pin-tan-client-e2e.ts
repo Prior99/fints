@@ -39,8 +39,8 @@ test.skip("get accounts", async () => {
 test.skip("get statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
     const account: SEPAAccount = JSON.parse((await fs.readFileSync('/tmp/account.json') as Buffer).toString());
-    const startDate = new Date("2019-08-06T12:00:00Z");
-    const endDate = new Date("2020-02-06T12:00:00Z");
+    const startDate = new Date("2019-09-27T12:00:00Z");
+    const endDate = new Date("2019-12-27T12:00:00Z");
 
     try {
         const statements = await client.statements(account, startDate, endDate);
@@ -58,11 +58,10 @@ test.skip("get statements", async () => {
 
 test.skip("complete statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
-    const tan: string = '694744';
+    const tan: string = '492857';
 
     try {
         const tanRequiredError = JSON.parse((await fs.readFileSync('/tmp/statements-status.txt') as Buffer).toString()) as TanRequiredError;
-        tanRequiredError.dialog.msgNo = tanRequiredError.dialog.msgNo + 1;
 
         const statements = await client.completeStatements(tanRequiredError.dialog, tanRequiredError.transactionReference, tan);
         console.info(statements);
