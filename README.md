@@ -10,7 +10,7 @@ Fork from npm [fints](https://github.com/Prior99/fints)
 
 This library is maintained in a [monorepo using lerna](https://lernajs.io/). These packages are included:
 
- * [fints-psd2-lib](packages/fints) (Take a look for library usage instructions.)
+ * [fints](packages/fints) (Take a look for library usage instructions.)
  * [fints-cli](packages/fints-cli) (Take a look for CLI usage instructions.)
 
 ## Mentions

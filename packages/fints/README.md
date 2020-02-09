@@ -1,4 +1,4 @@
-# fints-psd2-lib
+# node-fints
 
 [![npm](https://img.shields.io/npm/v/node-fints.svg)](https://www.npmjs.com/package/node-fints)
 
@@ -10,7 +10,7 @@ Fork from [nodejs-fints](https://github.com/as19git67/nodejs-fints)
 
 ## Example
 
-###Typescript Example
+### Typescript Example
 ```typescript
 import { PinTanClient } from "node-fints";
 
@@ -31,7 +31,7 @@ const statements = await client.statements(accounts[0], startDate, endDate);
 console.info(statements); // List of all statements with transactions in specified date range.
 ```
 
-###JavaScript Example
+### JavaScript Example
 ```javascript
 function getAccountStatements( client, accounts, statements, callback ) {
   for ( let i in accounts ) {

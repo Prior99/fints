@@ -1,7 +1,7 @@
 {
-    "name": "fints-psd2-lib",
+    "name": "node-fints",
     "version": "0.5.1",
-    "description": "FinTS client library.",
+    "description": "FinTS client library with psd2 support",
     "keywords": [
         "fints",
         "hbci",
@@ -27,7 +27,7 @@
     "main": "dist/index.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/mathiasarens/fints-psd2.git",
+        "url": "https://github.com/mathiasarens/nodejs-fints.git",
         "directory": "packages/fints"
     },
     "typings": "dist/index.d.ts",
