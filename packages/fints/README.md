@@ -12,7 +12,7 @@ Fork from [nodejs-fints](https://github.com/as19git67/nodejs-fints)
 
 ### Typescript Example
 ```typescript
-import { PinTanClient } from "node-fints";
+import { PinTanClient } from "fints";
 
 const startDate = new Date("2018-08-10T12:00:00Z");
 const endDate = new Date("2018-10-10T12:00:00Z");
