@@ -1,5 +1,5 @@
 {
-    "name": "node-fints",
+    "name": "fints",
     "version": "0.5.1",
     "description": "FinTS client library with psd2 support",
     "keywords": [
@@ -27,11 +27,11 @@
     "main": "dist/index.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/mathiasarens/nodejs-fints.git",
+        "url": "https://github.com/Prior99/fints",
         "directory": "packages/fints"
     },
     "typings": "dist/index.d.ts",
-    "author": "Guido Müller",
+    "author": "Frederick Gnodtke",
     "contributors": [
         {
             "name": "Mathias Arens",
