@@ -8,16 +8,6 @@ const name = process.env.FINTS_USER;
 const pin = process.env.FINTS_PASSWORD;
 const blz = process.env.FINTS_BLZ;
 
-// const url = process.env.COMDIRECT_FINTS_URL;
-// const name = process.env.COMDIRECT_FINTS_USER;
-// const pin = process.env.COMDIRECT_FINTS_PASSWORD;
-// const blz = process.env.COMDIRECT_FINTS_BLZ;
-
-// const url = process.env.ING_DIBA_FINTS_URL;
-// const name = process.env.ING_DIBA_FINTS_USER;
-// const pin = process.env.ING_DIBA_FINTS_PASSWORD;
-// const blz = process.env.ING_DIBA_FINTS_BLZ;
-
 const productId = "9FA6681DEC0CF3046BFC2F8A6";
 
 test.skip("get accounts", async () => {

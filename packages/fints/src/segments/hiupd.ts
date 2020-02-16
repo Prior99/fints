@@ -1,5 +1,5 @@
-import {SegmentClass} from "./segment";
-import {SEPAAccountHiupd} from "../types";
+import { SegmentClass } from "./segment";
+import { SEPAAccountHiupd } from "../types";
 
 export class HIUPDProps {
 	public segNo: number;
@@ -27,7 +27,8 @@ export class HIUPD extends SegmentClass(HIUPDProps) {
 			[accountOwnerName2],
 			[accountName],
 			[limitType, limitValue, limitCurrency],
-			, ...parameters] = input;
+			, ...parameters
+		] = input;
 		this.account = { accountNumber, iban, accountOwnerName1, accountName, limitValue }
 	}
 }

@@ -1,6 +1,7 @@
 import { HICDB } from "../hicdb";
 import { testSegment } from "./utils";
 import { StandingOrder } from "../../types";
+import { Parse } from "../../parse";
 
 const standingOrder: StandingOrder = {
     nextOrderDate: new Date("2019-01-31"),

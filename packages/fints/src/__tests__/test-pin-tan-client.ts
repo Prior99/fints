@@ -36,7 +36,7 @@ test("accounts", async () => {
     mock.restore();
 });
 
-test.skip("statements", async () => {
+test("statements", async () => {
     const responseFixtures: string[] = JSON.parse(readFileSync(`${__dirname}/fixture-statements.json`, "utf8"));
     let responseNo = 0;
     const mock = fetchMock.post(url, () => {
@@ -58,7 +58,7 @@ test.skip("statements", async () => {
     mock.restore();
 });
 
-test.skip("balance", async () => {
+test("balance", async () => {
     const responseFixtures: string[] = JSON.parse(readFileSync(`${__dirname}/fixture-balance.json`, "utf8"));
     let responseNo = 0;
     const mock = fetchMock.post(url, () => {
@@ -80,7 +80,7 @@ test.skip("balance", async () => {
     mock.restore();
 });
 
-test.skip("standingOrders", async () => {
+test("standingOrders", async () => {
     let responseFixtures: string[] = JSON.parse(readFileSync(`${__dirname}/fixture-standingOrders.json`, "utf8"));
     let responseNo = 0;
     const mock = fetchMock.post(url, () => {

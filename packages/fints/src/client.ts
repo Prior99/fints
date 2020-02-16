@@ -43,9 +43,12 @@ export abstract class Client {
                 return (element.account.iban === account.iban);
             });
             if (hiupdAccount.length > 0) {
-                account.accountOwnerName = hiupdAccount[0].account.accountOwnerName1;
-                account.accountName = hiupdAccount[0].account.accountName;
-                account.limitValue = Parse.num(hiupdAccount[0].account.limitValue);
+                return {
+                    ...account,
+                    accountOwnerName: hiupdAccount[0].account.accountOwnerName1;
+                    accountName: hiupdAccount[0].account.accountName;
+                    limitValue: Parse.num(hiupdAccount[0].account.limitValue);
+                }
             }
         });
 
@@ -157,7 +160,7 @@ export abstract class Client {
             return result;
         }, []);
         const bookedString = responseSegments.map(segment => segment.bookedTransactions || "").join("");
-        const unprocessedStatements = await read(Buffer.from(bookedString, "ascii"));
+        const unprocessedStatements = await read(Buffer.from(bookedString, "utf-8"));
         return unprocessedStatements.map(statement => {
             const transactions = statement.transactions.map(transaction => {
                 const descriptionStructured = parse86Structured(transaction.description);

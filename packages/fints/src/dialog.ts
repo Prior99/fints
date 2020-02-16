@@ -125,7 +125,7 @@ export class Dialog extends DialogConfig {
      */
     public async init(): Promise<Response> {
         const { blz, name, pin, dialogId, msgNo, tanMethods } = this;
-        const segments:Segment<any>[] = [
+        const segments: Segment<any>[] = [
             new HKIDN({ segNo: 3, blz, name, systemId: "0" }),
             new HKVVB({ segNo: 4, productId: this.productId, lang: 0 }),
         ];
@@ -170,11 +170,11 @@ export class Dialog extends DialogConfig {
         }
         if (response.returnValues().has('0030')) {
             const hitan = response.findSegment(HITAN);
-            throw new TanRequiredError(response.returnValues().get('0030').message, 
-            hitan.transactionReference,
-            hitan.challengeText,
-            hitan.challengeMedia,
-            this);
+            throw new TanRequiredError(response.returnValues().get('0030').message,
+                hitan.transactionReference,
+                hitan.challengeText,
+                hitan.challengeMedia,
+                this);
         }
         this.msgNo++;
         return response;
