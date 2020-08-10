@@ -4,6 +4,10 @@
 
 A client library for communicating with [FinTS servers](https://www.hbci-zka.de/).
 
+A note from https://github.com/nemiah/phpFinTS:
+
+```Before using any FinTS library you have to register your application with Die Deutsche Kreditwirtschaft in order to get your registration number. Note that this process can take several weeks. First you receive your registration number after a couple days, but then you have to wait anywhere between 0 and 8+ weeks for the registration to reach your bank's server. If you have multiple banks, it probably reaches them at different times.```
+
 ## Packages
 
 This library is maintained in a [monorepo using lerna](https://lernajs.io/). These packages are included:
