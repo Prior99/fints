@@ -32,23 +32,21 @@ export abstract class Client {
         const dialog = this.createDialog();
         await dialog.sync();
         await dialog.init();
-        const response = await dialog.send(this.createRequest(dialog, [
-            new HKSPA({ segNo: 3 }),
-        ]));
+        const response = await dialog.send(this.createRequest(dialog, [new HKSPA({ segNo: 3 })]));
         await dialog.end();
         const hispa = response.findSegment(HISPA);
 
         hispa.accounts.map((account) => {
             const hiupdAccount = dialog.hiupd.filter((element) => {
-                return (element.account.iban === account.iban);
+                return element.account.iban === account.iban;
             });
             if (hiupdAccount.length > 0) {
                 return {
                     ...account,
-                    accountOwnerName: hiupdAccount[0].account.accountOwnerName1;
-                    accountName: hiupdAccount[0].account.accountName;
-                    limitValue: Parse.num(hiupdAccount[0].account.limitValue);
-                }
+                    accountOwnerName: hiupdAccount[0].account.accountOwnerName1,
+                    accountName: hiupdAccount[0].account.accountName,
+                    limitValue: Parse.num(hiupdAccount[0].account.limitValue),
+                };
             }
         });
 
@@ -88,8 +86,9 @@ export abstract class Client {
             result.push(...response.findSegments(HISAL));
             return result;
         }, []);
-        const hisal: HISAL =
-            segments.find(s => s.account.accountNumber === account.accountNumber && s.account.blz === account.blz);
+        const hisal: HISAL = segments.find(
+            (s) => s.account.accountNumber === account.accountNumber && s.account.blz === account.blz,
+        );
         return {
             account,
             availableBalance: hisal.availableBalance,
@@ -114,15 +113,25 @@ export abstract class Client {
         await dialog.sync();
         await dialog.init();
         const segments: Segment<any>[] = [];
-        segments.push(new HKKAZ({
-            segNo: 3,
-            version: dialog.hikazsVersion,
-            account,
-            startDate,
-            endDate
-        }));
+        segments.push(
+            new HKKAZ({
+                segNo: 3,
+                version: dialog.hikazsVersion,
+                account,
+                startDate,
+                endDate,
+            }),
+        );
         if (dialog.hktanVersion >= 6) {
-            segments.push(new HKTAN({ segNo: 4, version: 6, process: "4", segmentReference: "HKKAZ", medium: dialog.tanMethods[0].name }));
+            segments.push(
+                new HKTAN({
+                    segNo: 4,
+                    version: 6,
+                    process: "4",
+                    segmentReference: "HKKAZ",
+                    medium: dialog.tanMethods[0].name,
+                }),
+            );
         }
         return await this.sendStatementRequest(dialog, segments);
     }
@@ -135,11 +144,24 @@ export abstract class Client {
      *
      * @return A list of all statements in the specified range.
      */
-    public async completeStatements(savedDialog: DialogConfig, transactionReference: string, tan: string): Promise<Statement[]> {
+    public async completeStatements(
+        savedDialog: DialogConfig,
+        transactionReference: string,
+        tan: string,
+    ): Promise<Statement[]> {
         const dialog = this.createDialog(savedDialog);
         dialog.msgNo = dialog.msgNo + 1;
         const segments: Segment<any>[] = [];
-        segments.push(new HKTAN({ segNo: 3, version: 6, process: "2", segmentReference: "HKKAZ", aref: transactionReference, medium: dialog.tanMethods[0].name }));
+        segments.push(
+            new HKTAN({
+                segNo: 3,
+                version: 6,
+                process: "2",
+                segmentReference: "HKKAZ",
+                aref: transactionReference,
+                medium: dialog.tanMethods[0].name,
+            }),
+        );
         return await this.sendStatementRequest(dialog, segments, tan);
     }
 
@@ -159,10 +181,10 @@ export abstract class Client {
             result.push(...response.findSegments(HIKAZ));
             return result;
         }, []);
-        const bookedString = responseSegments.map(segment => segment.bookedTransactions || "").join("");
+        const bookedString = responseSegments.map((segment) => segment.bookedTransactions || "").join("");
         const unprocessedStatements = await read(Buffer.from(bookedString, "utf-8"));
-        return unprocessedStatements.map(statement => {
-            const transactions = statement.transactions.map(transaction => {
+        return unprocessedStatements.map((statement) => {
+            const transactions = statement.transactions.map((transaction) => {
                 const descriptionStructured = parse86Structured(transaction.description);
                 return { ...transaction, descriptionStructured };
             });
@@ -205,6 +227,6 @@ export abstract class Client {
             return result;
         }, []);
 
-        return segments.map(s => s.standingOrder);
+        return segments.map((s) => s.standingOrder);
     }
 }

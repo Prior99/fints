@@ -7,6 +7,7 @@ import { escapeFinTS } from "./utils";
 import { ResponseError } from "./errors/response-error";
 import { TanRequiredError } from "./errors/tan-required-error";
 import { HITAN } from "./segments/hitan";
+import { PRODUCT_NAME } from "./constants";
 
 /**
  * Properties passed to configure a `Dialog`.
@@ -15,7 +16,7 @@ export class DialogConfig {
     /**
      * The product ID that was assigned by ZKA
      */
-    public productId = "fints";
+    public productId = PRODUCT_NAME;
     /**
      * The banks identification number (Bankleitzahl).
      */
@@ -144,9 +145,7 @@ export class Dialog extends DialogConfig {
      */
     public async end() {
         const { blz, name, pin, systemId, dialogId, msgNo } = this;
-        const segments = [
-            new HKEND({ segNo: 3, dialogId }),
-        ];
+        const segments = [new HKEND({ segNo: 3, dialogId })];
         await this.send(new Request({ blz, name, pin, systemId, dialogId, msgNo, segments }));
         this.dialogId = "0";
         this.msgNo = 1;
@@ -168,13 +167,15 @@ export class Dialog extends DialogConfig {
         if (!response.success) {
             throw new ResponseError(response);
         }
-        if (response.returnValues().has('0030')) {
+        if (response.returnValues().has("0030")) {
             const hitan = response.findSegment(HITAN);
-            throw new TanRequiredError(response.returnValues().get('0030').message,
+            throw new TanRequiredError(
+                response.returnValues().get("0030").message,
                 hitan.transactionReference,
                 hitan.challengeText,
                 hitan.challengeMedia,
-                this);
+                this,
+            );
         }
         this.msgNo++;
         return response;
