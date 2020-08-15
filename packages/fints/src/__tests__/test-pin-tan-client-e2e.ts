@@ -14,12 +14,11 @@ test.skip("get accounts", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
     try {
         const accounts = await client.accounts();
-        console.info(accounts); // List of all accounts
-        await fs.writeFileSync('/tmp/account.json', JSON.stringify(accounts[0]))
+        await fs.writeFileSync("/tmp/account.json", JSON.stringify(accounts[0]));
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            fs.writeFileSync('/tmp/hitan-auftragsreferenz.txt', error.transactionReference);
-            fs.writeFileSync('/tmp/challenge.png', error.challengeMedia);
+            fs.writeFileSync("/tmp/hitan-auftragsreferenz.txt", error.transactionReference);
+            fs.writeFileSync("/tmp/challenge.png", error.challengeMedia);
         } else {
             console.error(error);
         }
@@ -28,18 +27,17 @@ test.skip("get accounts", async () => {
 
 test.skip("get statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
-    const account: SEPAAccount = JSON.parse((await fs.readFileSync('/tmp/account.json') as Buffer).toString());
+    const account: SEPAAccount = JSON.parse(((await fs.readFileSync("/tmp/account.json")) as Buffer).toString());
     const startDate = new Date("2019-09-27T12:00:00Z");
     const endDate = new Date("2019-12-27T12:00:00Z");
 
     try {
         const statements = await client.statements(account, startDate, endDate);
-        console.info(statements);
-        await fs.unlinkSync('/tmp/statements-status.txt');
+        await fs.unlinkSync("/tmp/statements-status.txt");
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            console.log('Transaction Reference: ' + error.transactionReference);
-            await fs.writeFileSync('/tmp/statements-status.txt', JSON.stringify(error));
+            console.log("Transaction Reference: " + error.transactionReference);
+            await fs.writeFileSync("/tmp/statements-status.txt", JSON.stringify(error));
         } else {
             console.error(error);
         }
@@ -48,17 +46,22 @@ test.skip("get statements", async () => {
 
 test.skip("complete statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
-    const tan: string = '492857';
+    const tan: string = "492857";
 
     try {
-        const tanRequiredError = JSON.parse((await fs.readFileSync('/tmp/statements-status.txt') as Buffer).toString()) as TanRequiredError;
+        const tanRequiredError = JSON.parse(
+            ((await fs.readFileSync("/tmp/statements-status.txt")) as Buffer).toString(),
+        ) as TanRequiredError;
 
-        const statements = await client.completeStatements(tanRequiredError.dialog, tanRequiredError.transactionReference, tan);
-        console.info(statements);
-        await fs.unlinkSync('/tmp/statements-status.txt');
+        const statements = await client.completeStatements(
+            tanRequiredError.dialog,
+            tanRequiredError.transactionReference,
+            tan,
+        );
+        await fs.unlinkSync("/tmp/statements-status.txt");
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            await fs.writeFileSync('/tmp/statements-status.txt', JSON.stringify(error));
+            await fs.writeFileSync("/tmp/statements-status.txt", JSON.stringify(error));
         } else {
             console.error(error);
         }
