@@ -1,6 +1,6 @@
 {
     "name": "fints",
-    "version": "0.5.1",
+    "version": "0.4.0",
     "description": "FinTS client library with psd2 support",
     "keywords": [
         "fints",
@@ -16,7 +16,8 @@
         "build": "tsc -p ./tsconfig-build.json",
         "clean": "rm -rf dist",
         "docs": "typedoc --mode file --out docs/ src/",
-        "test": "TZ=UTC jest"
+        "test": "TZ=UTC jest --group=-acceptance",
+        "test:acceptance": "TZ=UTC jest --group=acceptance"
     },
     "files": [
         "dist",
@@ -40,39 +41,6 @@
         }
     ],
     "license": "MIT",
-    "jest": {
-        "collectCoverage": true,
-        "moduleFileExtensions": [
-            "ts",
-            "js"
-        ],
-        "transform": {
-            ".ts": "ts-jest"
-        },
-        "coverageReporters": [
-            "lcov",
-            "text-summary"
-        ],
-        "testMatch": [
-            "**/src/**/__tests__/test-*.ts"
-        ],
-        "globals": {
-            "ts-jest": {
-                "diagnostics": {
-                    "pathRegex": ".*test-.*\\.ts$"
-                },
-                "ignoreCoverageForDecorators": true,
-                "ignoreCoverageForAllDecorators": true
-            }
-        },
-        "coveragePathIgnorePatterns": [
-            "/node_modules/",
-            "/__tests__/"
-        ],
-        "collectCoverageFrom": [
-            "src/**/*.ts"
-        ]
-    },
     "devDependencies": {
         "@types/date-fns": "^2.6.0",
         "@types/fetch-mock": "^7.3.1",
@@ -80,11 +48,13 @@
         "@types/invariant": "^2.2.30",
         "@types/isomorphic-fetch": "^0.0.35",
         "@types/jest": "^24.0.18",
-        "@types/node": "^13.1.4",
+        "@types/node": "^14.0.27",
         "@types/winston": "^2.4.4",
         "cxsd": "^0.1.1",
         "fetch-mock": "^8.0.3",
+        "fints-institute-db": "^0.16.0",
         "jest": "^24.9.0",
+        "jest-runner-groups": "^2.0.1",
         "ts-jest": "^24.2.0",
         "tslint": "^5.20.0",
         "typedoc": "^0.15.4",

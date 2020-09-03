@@ -2,11 +2,13 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
+        "esModuleInterop": true,
         "declaration": true,
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "lib": ["es7", "dom"],
         "emitDecoratorMetadata": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "resolveJsonModule": true
     }
 }
