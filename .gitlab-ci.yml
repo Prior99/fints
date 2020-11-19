@@ -13,7 +13,7 @@ build:
   before_script:
     - apt-get update -qq
     - apt-get install make git -qq
-    - npm install -g yarn lerna
+    - npm install -g lerna
     - lerna bootstrap
   stage: build
   script:
@@ -27,7 +27,7 @@ test:
   before_script:
     - apt-get update -qq
     - apt-get install make git -qq
-    - npm install -g yarn lerna
+    - npm install -g lerna
     - lerna bootstrap
   stage: test
   script:
@@ -42,7 +42,7 @@ lint:
   before_script:
     - apt-get update -qq
     - apt-get install make git -qq
-    - npm install -g yarn lerna
+    - npm install -g lerna
     - lerna bootstrap
   stage: test
   script:
