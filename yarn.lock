@@ -1238,10 +1238,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.21.tgz#aa44a6363291c7037111c47e4661ad210aded23f"
   integrity sha512-8sRGhbpU+ck1n0PGAUgVrWrWdjSW2aqNeyC15W88GRsMpSwzv6RJGlLhE7s2RhVSOdyDmxbqlWSeThq4/7xqlA==
 
-"@types/node@^13.1.4":
-  version "13.7.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.1.tgz#238eb34a66431b71d2aaddeaa7db166f25971a0d"
-  integrity sha512-Zq8gcQGmn4txQEJeiXo/KiLpon8TzAl0kmKH4zdWctPj05nWwp1ClMdAVEloqrQKfaC48PNLdgN/aVaLqUrluA==
+"@types/node@^14.0.27":
+  version "14.14.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.8.tgz#2127bd81949a95c8b7d3240f3254352d72563aec"
+  integrity sha512-z/5Yd59dCKI5kbxauAJgw6dLPzW+TNOItNE00PkpzNwUIEwdj/Lsqwq94H5DdYBX7C13aRA0CY32BK76+neEUA==
 
 "@types/node@^7.0.0":
   version "7.10.9"
@@ -2911,6 +2911,11 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
+fints-institute-db@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/fints-institute-db/-/fints-institute-db-0.16.0.tgz#ef874cce5ba2b675eec8ded8612e39f38ff53040"
+  integrity sha512-X+FqphxcU/hhQdVJfw/ngr/M1kCjur9t2TttE8zRsGnr6aP16br+8nPDI/uuIqQGV4dvzNVpJVfwZaFxQTdZnA==
+
 flush-write-stream@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
@@ -4069,6 +4074,11 @@ jest-resolve@^24.9.0:
     chalk "^2.0.1"
     jest-pnp-resolver "^1.2.1"
     realpath-native "^1.1.0"
+
+jest-runner-groups@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/jest-runner-groups/-/jest-runner-groups-2.0.1.tgz#a4d2c102e3e1a37aa9899d5452a13fc5b7e4b531"
+  integrity sha512-MDTgnYnFhtaJ+zSdLRBdYL5AFZ6tno1mbx2FW233OejH3U3lojQbxgrpfjypmYELMdOvgHS7n65jQ4Q2sFrEGw==
 
 jest-runner@^24.9.0:
   version "24.9.0"
