@@ -1,6 +1,6 @@
 import { parse as parseDate } from "date-fns";
 import { parse as parseXml } from "fast-xml-parser";
-import { decode, encode } from "iconv-lite";
+import { encode } from "iconv-lite";
 
 /**
  * A set of utilities for parsing data from the fints data formats.
@@ -14,7 +14,9 @@ export const Parse = {
      * @return The parsed boolean.
      */
     bool(str: string) {
-        if (str === "J") { return true; }
+        if (str === "J") {
+            return true;
+        }
         return false;
     },
     /**
@@ -25,7 +27,9 @@ export const Parse = {
      * @return The parsed number.
      */
     num(str: string): number {
-        if (typeof str === "undefined") { return; }
+        if (typeof str === "undefined") {
+            return;
+        }
         return Number(str.replace(/,/, "."));
     },
     /**
@@ -36,8 +40,12 @@ export const Parse = {
      * @return The parsed number.
      */
     dig(str: string): number {
-        if (str === "0") { return 0; }
-        while (str.startsWith("0")) { str = str.substr(1, str.length); }
+        if (str === "0") {
+            return 0;
+        }
+        while (str.startsWith("0")) {
+            str = str.substr(1, str.length);
+        }
         return Number(str);
     },
     /**
@@ -48,7 +56,7 @@ export const Parse = {
      * @return The parsed date.
      */
     date(str: string): Date {
-        return parseDate(str, 'yyyyMMdd', new Date());
+        return parseDate(str, "yyyyMMdd", new Date());
     },
     /**
      * Parse a xml document to an object.
@@ -62,6 +70,7 @@ export const Parse = {
     },
 
     challengeHhdUc(str: string[][]): [string, Buffer] {
+        // tslint:disable-next-line:max-line-length
         // Documentation: https://www.hbci-zka.de/dokumente/spezifikation_deutsch/hhd/Belegungsrichtlinien%20TANve1.5%20FV%20vom%202018-04-16.pdf
         // II.3
 
@@ -71,14 +80,13 @@ export const Parse = {
         // 2 bytes = length of data
 
         if (str && str[0]) {
-            const buffer = encode(str[0][0], 'ISO-8859-1');
+            const buffer = encode(str[0][0], "ISO-8859-1");
             const mediaTypeLength = buffer.readUIntBE(0, 2);
-            const mediaType = buffer.toString('utf8', 2, 2 + mediaTypeLength);
+            const mediaType = buffer.toString("utf8", 2, 2 + mediaTypeLength);
             const imageLength = buffer.readUIntBE(2 + mediaTypeLength, 2);
-            return [mediaType, buffer.slice(2 + mediaTypeLength + 2, 2 + mediaTypeLength + 2 + imageLength)]
+            return [mediaType, buffer.slice(2 + mediaTypeLength + 2, 2 + mediaTypeLength + 2 + imageLength)];
         } else {
-            return ['', Buffer.alloc(0)]
+            return ["", Buffer.alloc(0)];
         }
-
-    }
+    },
 };

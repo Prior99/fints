@@ -22,7 +22,8 @@ test("get accounts", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
     try {
         const accounts = await client.accounts();
-        await fs.writeFileSync("/tmp/account.json", JSON.stringify(accounts[0]));
+        expect(accounts.length).toBeGreaterThan(0);
+        fs.writeFileSync("/tmp/account.json", JSON.stringify(accounts[0]));
     } catch (error) {
         if (error instanceof TanRequiredError) {
             fs.writeFileSync("/tmp/hitan-auftragsreferenz.txt", error.transactionReference);
@@ -35,17 +36,18 @@ test("get accounts", async () => {
 
 test("get statements", async () => {
     const client = new PinTanClient({ blz, name, pin, url, productId, debug: true });
-    const account: SEPAAccount = JSON.parse(((await fs.readFileSync("/tmp/account.json")) as Buffer).toString());
+    const account: SEPAAccount = JSON.parse((fs.readFileSync("/tmp/account.json") as Buffer).toString());
     const startDate = new Date("2019-09-27T12:00:00Z");
     const endDate = new Date("2019-12-27T12:00:00Z");
 
     try {
         const statements = await client.statements(account, startDate, endDate);
-        await fs.unlinkSync("/tmp/statements-status.txt");
+        expect(statements.length).toBeGreaterThan(0);
+        fs.unlinkSync("/tmp/statements-status.txt");
     } catch (error) {
         if (error instanceof TanRequiredError) {
             console.log("Transaction Reference: " + error.transactionReference);
-            await fs.writeFileSync("/tmp/statements-status.txt", JSON.stringify(error));
+            fs.writeFileSync("/tmp/statements-status.txt", JSON.stringify(error));
         } else {
             console.error(error);
         }
@@ -58,7 +60,7 @@ test("complete statements", async () => {
 
     try {
         const tanRequiredError = JSON.parse(
-            ((await fs.readFileSync("/tmp/statements-status.txt")) as Buffer).toString(),
+            (fs.readFileSync("/tmp/statements-status.txt") as Buffer).toString(),
         ) as TanRequiredError;
 
         const statements = await client.completeStatements(
@@ -66,10 +68,11 @@ test("complete statements", async () => {
             tanRequiredError.transactionReference,
             tan,
         );
-        await fs.unlinkSync("/tmp/statements-status.txt");
+        expect(statements.length).toBeGreaterThan(0);
+        fs.unlinkSync("/tmp/statements-status.txt");
     } catch (error) {
         if (error instanceof TanRequiredError) {
-            await fs.writeFileSync("/tmp/statements-status.txt", JSON.stringify(error));
+            fs.writeFileSync("/tmp/statements-status.txt", JSON.stringify(error));
         } else {
             console.error(error);
         }

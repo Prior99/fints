@@ -1,5 +1,5 @@
 import { option, Options } from "clime";
-import { DialogConfig, PinTanClientConfig, PRODUCT_NAME } from "fints";
+import { PinTanClientConfig, PRODUCT_NAME } from "fints";
 import * as YAML from "yamljs";
 
 export class BaseConfig extends Options implements PinTanClientConfig {

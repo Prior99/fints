@@ -6,8 +6,7 @@ import { Request } from "./request";
 import { Response } from "./response";
 import { SEPAAccount, Statement, Balance, StandingOrder } from "./types";
 import { read } from "mt940-js";
-import { is86Structured, parse86Structured } from "./mt940-86-structured";
-import { timingSafeEqual } from "crypto";
+import { parse86Structured } from "./mt940-86-structured";
 
 /**
  * An abstract class for communicating with a fints server.
