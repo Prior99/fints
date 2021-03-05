@@ -129,6 +129,35 @@ tanMethodArgumentMap.set(6, [
     "supportedMediaNumber",
 ]);
 
+tanMethodArgumentMap.set(7, [
+    "securityFunction",
+    "tanProcess",
+    "techId",
+    "dkId",
+    "dkVersion",
+    "name",
+    "maxLengthInput",
+    "allowedFormat",
+    "textReturnvalue",
+    "maxLengthReturnvalue",
+    "multiple",
+    "tanTimeDialogAssociation",
+    "cancellable",
+    "smsChargeAccountRequired",
+    "principalAccountRequired",
+    "challengeClassRequired",
+    "challengeStructured",
+    "initializationMode",
+    "descriptionRequired",
+    "hhdUcRequired",
+    "supportedMediaNumber",
+    "maxStatusRequestDecoupled",
+    "waitTimeBeforeFirstStatusRequest",
+    "waitTimeBeforeNextStatusRequest",
+    "manual",
+    "automated",
+]);
+
 export class TanMethod {
     public allowedFormat?: string;
     public cancellable?: boolean;
@@ -154,7 +183,14 @@ export class TanMethod {
     public textReturnvalue?: string;
     public zkaId?: string;
     public zkaVersion?: string;
+    public dkId?: string;
+    public dkVersion?: string;
     public version?: number;
+    public maxStatusRequestDecoupled?: number;
+    public waitTimeBeforeFirstStatusRequest?: number;
+    public waitTimeBeforeNextStatusRequest?: number;
+    public manual?: boolean;
+    public automated?: boolean;
 
     constructor(version: number, config?: string[]) {
         this.version = version;
@@ -187,5 +223,13 @@ export class TanMethod {
         this.textReturnvalue = map.get("textReturnvalue");
         this.zkaId = map.get("zkaId");
         this.zkaVersion = map.get("zkaVersion");
+        this.dkId = map.get("dkId");
+        this.dkVersion = map.get("dkVersion");
+        this.maxStatusRequestDecoupled = Parse.num(map.get("maxStatusRequestDecoupled"));
+        this.waitTimeBeforeFirstStatusRequest = Parse.num(map.get("waitTimeBeforeFirstStatusRequest"));
+        this.waitTimeBeforeNextStatusRequest = Parse.num(map.get("waitTimeBeforeNextStatusRequest"));
+        this.manual = Parse.bool(map.get("manual"));
+        this.automated = Parse.bool(map.get("automated"));
+
     }
 }
