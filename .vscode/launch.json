@@ -4,6 +4,26 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "type": "node",
+            "name": "Launch fints-cli",
+            "program": "${workspaceFolder}/packages/fints-cli/dist",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "fetch-transactions",
+                "--url", "${env:FINTS_URL}",
+                "-n", "${env:FINTS_USER}",
+                "-p", "${env:FINTS_PASSWORD}",
+                "-b", "${env:FINTS_BLZ}",
+                "-i", "${env:FINTS_FETCH_ACCOUNT}",
+                "-p", "${env:FINTS_PRODUCT_ID}"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+
         {
             "type": "node",
             "request": "launch",
