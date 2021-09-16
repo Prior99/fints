@@ -18,7 +18,7 @@
                 "-p", "${env:FINTS_PASSWORD}",
                 "-b", "${env:FINTS_BLZ}",
                 "-i", "${env:FINTS_FETCH_ACCOUNT}",
-                "-p", "${env:FINTS_PRODUCT_ID}"
+                "--product-id", "${env:FINTS_PRODUCT_ID}"
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
