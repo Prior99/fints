@@ -3,7 +3,7 @@ import { Request } from "./request";
 import { Response } from "./response";
 
 export interface Constructable<T> {
-    new(...args: any[]): T;
+    new (...args: any[]): T;
 }
 
 /**
@@ -152,7 +152,9 @@ export interface SEPAAccount {
      * The account's BLZ used together with the account number before SEPA.
      */
     blz: string;
-
+    /**
+     * Name of the account owner if known
+     */
     accountOwnerName?: string;
 
     accountName?: string;
@@ -164,7 +166,6 @@ export interface SEPAAccount {
  * A single SEPA account.
  */
 export interface SEPAAccountHiupd {
-
     accountNumber: string;
     iban: string;
     accountOwnerName1: string;

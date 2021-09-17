@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { readFileSync } from "fs";
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 import { PinTanClient } from "../pin-tan-client";
 import { encodeBase64, decodeBase64 } from "../utils";
 import { Format } from "../format";
