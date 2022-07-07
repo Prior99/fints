@@ -1,6 +1,6 @@
 {
     "name": "fints",
-    "version": "0.5.1",
+    "version": "0.5.0",
     "description": "FinTS client library with psd2 support",
     "keywords": [
         "fints",
