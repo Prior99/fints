@@ -19,7 +19,7 @@ export class HITANS extends SegmentClass(HITANSProps) {
     protected serialize(): string[][] { throw new Error("Not implemented."); }
 
     protected deserialize(input: string[][]) {
-        if (![1, 2, 3, 4, 5, 6].includes(this.version)) {
+        if (![1, 2, 3, 4, 5, 6, 7].includes(this.version)) {
             throw new Error(`Unimplemented TAN method version ${this.version} encountered.`);
         }
         const [

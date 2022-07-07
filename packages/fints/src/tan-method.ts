@@ -129,6 +129,35 @@ tanMethodArgumentMap.set(6, [
     "supportedMediaNumber",
 ]);
 
+tanMethodArgumentMap.set(7, [
+    "securityFunction",
+    "tanProcess",
+    "techId",
+    "zkaId",
+    "zkaVersion",
+    "name",
+    "maxLengthInput",
+    "allowedFormat",
+    "textReturnvalue",
+    "maxLengthReturnvalue",
+    "multiple",
+    "tanTimeDialogAssociation",
+    "cancellable",
+    "smsChargeAccountRequired",
+    "principalAccountRequired",
+    "challengeClassRequired",
+    "challengeStructured",
+    "initializationMode",
+    "descriptionRequired",
+    "hhdUcRequired",
+    "supportedMediaNumber",
+    "maxStatusRequestsDecoupled",
+    "waitTimeSecFristStatusRequestDecoupled",
+    "waitTimeSecNextStatusRequestDecoupled",
+    "manualConfirmationDecoupled",
+    "autoStatusRequestsDecoupled"
+]);
+
 export class TanMethod {
     public allowedFormat?: string;
     public cancellable?: boolean;
@@ -155,6 +184,11 @@ export class TanMethod {
     public zkaId?: string;
     public zkaVersion?: string;
     public version?: number;
+    public maxStatusRequestsDecoupled?: number;
+    public waitTimeSecFristStatusRequestDecoupled?: number;
+    public waitTimeSecNextStatusRequestDecoupled?: number;
+    public manualConfirmationDecoupled?:boolean;
+    public autoStatusRequestsDecoupled?: boolean;
 
     constructor(version: number, config?: string[]) {
         this.version = version;
@@ -187,5 +221,10 @@ export class TanMethod {
         this.textReturnvalue = map.get("textReturnvalue");
         this.zkaId = map.get("zkaId");
         this.zkaVersion = map.get("zkaVersion");
+        this.maxStatusRequestsDecoupled = Parse.num(map.get("maxStatusRequestsDecoupled"));
+        this.waitTimeSecFristStatusRequestDecoupled = Parse.num(map.get("waitTimeSecFristStatusRequestDecoupled"));
+        this.waitTimeSecNextStatusRequestDecoupled = Parse.num(map.get("waitTimeSecNextStatusRequestDecoupled"));
+        this.manualConfirmationDecoupled = Parse.bool(map.get("manualConfirmationDecoupled"));
+        this.autoStatusRequestsDecoupled = Parse.bool(map.get("autoStatusRequestsDecoupled"));
     }
 }
