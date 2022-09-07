@@ -1,42 +1,50 @@
 {
-    "name": "fints-cli",
-    "version": "0.1.7",
-    "description": "FinTS command line interface.",
-    "keywords": [
-        "fints",
-        "hbci",
-        "banking",
-        "api",
-        "cli"
-    ],
-    "bin": {
-        "fints": "dist/index.js"
-    },
-    "main": "dist/index.js",
-    "scripts": {
-        "build": "tsc",
-        "clean": "rm -rf dist"
-    },
-    "files": [
-        "dist",
-        "LICENSE",
-        "package.json",
-        "README.md"
-    ],
-    "repository": "https://github.com/Prior99/fints",
-    "author": "Frederick Gnodtke",
-    "license": "MIT",
-    "dependencies": {
-        "clime": "^0.5.9",
-        "date-fns": "^2.8.1",
-        "fints": "^0.5.0",
-        "winston": "^3.1.0",
-        "yamljs": "^0.3.0"
-    },
-    "devDependencies": {
-        "@types/date-fns": "^2.6.0",
-        "@types/node": "^12.12.21",
-        "@types/winston": "^2.4.4",
-        "@types/yamljs": "^0.2.30"
-    }
+  "name": "@mathiasarens/fints-cli",
+  "version": "0.1.7",
+  "description": "FinTS command line interface.",
+  "keywords": [
+    "fints",
+    "hbci",
+    "banking",
+    "api",
+    "cli"
+  ],
+  "bin": {
+    "fints": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prior99/fints.git"
+  },
+  "author": "Frederick Gnodtke",
+  "license": "MIT",
+  "dependencies": {
+    "clime": "^0.5.9",
+    "date-fns": "^2.8.1",
+    "fints": "^0.5.0",
+    "winston": "^3.1.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/node": "^12.12.21",
+    "@types/winston": "^2.4.4",
+    "@types/yamljs": "^0.2.30"
+  },
+  "types": "./dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/Prior99/fints/issues"
+  },
+  "homepage": "https://github.com/Prior99/fints#readme"
 }
