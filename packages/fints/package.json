@@ -1,73 +1,73 @@
 {
-    "name": "fints",
-    "version": "0.5.0",
-    "description": "FinTS client library with psd2 support",
-    "keywords": [
-        "fints",
-        "hbci",
-        "banking",
-        "api",
-        "ios",
-        "nodejs",
-        "node"
-    ],
-    "scripts": {
-        "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
-        "build": "tsc -p ./tsconfig-build.json",
-        "clean": "rm -rf dist",
-        "docs": "typedoc --mode file --out docs/ src/",
-        "test": "TZ=UTC jest --group=-acceptance",
-        "test:acceptance": "TZ=UTC jest --group=acceptance"
-    },
-    "files": [
-        "dist",
-        "LICENSE",
-        "package.json",
-        "README.md"
-    ],
-    "main": "dist/index.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Prior99/fints",
-        "directory": "packages/fints"
-    },
-    "typings": "dist/index.d.ts",
-    "author": "Frederick Gnodtke",
-    "contributors": [
-        {
-            "name": "Mathias Arens",
-            "email": "github@mathiasarens.de",
-            "url": "https://github.com/mathiasarens"
-        }
-    ],
-    "license": "MIT",
-    "devDependencies": {
-        "@types/date-fns": "^2.6.0",
-        "@types/fetch-mock": "^7.3.1",
-        "@types/iconv-lite": "^0.0.1",
-        "@types/invariant": "^2.2.30",
-        "@types/isomorphic-fetch": "^0.0.35",
-        "@types/jest": "^24.0.18",
-        "@types/node": "^14.0.27",
-        "@types/winston": "^2.4.4",
-        "cxsd": "^0.1.1",
-        "fetch-mock": "^8.0.3",
-        "fints-institute-db": "^0.16.0",
-        "jest": "^24.9.0",
-        "jest-runner-groups": "^2.0.1",
-        "ts-jest": "^24.2.0",
-        "tslint": "^5.20.0",
-        "typedoc": "^0.15.4",
-        "typescript": "^3.7.3"
-    },
-    "dependencies": {
-        "bind-decorator": "^1.0.11",
-        "date-fns": "^2.9.0",
-        "fast-xml-parser": "^3.15.1",
-        "iconv-lite": "^0.5.0",
-        "invariant": "^2.2.4",
-        "isomorphic-fetch": "^2.2.1",
-        "mt940-js": "^0.6.0",
-        "winston": "^3.2.1"
-    }
+  "name": "@mathiasarens/fints",
+  "version": "0.5.0",
+  "description": "FinTS client library with psd2 support",
+  "keywords": [
+    "fints",
+    "hbci",
+    "banking",
+    "api",
+    "ios",
+    "nodejs",
+    "node"
+  ],
+  "scripts": {
+    "prebuild": "cxsd -t generated https://raw.githubusercontent.com/hbci4j/hbci4java/master/src/main/resources/pain.001.001.03.xsd",
+    "build": "tsc -p ./tsconfig-build.json",
+    "clean": "rm -rf dist",
+    "docs": "typedoc --mode file --out docs/ src/",
+    "test": "TZ=UTC jest --group=-acceptance",
+    "test:acceptance": "TZ=UTC jest --group=acceptance"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prior99/fints.git",
+    "directory": "packages/fints"
+  },
+  "typings": "dist/index.d.ts",
+  "author": "Frederick Gnodtke",
+  "contributors": [
+    "Mathias Arens <github@mathiasarens.de> (https://github.com/mathiasarens)"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/fetch-mock": "^7.3.1",
+    "@types/iconv-lite": "^0.0.1",
+    "@types/invariant": "^2.2.30",
+    "@types/isomorphic-fetch": "^0.0.35",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^14.0.27",
+    "@types/winston": "^2.4.4",
+    "cxsd": "^0.1.1",
+    "fetch-mock": "^8.0.3",
+    "fints-institute-db": "^0.16.0",
+    "jest": "^24.9.0",
+    "jest-runner-groups": "^2.0.1",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.0",
+    "typedoc": "^0.15.4",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "bind-decorator": "^1.0.11",
+    "date-fns": "^2.9.0",
+    "fast-xml-parser": "^3.15.1",
+    "iconv-lite": "^0.5.0",
+    "invariant": "^2.2.4",
+    "isomorphic-fetch": "^2.2.1",
+    "mt940-js": "^0.6.0",
+    "winston": "^3.2.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Prior99/fints/issues"
+  },
+  "homepage": "https://github.com/Prior99/fints#readme"
 }
