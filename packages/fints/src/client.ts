@@ -181,7 +181,7 @@ export abstract class Client {
             return result;
         }, []);
         const bookedString = responseSegments.map((segment) => segment.bookedTransactions || "").join("");
-        const unprocessedStatements = await read(Buffer.from(bookedString, "utf-8"));
+        const unprocessedStatements = await read(Buffer.from(bookedString, "latin1"));
         return unprocessedStatements.map((statement) => {
             const transactions = statement.transactions.map((transaction) => {
                 const descriptionStructured = parse86Structured(transaction.description);
