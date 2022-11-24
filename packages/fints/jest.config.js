@@ -1,21 +1,22 @@
 module.exports = {
     runner: "groups",
     collectCoverage: true,
-    moduleFileExtensions: ["ts", "js"],
+    moduleFileExtensions: ["js", "ts"],
     transform: {
-        ".ts": "ts-jest",
+        ".ts": [
+            "ts-jest",
+            {
+                diagnostics: {
+                    pathRegex: ".*test-.*\\.ts$",
+                },
+                ignoreCoverageForDecorators: true,
+                ignoreCoverageForAllDecorators: true,
+            },
+        ],
     },
     coverageReporters: ["lcov", "text-summary"],
     testMatch: ["**/src/**/__tests__/test-*.ts"],
-    globals: {
-        "ts-jest": {
-            diagnostics: {
-                pathRegex: ".*test-.*\\.ts$",
-            },
-            ignoreCoverageForDecorators: true,
-            ignoreCoverageForAllDecorators: true,
-        },
-    },
     coveragePathIgnorePatterns: ["/node_modules/", "/__tests__/"],
     collectCoverageFrom: ["src/**/*.ts"],
+    preset: "ts-jest",
 };

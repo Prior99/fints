@@ -1,5 +1,5 @@
 import { parse as parseDate } from "date-fns";
-import { parse as parseXml } from "fast-xml-parser";
+import { XMLParser } from "fast-xml-parser";
 import { encode } from "iconv-lite";
 
 /**
@@ -66,7 +66,8 @@ export const Parse = {
      * @return The parsed object.
      */
     xml(str: string): unknown {
-        return parseXml(str);
+        const parser = new XMLParser();
+        return parser.parse(str);
     },
 
     challengeHhdUc(str: string[][]): [string, Buffer] {
